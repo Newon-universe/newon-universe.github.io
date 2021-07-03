@@ -64,10 +64,10 @@ google:
   search_engine_id       : # YOUR_SEARCH_ENGINE_ID
   instant_search         : # false (default), true
 # SEO Related
-google_site_verification : "TIL"
+google_site_verification : "Engineering blog"
 bing_site_verification   :
 yandex_site_verification :
-naver_site_verification  : "TIL"
+naver_site_verification  : "Engineering blog"
 
 # Social Sharing
 twitter:
@@ -130,7 +130,7 @@ footer:
       # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
+      url: "https://github.com/Newon-universe"
     - label: "GitLab"
       icon: "fab fa-fw fa-gitlab"
       # url:
@@ -280,3 +280,10 @@ defaults:
       comments: true
       share: true
       related: true
+  # _docs
+  - scope:
+      path: ""
+      type: docs
+    values:
+      sidebar:
+        nav: "docs"
