@@ -12,7 +12,6 @@ main:
   #   url: /sitemap/
   
 sidebar:
-  nav: "pages"
   - title: Server
     children:
       - title: "웹서버"
