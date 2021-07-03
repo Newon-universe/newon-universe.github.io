@@ -13,7 +13,6 @@ main:
   
 sidebar:
   nav: "pages"
-  docs:
   - title: Server
     children:
       - title: "웹서버"
