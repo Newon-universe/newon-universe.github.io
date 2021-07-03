@@ -10,3 +10,40 @@ main:
   #   url: /collection-archive/
   # - title: "Sitemap"
   #   url: /sitemap/
+
+  docs:
+  - title: Server
+    children:
+      - title: "웹서버"
+        url: https://mmistakes.github.io/minimal-mistakes/docs/web-server/
+      - title: "데이터베이스"
+        url: https://mmistakes.github.io/minimal-mistakes/docs/database/
+      - title: "nodeJS & express"
+        url: https://mmistakes.github.io/minimal-mistakes/docs/nodeJS-express/
+      - title: "TIL"
+        url: https://mmistakes.github.io/minimal-mistakes/docs/TIL/
+
+  - title: Android
+    children:
+      - title: "Kotlin"
+        url: /docs/configuration/
+      # - title: "Navigation"
+      #   url: /docs/navigation/
+      # - title: "UI Text"
+      #   url: /docs/ui-text/
+      # - title: "Authors"
+      #   url: /docs/authors/
+      # - title: "Layouts"
+      #   url: /docs/layouts/
+
+  - title: Git & Github
+    children:
+      - title: "Git-Github"
+        url: /docs/Git-Github/
+      - title: "Git-Pages"
+        url: /docs/Git-Pages/
+
+  - title: Extras
+    children:
+      - title: "잡담학개론"
+        url: /docs/small-talk/
