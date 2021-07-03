@@ -11,7 +11,7 @@ main:
   # - title: "Sitemap"
   #   url: /sitemap/
 
-docs:
+sidebar:
   - title: Server
     children:
       - title: "웹서버"

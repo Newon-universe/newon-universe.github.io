@@ -280,4 +280,4 @@ defaults:
       comments: true
       share: true
       related: true
-      nav: "docs"
+      sidebar: true
