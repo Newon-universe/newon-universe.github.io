@@ -15,18 +15,18 @@ main:
   - title: Server
     children:
       - title: "웹서버"
-        url: https://mmistakes.github.io/minimal-mistakes/docs/web-server/
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/web-server/
       - title: "데이터베이스"
-        url: https://mmistakes.github.io/minimal-mistakes/docs/database/
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/database/
       - title: "nodeJS & express"
-        url: https://mmistakes.github.io/minimal-mistakes/docs/nodeJS-express/
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/nodeJS-express/
       - title: "TIL"
-        url: https://mmistakes.github.io/minimal-mistakes/docs/TIL/
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/TIL/
 
   - title: Android
     children:
       - title: "Kotlin"
-        url: /docs/configuration/
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/kotlin/
       # - title: "Navigation"
       #   url: /docs/navigation/
       # - title: "UI Text"
@@ -39,11 +39,11 @@ main:
   - title: Git & Github
     children:
       - title: "Git-Github"
-        url: /docs/Git-Github/
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/Git-Github/
       - title: "Git-Pages"
-        url: /docs/Git-Pages/
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/Git-Pages/
 
   - title: Extras
     children:
       - title: "잡담학개론"
-        url: /docs/small-talk/
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/small-talk/
