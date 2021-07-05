@@ -11,39 +11,39 @@ main:
   # - title: "Sitemap"
   #   url: /sitemap/
 
-# sidebar:
-#   - title: Server
-#     children:
-#       - title: "웹서버"
-#         url: https://github.com/Newon-universe/newon-universe.github.io/pages/web-server/
-#       - title: "데이터베이스"
-#         url: https://github.com/Newon-universe/newon-universe.github.io/pages/database/
-#       - title: "nodeJS & express"
-#         url: https://github.com/Newon-universe/newon-universe.github.io/pages/nodeJS-express/
-#       - title: "TIL"
-#         url: https://github.com/Newon-universe/newon-universe.github.io/pages/TIL/
+sidebar:
+  - title: Server
+    children:
+      - title: "웹서버"
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/web-server/
+      - title: "데이터베이스"
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/database/
+      - title: "nodeJS & express"
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/nodeJS-express/
+      - title: "TIL"
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/TIL/
 
-#   - title: Android
-#     children:
-#       - title: "Kotlin"
-#         url: https://github.com/Newon-universe/newon-universe.github.io/pages/kotlin/
-#       # - title: "Navigation"
-#       #   url: /docs/navigation/
-#       # - title: "UI Text"
-#       #   url: /docs/ui-text/
-#       # - title: "Authors"
-#       #   url: /docs/authors/
-#       # - title: "Layouts"
-#       #   url: /docs/layouts/
+  - title: Android
+    children:
+      - title: "Kotlin"
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/kotlin/
+      # - title: "Navigation"
+      #   url: /docs/navigation/
+      # - title: "UI Text"
+      #   url: /docs/ui-text/
+      # - title: "Authors"
+      #   url: /docs/authors/
+      # - title: "Layouts"
+      #   url: /docs/layouts/
 
-#   - title: Git & Github
-#     children:
-#       - title: "Git-Github"
-#         url: https://github.com/Newon-universe/newon-universe.github.io/pages/Git-Github/
-#       - title: "Git-Pages"
-#         url: https://github.com/Newon-universe/newon-universe.github.io/pages/Git-Pages/
+  - title: Git & Github
+    children:
+      - title: "Git-Github"
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/Git-Github/
+      - title: "Git-Pages"
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/Git-Pages/
 
-#   - title: Extras
-#     children:
-#       - title: "잡담학개론"
-#         url: https://github.com/Newon-universe/newon-universe.github.io/pages/small-talk/
+  - title: Extras
+    children:
+      - title: "잡담학개론"
+        url: https://github.com/Newon-universe/newon-universe.github.io/pages/small-talk/
