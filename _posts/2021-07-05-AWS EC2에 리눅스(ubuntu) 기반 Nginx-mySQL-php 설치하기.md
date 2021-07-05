@@ -114,7 +114,7 @@ AWS 서비스를 사용할 때, 우리는 프리티어 사용을 목표로 한�
 > _AWS 요금제도 [출처](https://aws.amazon.com/ko/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all)_  
 > _Amazon EC2 인스턴스 유형 [출처](https://aws.amazon.com/ko/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all)_  
 > _프로비저닝이란 [출처](https://glqdlt.tistory.com/268)_  
-> _EC2Config 또는 EC2Launch를 사용하여 관리자 암호를 재설정할 때 EC2 Windows 인스턴스의 분실 키 페어를 교체하려면 어떻게 해야 하나요?[출처]  (https://aws.amazon.com/ko/premiumsupport/knowledge-center/ec2-windows-replace-lost-key-pair/)_  
+> _EC2Config 또는 EC2Launch를 사용하여 관리자 암호를 재설정할 때 EC2 Windows 인스턴스의 분실 키 페어를 교체하려면 어떻게 해야 하나요?[출처](https://aws.amazon.com/ko/premiumsupport/knowledge-center/ec2-windows-replace-lost-key-pair)_  
 > _🙈[AWS] EC2 (2) - 윈도우에서 EC2 인스턴스 접속하기🐵[출처](https://victorydntmd.tistory.com/62)_  
 
 > Thanks to
