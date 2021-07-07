@@ -120,10 +120,14 @@ default 에서 가장 밑에 있을 해당 server 블록에서, 가장 마지막
 _만약 리다이렉트 문제나 여타 관련 문제를 겪는다면 다른 브라우저 (Safari라면 크롬, Edge 등)도 사용해보고, [이곳](https://www.whatsmydns.net/#CNAME/dev.yeorumlabo.com)에서 자신의 도메인이 제대로 연결은 되었는지 확인해보자. 브라우저의 쿠키 문제로 안될 수도 있으며, 도메인 자체가 제대로 연결되어 있지 않다면 당연히 문제가 생긴다._
 
 ---
->출처  
+[Qualys.](https://www.ssllabs.com/ssltest/index.html) 에서 해당 SSL이 얼만큼 강한 보안을 갖고 있는지 확인할 수 있다. 
+
+---
+>**출처**  
 > Certbot instruction [출처](https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx)  
 > Nginx에서 자동 Redirection(301 Permanently moved) 설정하기 [출처](https://www.tuwlab.com/ece/26993)  
 > Let's Encrypt 위키백과 [출처](https://ko.wikipedia.org/wiki/Let%27s_Encrypt)
+> *HTML에서 각주 사용하는 법 [출처](https://lynmp.com/ko/article/nu86c16d8f09c9fbd8)
 
 ***
 <a name="footnote_1">1</a>: Certbot 를 제공하는 프로젝트 명으로, 공익기관 ISRG(Internet Security Research Group) 가 주도하고 있다. firefox 를 만든 모질라재단, 스탠퍼드 법학대학원, 리눅스 재단이 지원하고 있다. [위키 출처](https://ko.wikipedia.org/wiki/Let%27s_Encrypt)  
