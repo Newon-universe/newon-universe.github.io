@@ -24,7 +24,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Newon's bag and baggage
+title: Newon's blog
 email: chokovon@gmail.com
 author: Newon
 # theme: owner/name --> Don't forget to remove/comment the gem-based theme option
@@ -49,7 +49,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Android developer who is interested in VR & Human - computer Interaction
   & SDGs .. and your happy day :)
 
-  
+
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 favicon: "" # the favicon for your site
