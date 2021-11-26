@@ -190,7 +190,7 @@ yat:
 
 # Gitment comments
  gitment:
-   username: "Newon-universe"
+   username: "Newon"
    repo: "Newon-universe/newon-universe.github.io"
    client_id: "b079e0cf6d9b5f09a581"
    client_secret: "920bb0f76d709953b5eb0c03d5b4771fc537988d"
