@@ -59,9 +59,10 @@ sidebar:
     {%- assign result = hidden | where_exp: "item", "item == 'comments'" -%}
     {%- if result.size == 0 -%}
     <div class="post-comments">
+
       {%- if page.comments != false -%}
 
-      {%- if localStorage.getItem('theme') == "dark" -$}
+      {%- if html[data-theme="dark"] -$}
       {%- include extensions/comments/gitment_dark.html -%}
       {%- else -%}
       {%- include extensions/comments/gitment_light.html -%}
