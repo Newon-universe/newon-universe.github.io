@@ -59,9 +59,9 @@ sidebar:
     {%- assign result = hidden | where_exp: "item", "item == 'comments'" -%}
     {%- if result.size == 0 -%}
     <div class="post-comments">
-
+      {%- if page.comments != false -%}
       {%- include extensions/comments/gitment.html -%}
-
+      {%- endif -%}
     </div>
     {%- endif -%}
 
