@@ -60,7 +60,15 @@ sidebar:
     {%- if result.size == 0 -%}
     <div class="post-comments">
       {%- if page.comments != false -%}
-      {%- include extensions/comments/gitment.html -%}
+
+      {%- if html.dataset.theme = 'dark' -$}
+      {%- include extensions/comments/gitment_dark.html -%}
+      {$- endif -$}
+
+      {%- if html.dataset.theme = 'light' -$}
+      {%- include extensions/comments/gitment_light.html -%}
+      {$- endif -$}
+
       {%- endif -%}
     </div>
     {%- endif -%}
