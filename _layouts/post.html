@@ -60,8 +60,11 @@ sidebar:
     {%- if result.size == 0 -%}
     <div class="post-comments">
 
+      {%- if site.gitment.username -%}
       {%- include extensions/comments/gitment.html -%}
+      {%- endif -%}
 
+      {%- endif -%}
     </div>
     {%- endif -%}
 
