@@ -61,7 +61,7 @@ sidebar:
     <div class="post-comments">
       {%- if page.comments != false -%}
 
-      {%- if html.data.theme == 'dark' -$}
+      {%- if localStorage.getItem('theme') == "dark" -$}
       {%- include extensions/comments/gitment_dark.html -%}
       {%- else -%}
       {%- include extensions/comments/gitment_light.html -%}
