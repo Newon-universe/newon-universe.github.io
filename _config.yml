@@ -189,11 +189,12 @@ yat:
 #   shortname: "Your Disqus username"
 
 # Gitment comments
-# gitment:
-#   username: Newon
-#   repo: Newon-universe/newon-universe.github.io
-#   client_id: b079e0cf6d9b5f09a581
-#   client_secret: 920bb0f76d709953b5eb0c03d5b4771fc537988d
+ gitment:
+   username: Newon
+   repo: Newon-universe/newon-universe.github.io
+   client_id: b079e0cf6d9b5f09a581
+   client_secret: 920bb0f76d709953b5eb0c03d5b4771fc537988d
+#   redirect_uri: "Your redirect url"   # If you use a custom domain name
 
 # Build settings
 # highlighter: none
