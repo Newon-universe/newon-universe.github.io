@@ -196,7 +196,7 @@ yat:
 #   client_secret: "Your client secret"
 #   redirect_uri: "Your redirect url"   # If you use a custom domain name
 
-utterances comments
+#utterances comments
 #repository: "Newon-universe/newon-universe.github.io"
 #comments:
 #  provider: "utterances"
