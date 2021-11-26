@@ -24,7 +24,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Newon\'s blog
+title: Newon's blog
 email: chokovon@gmail.com
 author: Newon
 # theme: owner/name --> Don't forget to remove/comment the gem-based theme option
@@ -188,9 +188,14 @@ yat:
 # disqus:
 #   shortname: "Your Disqus username"
 
- Gitment comments
+# Gitment comments
+# gitment:
+#   username: "Your GitHub username"
+#   repo: "The repo to store comments"
+#   client_id: "Your client ID"
+#   client_secret: "Your client secret"
+#   redirect_uri: "Your redirect url"   # If you use a custom domain name
 
-#utterances comments
 #repository: "Newon-universe/newon-universe.github.io"
 #comments:
 #  provider: "utterances"
