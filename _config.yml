@@ -188,7 +188,7 @@ yat:
 # disqus:
 #   shortname: "Your Disqus username"
 
- Gitment comments
+# Gitment comments
  gitment:
    username: "Newon-universe"
    repo: "Newon-universe/newon-universe.github.io"
