@@ -190,18 +190,19 @@ yat:
 
 # Gitment comments
 # gitment:
-#   username: "Your GitHub username"
+#   username: "Newon-universe"
 #   repo: "The repo to store comments"
 #   client_id: "Your client ID"
 #   client_secret: "Your client secret"
 #   redirect_uri: "Your redirect url"   # If you use a custom domain name
 
-repository: "Newon-universe/newon-universe.github.io"
-comments:
-  provider: "utterances"
-  utterances:
-    theme: "Photon Dark"
-    issue_term: "pathname"
+#utterances comments
+#repository: "Newon-universe/newon-universe.github.io"
+#comments:
+#  provider: "utterances"
+#  utterances:
+#    theme: "Photon Dark"
+#    issue_term: "pathname"
 
 # Build settings
 # highlighter: none
