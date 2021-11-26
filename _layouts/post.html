@@ -62,7 +62,7 @@ sidebar:
 
       {%- if page.comments != false -%}
 
-      {%- if include.params.data-theme == "dark" -$}
+      {%- if html.data.theme == "dark" -$}
       {%- include extensions/comments/gitment_dark.html -%}
       {%- else -%}
       {%- include extensions/comments/gitment_light.html -%}
