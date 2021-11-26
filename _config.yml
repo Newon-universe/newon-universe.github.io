@@ -46,7 +46,7 @@ copyright: "Unpublished Work (cleft) 2017-{currentYear} {author}"
 
 description: >- # this means to ignore newlines until "baseurl:"
   Android developer who is interested in VR & Human - computer Interaction
-  & SDGs .. and your happy day :)
+  & SDGs .. and your happy day :) 
 
 
 baseurl: "" # the subpath of your site, e.g. /blog
