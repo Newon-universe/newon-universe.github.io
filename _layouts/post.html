@@ -61,11 +61,11 @@ sidebar:
     <div class="post-comments">
       {%- if page.comments != false -%}
 
-      {%- if html.dataset.theme = 'dark' -$}
+      {%- if html.dataset.theme == 'dark' -$}
       {%- include extensions/comments/gitment_dark.html -%}
       {$- endif -$}
 
-      {%- if html.dataset.theme = 'light' -$}
+      {%- if html.dataset.theme == 'light' -$}
       {%- include extensions/comments/gitment_light.html -%}
       {$- endif -$}
 
