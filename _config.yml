@@ -30,7 +30,6 @@ author: Newon
 # theme: owner/name --> Don't forget to remove/comment the gem-based theme option
 remote_theme: "jeffreytse/jekyll-theme-yat"
 
-
 # Copyright setting
 # You can use any html code, currently below placeholders are available:
 # * current year: {currentYear}
@@ -196,6 +195,13 @@ yat:
 #   client_id: "Your client ID"
 #   client_secret: "Your client secret"
 #   redirect_uri: "Your redirect url"   # If you use a custom domain name
+
+repository: "Newon-universe/newon-universe.github.io"
+comments:
+  provider: "utterances"
+  utterances:
+    theme: "Photon Dark"
+    issue_term: "pathname"
 
 # Build settings
 # highlighter: none
