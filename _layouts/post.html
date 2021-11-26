@@ -63,11 +63,11 @@ sidebar:
 
       {%- if html.dataset.theme == 'dark' -$}
       {%- include extensions/comments/gitment_dark.html -%}
-      {$- endif -$}
+      {%- endif -%}
 
       {%- if html.dataset.theme == 'light' -$}
       {%- include extensions/comments/gitment_light.html -%}
-      {$- endif -$}
+      {%- endif -%}
 
       {%- endif -%}
     </div>
