@@ -1,9 +1,9 @@
 ---
 layout: post
-title: 포트와 인바운드, 아웃바운드 규칙
+title: 객체 지향 프로그래밍(Object Oriented Programming)
 author: Newon
-categories: Server
-tags: [Port]
+categories: Kotlin
+tags: [Kotlin, CS]
 sidebar: []
 ---
 
