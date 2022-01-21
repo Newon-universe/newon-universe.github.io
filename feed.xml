@@ -1,0 +1,1474 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-01-21T10:15:40+00:00</updated><id>/feed.xml</id><title type="html">Newon’s blog</title><subtitle>Android developer who is interested in VR &amp; Human - computer Interaction &amp; SDGs .. and your happy day :)</subtitle><author><name>Newon</name></author><entry><title type="html">객체 지향 프로그래밍(Object Oriented Programming)</title><link href="/kotlin/2022/01/21/Kotlin-%EA%B3%BC-OOP(%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D).html" rel="alternate" type="text/html" title="객체 지향 프로그래밍(Object Oriented Programming)" /><published>2022-01-21T00:00:00+00:00</published><updated>2022-01-21T00:00:00+00:00</updated><id>/kotlin/2022/01/21/Kotlin%20%EA%B3%BC%20OOP(%EA%B0%9D%EC%B2%B4%20%EC%A7%80%ED%96%A5%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D)</id><content type="html" xml:base="/kotlin/2022/01/21/Kotlin-%EA%B3%BC-OOP(%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D).html">&lt;h2 id=&quot;컴파일러와-객체-지향-프로그래밍&quot;&gt;컴파일러와 객체 지향 프로그래밍&lt;/h2&gt;
+&lt;p&gt;객체(Object) 를 지향(Oriented) 하는 프로그래밍은 코딩을 작성할 때 사용할 수 있는 하나의 패러다임, 더 일반적으로는 하나의 글쓰기 장르라고 볼 수 있다.&lt;/p&gt;
+
+&lt;p&gt;잠시 객체 지향 프로그래밍을 접어두고, 코딩이 어떻게 동작하는지부터 생각해보자. 어떤 프로그래밍 언어를 쓰더라도 코드는 컴파일러를 거쳐서 수행된다.&lt;br /&gt;
+사람이 작성한 코드를 기계어로 번역하는 작업이 필요한 것인데, 이때 코드는 위에서부터 아래로 한 줄씩 코드를 읽고, 번역하고, 내용을 수행한다.&lt;/p&gt;
+
+&lt;p&gt;화가가 그림을 그려서 파는 작업을 위의 문단의 내용만 갖고서 코드로 표현하면 다음과 같다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;var 화가 지갑 = 0
+var 화가가 갖고 있는 그림 = 1
+
+var 손님 지갑 = 20000
+var 손님이 갖고 있는 그림 = 0
+var 손님은 그림을 갖고 싶다 = true
+
+if (10000 &amp;gt;= 손님 지갑 &amp;amp;&amp;amp; 손님은 그림을 갖고 싶다) {
+    손님 지갑 -= 10000
+    화가 지갑 += 10000
+    손님이 갖고 있는 그림 += 1
+    화가가 갖고 있는 그림 -= 1
+
+    손님은 그림을 갖고 싶다 = false
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Kotlin 컴파일러는 위에서부터 읽으며 모든 내용을 절차대로 수행할 것이다.&lt;br /&gt;
+이때, 만약 손님이 1명이 아니라 여러 명이라면 코드는 계속해서 저 코드를 부분적으로 반복하며, 많은 줄을 작성해야할 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://memegenerator.net/img/instances/58100671/no-way.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;그렇다. 굉장히 귀찮은 작업이며, 이것을 해결하기 위해 나온 것이
+절차적 프로그래밍과 객체 지향 프로그래밍이다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;잠깐, 절차적 프로그래밍 ?
+절차적 프로그래밍은 함수의 재호출을 이용해 코드를 재활용하는 방법을 의미한다.&lt;/p&gt;
+
+  &lt;p&gt;즉, 컴파일러가 위에서부터 아래로 순서대로 읽는 것과는 별개로 (애초에 모든 코드는 절차적이다.) , 함수같은 Procedural 를 재활용하자는 의미에서 Procedural Programming 인 것이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;이 글에서 절차적 프로그래밍은 함수를 통해 코드를 재활용한다는 의미로만 사용하고, 그 이상의 내용은 다루지 않는다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;객체-지향-프로그래밍object-oriented-programming&quot;&gt;객체 지향 프로그래밍(Object Oriented Programming)&lt;/h2&gt;
+&lt;p&gt;객체(Object) 를 지향(Oriented) 하는 프로그래밍은 코딩을 작성할 때 사용할 수 있는 하나의 패러다임, 더 일반적으로는 하나의 글쓰기 장르라고 볼 수 있다.&lt;/p&gt;
+
+&lt;p&gt;객체를 지향한다고 하니, 객체가 무엇인지 알아보자.&lt;br /&gt;
+여기서 말하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;객체&lt;/code&gt; 란 하나로써 존재할 수 있는 무언가를 의미한다.
+사람, 고양이, 우주, 자동차 등이 될 수 있다.&lt;/p&gt;
+
+&lt;p&gt;언급된 객체들의 특징은 자신이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;주체&lt;/code&gt; 가 될 수 있다는 점이다.&lt;br /&gt;
+고양이는 고양이로서 존재할 수 있고, 우주는 우주로서 존재할 수 있다.&lt;br /&gt;
+고양이를 이루는 것 중에는 털이 있지만, 털이 조금 빠진다고 고양이가 고양이가 되진 않는다.
+털이 빠진 고양이가 될 순 있지만.&lt;/p&gt;
+
+&lt;p&gt;굉장히 관념적이지만, 여기서 말하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;객체&lt;/code&gt; 가&lt;br /&gt;
+하나로서 존재할 수 있는 어떤 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;추상적인 무언가&lt;/code&gt; 로 이해했다면 완벽하다.&lt;/p&gt;
+
+&lt;p&gt;객체 지향 프로그래밍은 프로그래밍을 짤 때 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;객체&lt;/code&gt; 단위로 코드를 작성하기를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;지향&lt;/code&gt; 한다는 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/OaYdR_8N0Q0jB3trpJ7zugia-hB9YCVNnp-hf7AvFZaTjiu76PKW_PuZO7k8CsIX1hiO9eHwnJs6hs64fsQaJ8vf6TDq1f0uLctRTv8vE-4G9R2VYKL2SfCDXLHbnJIFRyEroQPyvgi6pkTIk9rck-Zix5S2iXIAAga7U7WeXYVWXufOITFEsU8m-ONs1ZRjlBZMmo8dokFvH8wazRPYUPYXQDjjFhKgCYaDFKWd7Pi_9y_p-GQbqJW1N_Xk4SptGKm0U-_LWbQaj4sqmJ3ylfafXLCm6euydvwN31B_HNRA8Sr7Klf_J0SyUh7vo3u-CDFgZ8ufpyZnAtaS7cwu3Y3WLPJTKss4yUlrCkKsWLkYha6TPn6MGlzPgXLY8LIRNlHCsvHCRn53YCNVztBT57SO7SbFnhOJqqk4u_Aq3QCUC160MmmsG7SgWGQpao2trGzLjS87_wsvwGBDO1weDEK9BmLi81jtVmEoKv3eJkqbqT-6V44WqY9OubcopDvE3N_v7jb-3XQTpqLcTuZd4zwYyzoimNOHsS7WCc4h_2fLZ72Uf_go8e2oGKkXohlx0XNFLU0_eqHscepPzlKWF32gH9otbYcrPJoNYm6PflFH0c-U8XIbXOlPDH08FnOV0No5-4_uD-Eo895IxfVbfkD_kyAiwKpHCGn_FJE-GjJY3JBIkuJ5LkuywqAP3rkz2YvaLfQHQWLCzv_6T1s2eEY=w1132-h1063-no?authuser=0&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;고양이라는 하나의 객체에는 성격, 근육, 털, 행동 등등 여러가지 것들이 포함될 수 있다.&lt;br /&gt;
+어떠한 것들은 있을 수도 있고, 없을 수도 있지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;고양이&lt;/code&gt; 라는 객체는 존재하며,&lt;/p&gt;
+
+&lt;p&gt;이 같은 생각을 바탕으로 코드를 작성하겠다는 패러다임이 바로 객체 지향 프로그래밍(Object Oriented Programming) 이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;kotlin-과-객체-지향-프로그래밍&quot;&gt;Kotlin 과 객체 지향 프로그래밍&lt;/h2&gt;
+&lt;p&gt;코틀린으로 실제 객체, 고양이를 작성을 해보자.&lt;/p&gt;
+
+&lt;p&gt;위에서 언급한 하나로서 존재할 수 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;객체&lt;/code&gt;, 즉 고양이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Class&lt;/code&gt; 로 정의되며, 그 내부의 털, 성격, 근육 등은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;변수&lt;/code&gt; 혹은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;함수&lt;/code&gt; 로 정의할 수 있다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;fun main(){
+  val cat = Cat()
+  
+  println(&quot;눈동자는 ${cat.눈동자}, 털은 ${cat.털}, 성격은 ${cat.성격}&quot;)
+  
+  cat.털 = &quot;깎아버리기!&quot;
+  cat.눈동자 = &quot;까망색&quot;
+  println(&quot;${cat.털}, ${cat.눈동자}&quot;)
+
+  cat.밥과 관련된 행동(true)
+}
+
+class Cat(){
+   val 눈동자: String = &quot;Blue&quot;
+   var 털: String = &quot;너무 많아&quot;
+   val 성격: String = &quot;커여워&quot;
+
+   fun 밥과 관련된 행동(밥: Boolean){
+      if(!밥){
+         println(&quot;냥냥펀치!!&quot;)
+      } else {
+         println(&quot;와구와구&quot;)
+      }
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;결과
+눈동자는 Blue, 털은 너무 많아, 성격은 커여워
+눈동자는 Blue, 털은 깎아버리기!, 성격은 커여워
+와구와구
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;클래스는 다음과 같이 미리 class 를 만들어 놓은 후, 변수로 선언하여 사용할 수 있다. 클래스의 내부 변수 접근은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.&lt;/code&gt; 으로 할 수 있다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;class 로 정의된 변수 중, var 변수는 외부에서도 변경이 가능하지만 val 변수는 변경이 되지 않기 때문에 털은 변하되 눈동자는 변하지 않는다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;클래스 내부 함수 접근 역시 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.&lt;/code&gt; 로 할 수 있다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;한편, 클래스도 매개변수를 받을 수 있다. 같은 내용을 매개변수를 받는 형태로 바꾼다면 다음과 같다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;fun main(){
+  val cat = Cat()
+  
+  println(&quot;눈동자는 ${cat.눈동자}, 털은 ${cat.털}, 성격은 ${cat.성격}&quot;)
+  
+  cat.털 = &quot;깎아버리기!&quot;
+  cat.눈동자 = &quot;까망색&quot;
+  println(&quot;${cat.털}, ${cat.눈동자}&quot;)
+
+  cat.밥과 관련된 행동(false)
+}
+
+class Cat( val 눈동자: String = &quot;Blue&quot;, 
+           var 털: String, 
+           val 성격: String = &quot;커여워&quot;) 
+{
+      fun 밥과 관련된 행동(밥: Boolean){
+           if(!밥){
+              println(&quot;냥냥펀치!!&quot;)
+           } else {
+              println(&quot;와구와구&quot;)
+           }
+      }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;결과
+Error --&amp;gt; 매개변수 값을 선언해주세요.
+눈동자는 Blue, 털은 깎아버리기!, 성격은 커여워
+냥냥펀치!!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;클래스의 매개변수는 val, var 타입이 올 수 있으며 val 은 변경 불가, var 은 변경 가능이다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;클래스의 매개변수는 Cat 의 눈동자와 같이 기본값을 줄 수도 있고, 털처럼 기본값을 안줄 수도 있다. 기본값을 주지 않은 매개변수는 선언 시 반드시 매개변수값을 넣어주어야 한다. 기본값이 있는 곳에 새로운 매개변수 값을 넣으면 새로운 값으로 덮어쓴다.&lt;/p&gt;
+
+    &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이렇게 작성된 코드는 반복작업도 굉장히 간편하다. 밥과 관련된 행동을 반복하고 싶다면 다음과 같이, 코드 한 줄이면 반복 작업을 수행할 수 있다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;fun main(){
+  val cat = Cat()
+
+  cat.밥과 관련된 행동(false)
+  cat.밥과 관련된 행동(true)
+  cat.밥과 관련된 행동(true)
+  cat.밥과 관련된 행동(true)
+}
+
+class Cat( val 눈동자: String = &quot;Blue&quot;, 
+           var 털: String, 
+           val 성격: String = &quot;커여워&quot;) 
+{
+      fun 밥과 관련된 행동(밥: Boolean){
+           if(!밥){
+              println(&quot;냥냥펀치!!&quot;)
+           } else {
+              println(&quot;와구와구&quot;)
+           }
+      }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;결과
+냥냥펀치!!
+와구와구
+와구와구
+와구와구
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;한편 같은 객체이지만, 서로 다른 존재를 부르고 싶을때도 간편하다.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;fun main(){
+  val catBlue = Cat(&quot;Blue&quot;, &quot;너무많아!&quot;, &quot;도도해!&quot;)
+  val catBlack = Cat(&quot;Black&quot;, &quot;조금있어!&quot;)
+  val catOdd = Cat(&quot;Odd&quot;, &quot;깍어비리기!!&quot;, &quot;나른해&quot;)
+
+  println(&quot;${catBlue.눈동자}, ${catBlue.털}, ${catBlue.성격}&quot;)
+  println(&quot;${catBlack.눈동자}, ${catBlack.털}, ${catBlack.성격}&quot;)
+  println(&quot;${catOdd.눈동자}, ${catOdd.털}, ${catOdd.성격}&quot;)
+}
+
+class Cat( var 눈동자: String, 
+           var 털: String, 
+           val 성격: String = &quot;커여워&quot;) 
+{
+      fun 밥과 관련된 행동(밥: Boolean){
+           if(!밥){
+              println(&quot;냥냥펀치!!&quot;)
+           } else {
+              println(&quot;와구와구&quot;)
+           }
+      }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;결과
+Blue, 너무많아!, &quot;도도해!
+Black, 조금있어! 커여워
+Odd, 깍어비리기!!, 나른해
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;참고로 Class 를 직접 부르면 컴파일러는&lt;/p&gt;
+
+  &lt;p&gt;&lt;img src=&quot;https://w.namu.la/s/d85d3c39fd3b225bc05fd8d64fb4f334200644f7154148283e6dc731e25f9ac20a52aafd3de51e7e88dcb35cf7582cfcea9c9b65e530ec41178ea063f131fcc70d0e3d5932c702d06310796913a7a2e7&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+  &lt;p&gt;클래스는 직접 호출하지 않고, 반드시 변수 등에 선언을 하고서 사용해야 한다. 클래스는 수치만 들어간 설계도이기에 설계도를 직접 호출하면 당연히
+실제 사용자는 ? 를 띄울 뿐이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;정리&quot;&gt;정리&lt;/h3&gt;
+&lt;p&gt;객체 지향 프로그래밍은 하나의 객체를 관점으로 프로그래밍을 작성하는 것을 의미한다. 반복적인 작업을 피하고, 이해와 효율성을 높이기 위해 사용된다.&lt;/p&gt;
+
+&lt;p&gt;Class 는 하나의 객체를 담는 그릇이다. 실제 치수, 내용 등을 포함하고 있지만 기본적으로 설계도이기에 사용 시 다른 변수에 선언을 하고서 사용해야 한다.&lt;/p&gt;
+
+&lt;p&gt;모듈화를 통해 코드 전체의 이해와 재사용으로 효율성이 높아진다.
+단, 모듈화로 인해 컴파일러는 더 많은 코스트를 요구하여 성능에는 더 안 좋다. 또한 설계 자체에 시간이 오래 걸릴 수 있다.&lt;/p&gt;
+
+&lt;p&gt;감사합니다 :)
+&lt;img src=&quot;https://user-images.githubusercontent.com/80164141/138802009-f777c0cc-d1d1-4cde-8702-9c5e52329e74.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&amp;gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;참고
+Udemy # &lt;a href=&quot;https://www.udemy.com/course/kotling-android-jetpack-compose-/&quot;&gt;Android Jetpack Compose: The Comprehensive Bootcamp [2022]&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;Blog # &lt;a href=&quot;https://st-lab.tistory.com/151&quot;&gt;객체 지향 프로그래밍이 뭔가요? (꼬리에 꼬리를 무는 질문 1순위, 그놈의 OOP)&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>Newon</name></author><category term="Kotlin" /><category term="Kotlin" /><category term="CS" /><summary type="html">컴파일러와 객체 지향 프로그래밍 객체(Object) 를 지향(Oriented) 하는 프로그래밍은 코딩을 작성할 때 사용할 수 있는 하나의 패러다임, 더 일반적으로는 하나의 글쓰기 장르라고 볼 수 있다.</summary></entry><entry><title type="html">Certbot을 활용한 HTTPS 적용과 리다이렉트</title><link href="/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html" rel="alternate" type="text/html" title="Certbot을 활용한 HTTPS 적용과 리다이렉트" /><published>2021-11-25T00:00:00+00:00</published><updated>2021-11-25T00:00:00+00:00</updated><id>/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C%20HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx)</id><content type="html" xml:base="/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html">&lt;h2 id=&quot;목표&quot;&gt;목표&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;ol&gt;
+    &lt;li&gt;Ubuntu OS 기반 Nginx 웹 서버에 certbot 을 활용하여 https를 적용시킨다.&lt;/li&gt;
+    &lt;li&gt;http 접속을 https 로 리다이렉트한다.&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;certbot을-설치하기-전에&quot;&gt;Certbot을 설치하기 전에&lt;/h2&gt;
+
+&lt;p&gt;Certbot 을 설치하는 방법은 다양하지만, 현재 Let`s encrypt &lt;sup&gt;&lt;a href=&quot;#footnote_1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; 의 공식입장은 snap 패키지&lt;sup&gt;&lt;a href=&quot;#footnote_2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;를 활용해서 설치하는 방법이다. 참고로 Shell 명령어인 certbot-auto 를 활용한 방법은 더 이상 지원하지 않고 있으며, &lt;a href=&quot;https://certbot.eff.org/docs/install.html&quot;&gt;삭제&lt;/a&gt;를 권하고 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;snap 패키지를 사용하므로 ubuntu 16.04 이상 버전이여야 한다.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;혹여나 다른 OS와 다른 웹서버에서 설치하고 싶다면 &lt;a href=&quot;https://certbot.eff.org/instructions&quot;&gt;여기&lt;/a&gt;를 통해 원하는 OS와 웹서버를 선택하면 Let`s encrypt 가 권장하는 공식 설치 방법을 알 수 있다. &lt;del&gt;영어 주의&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;Certbot 설치는 공식문서의 방법을 그대로 인용한 것으로, 원본은 여기서 &lt;a href=&quot;https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx&quot;&gt;확인&lt;/a&gt;할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;참고로 HTTPS는 도메인을 통해서 적용시키므로 IP로만 접속할 수 있다면 해당 IP에 도메인을 연결해야한다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;certbot-설치&quot;&gt;Certbot 설치&lt;/h2&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo snap install core
+sudo snap refresh core
+sudo snap install --classic certbot
+
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;sudo certbot –nginx 를 입력하면 다음과 같은 질문들이 나온다.&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img width=&quot;550&quot; alt=&quot;certbot --nginx 첫번째 질문, 이메일&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124739318-b1e8c100-df54-11eb-94a9-d4f883ba1909.png&quot; /&gt;
+디버깅을 위한 로그, 긴급한 사항 혹은 보안 사항 등을 전달할 이메일을 입력해달라는 내용, 이메일을 입력한 후 엔터
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img width=&quot;550&quot; alt=&quot;certbot --nginx 두번째 질문, 약관 읽어보기&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124739581-f5432f80-df54-11eb-8bb6-98be7a8fb589.png&quot; /&gt;&lt;br /&gt;
+약관을 읽고 SSL 을 사용하기 위한 서버 등록을 승낙해야 한다는 이야기. Y 입력한 후 엔터
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img width=&quot;550&quot; alt=&quot;certbot --nginx 세번째 질문, 재단에 이메일 공유 여부&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124740075-6551b580-df55-11eb-8ebc-e5bb1f4173a4.png&quot; /&gt;
+위에서 입력했던 이메일을 재단에도 공유해서 재단의 뉴스, 캠페인, 디지털 자유운동 지원 방법 등을 받을 것인지에 대한 내용. 흔히들 생각하는 NGO단체의 이메일이라 생각하면 될 것 같다.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;난 오픈소스의 힘을 믿으니까 Y&lt;/em&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img width=&quot;550&quot; alt=&quot;certbot --nginx 네번째 질문, 어떤 도메인을 HTTPS 적용시킬 것인지 여부&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124740976-3ab42c80-df56-11eb-8ec5-7524f6480aac.png&quot; /&gt;
+어떤 도메인에 HTTPS를 적용시킬지 물어본다. 그냥 엔터를 누르면 목록에 뜬 모든 도메인에 HTTPS를 적용시켜주고, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1 3&lt;/code&gt; 이런식으로 숫자를 띄어서 엔터를 누르면 해당 도메인만 HTTPS를 적용시켜 준다.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;난 모든 도메인을 HTTPS 적용시키길 원하니 그냥 엔터&lt;/em&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img width=&quot;550&quot; alt=&quot;certbot --nginx 완료 화면&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124741806-11e06700-df57-11eb-8b99-815c48c77080.png&quot; /&gt;
+Successfully deployed certificate for 도메인 과 함께, 어떤 도메인들이 HTTPS가 적용됐는지 알려주고 만약 마음에 든다면 기부를 권하는 모습이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;&lt;em&gt;역시 NGO계열은 다들 비슷비슷한가보다.&lt;/em&gt;&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;이 방법을 따라왔다면 기본 옵션을 수정하지 않는 한, certbot 은 만료 전에 자동으로 갱신되며 리다이렉트까지 자동으로 설정되어 있다.
+&lt;br /&gt;
+&lt;br /&gt;
+리뉴얼이 되는 모습을 확인해보고 싶다면&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo certbot renew --dry-run&lt;/code&gt;을 사용하면 되고 다음과 같이 나오게 된다.
+&lt;img width=&quot;550&quot; alt=&quot;certbot renew --dry-run 완료 화면&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124742554-ce3a2d00-df57-11eb-8ca4-9677d6af8a30.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo service nginx restart&lt;/code&gt; 로 웹서버를 재시작을 해주고 해당 도메인을 들어가면 https로 연결되는 것을 알 수 있다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h2 id=&quot;http를-https로-리다이렉트&quot;&gt;HTTP를 HTTPS로 리다이렉트&lt;/h2&gt;
+&lt;p&gt;물론 위에서 밝혔듯, 친절한 snap 패키지의 certbot 설치는 리다이렉트까지 지원하지만, 그대로 두면 Safari 에서는 리다이렉트를 안하게 되어, 수정할 필요가 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo vi /etc/nginx/sites-available/default&lt;/code&gt; 로 nginx 옵션에 들어가자.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;... 코드들 ...
+
+server {
+    if ($host = 도메인) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = 도메인) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = 도메인) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+        server_name 도메인, 도메인, 도메인;
+        return 301 https://도메인; # managed by Certbot 
+        
+        // 403 으로 되어있을 부분을 301 https://도메인 으로 바꿔준다.
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;default 에서 가장 밑에 있을 해당 server 블록에서, 가장 마지막 return 403 부분을 301 https://도메인 으로 바꿔준다. 이를 통해 서버가 80번(http)을 listen 하면 자동으로 https 로 리다이렉트 시켜준다. 부가적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;listen 443 ssl&lt;/code&gt; 에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;default_server&lt;/code&gt;를 추가시켜주어서 443포트가 이 서버의 기본 포트라는 걸 알려주는 것도 괜찮다.&lt;/p&gt;
+
+&lt;p&gt;여기서 301은 HTTP Status Code로, 영구 이동(Permanently moved)을 의미한다. 즉, “네가 요청한 페이지가 영구히 이전되었으므로 이 주소로 다시 접속을 시도해 봐라.”라는 의미이다.&lt;sup&gt;&lt;a href=&quot;#footnote_3&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;여기서 실수하면 리다이렉트 횟수가 너무 많다는 등의 오류를 보게 된다. 혹시 리다이렉트 관련 오류가 생긴다면 return 되는 주소가 A가 A를 부르는 형태라든지 등을 확인하면 된다. &lt;em&gt;&lt;del&gt;즉 리다이렉트 관련 오류는 왠만하면 설정자 잘못이다.&lt;/del&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;만약 리다이렉트 문제나 여타 관련 문제를 겪는다면 다른 브라우저 (Safari라면 크롬, Edge 등)도 사용해보고, &lt;a href=&quot;https://www.whatsmydns.net/#CNAME/dev.yeorumlabo.com&quot;&gt;이곳&lt;/a&gt;에서 자신의 도메인이 제대로 연결은 되었는지 확인해보자. 브라우저의 쿠키 문제로 안될 수도 있으며, 도메인 자체가 제대로 연결되어 있지 않다면 당연히 문제가 생긴다.&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.ssllabs.com/ssltest/index.html&quot;&gt;Qualys.&lt;/a&gt; 에서 해당 도메인의 SSL이 얼만큼 강한 보안을 갖고 있는지 확인할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;참고로 네이버가 B이다.
+&lt;em&gt;&lt;del&gt;어?&lt;/del&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;출처&lt;/strong&gt;&lt;br /&gt;
+Certbot instruction &lt;a href=&quot;https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx&quot;&gt;출처&lt;/a&gt;&lt;br /&gt;
+Nginx에서 자동 Redirection(301 Permanently moved) 설정하기 &lt;a href=&quot;https://www.tuwlab.com/ece/26993&quot;&gt;출처&lt;/a&gt;&lt;br /&gt;
+Let’s Encrypt 위키백과 &lt;a href=&quot;https://ko.wikipedia.org/wiki/Let%27s_Encrypt&quot;&gt;출처&lt;/a&gt;
+*HTML에서 각주 사용하는 법 &lt;a href=&quot;https://lynmp.com/ko/article/nu86c16d8f09c9fbd8&quot;&gt;출처&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;a name=&quot;footnote_1&quot;&gt;1&lt;/a&gt;: Certbot 를 제공하는 프로젝트 명으로, 공익기관 ISRG(Internet Security Research Group) 가 주도하고 있다. firefox 를 만든 모질라재단, 스탠퍼드 법학대학원, 리눅스 재단이 지원하고 있다. &lt;a href=&quot;https://ko.wikipedia.org/wiki/Let%27s_Encrypt&quot;&gt;위키 출처&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;footnote_2&quot;&gt;2&lt;/a&gt;: 우분투 16.04 버전부터 도입한 애플리케이션 패키지 포맷이다. 스냅으로 만들어진 애플리케이션은 내부에 구동을 위한 요소를 포함하고 있어 OS에 덜 의존하게 되며 프로그램에 필요한 모든 라이브러리가 포함되어 빌드되는 형태이다. &lt;del&gt;&lt;em&gt;즉 express 를 스냅으로 설치한다면 node js 가 함께 설치..되나? 댓글로 알려줘요..&lt;/em&gt;&lt;/del&gt;  &lt;a href=&quot;https://openwiki.kr/tech/snap&quot;&gt;출처&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&quot;footnote_2&quot;&gt;3&lt;/a&gt;: &lt;a href=&quot;https://www.tuwlab.com/ece/26993&quot;&gt;Nginx에서 자동 Redirection(301 Permanently moved) 설정하기&lt;/a&gt;&lt;/p&gt;</content><author><name>Newon</name></author><category term="Server" /><category term="Ubuntu" /><category term="HTTPS" /><category term="Certbot" /><summary type="html">목표 Ubuntu OS 기반 Nginx 웹 서버에 certbot 을 활용하여 https를 적용시킨다. http 접속을 https 로 리다이렉트한다.</summary></entry><entry><title type="html">문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)</title><link href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html" rel="alternate" type="text/html" title="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)" /><published>2021-11-25T00:00:00+00:00</published><updated>2021-11-25T00:00:00+00:00</updated><id>/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8)</id><content type="html" xml:base="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html">&lt;h1 id=&quot;문과생이-적어보는-백트래킹재귀와-dfs-를-곁들인&quot;&gt;문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;들어가기에 앞서서, 해당 글은 기본적인 문법 (for, while, print, 입력받기, 배열)에 대해서 알고 있음을 전제로 합니다.&lt;br /&gt;
+만약 기본적인 문법을 모르는 상태라면 반복문과 출력, 배열, 입력받기에 대해서 먼저 이해한 후 다시 찾아와주세요. :)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;이 글은 백트래킹만 언급하는 것이 아니라 재귀함수부터 백트래킹까지 모든 내용을 차례대로 다룹니다.&lt;br /&gt;
+그 과정에서 약간의 자료구조(Stack), 명령형 프로그래밍과 선언형 프로그래밍의 차이, DFS 를 재귀로 구현하는 이유 등에 대해서 언급합니다.&lt;br /&gt;
+예제에서 C언어와 Kotlin 을 섞어서 사용하고 있지만, 최대한 언어적 특징없이 기본적인 문법만 사용합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;글은 작성자가 이해한 흐름에 따라 작성되었으며, 의식의 흐름에 따라 작성되어 존대없이 편한 말로 작성되었습니다.&lt;br /&gt;
+오류 및 오타 지적 감사합니다. :)&lt;br /&gt;
+작성자 : 뉴원(Newon)
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;백트래킹-dfs-탐색-중-가지치기-하는-것&quot;&gt;백트래킹, DFS 탐색 중 가지치기 하는 것.&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;백트래킹&lt;/code&gt;은 완전 탐색 방법 중 하나인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;깊이 우선 탐색(DFS)&lt;/code&gt;을 진행하면서 조건을 확인,&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;해당 노드가 유망하지 않으면&lt;/code&gt; 더 이상 탐색하지 않는 것을 의마한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;백트래킹은 일반적으로 재귀의 형태로 작성되며, 크게 다음의 3개 내용을 작성해야한다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;재귀를 진행하는 동안 사용될 깊이(depth)를 매개변수로 넣기&lt;/li&gt;
+  &lt;li&gt;재귀가 종료되는 시점에서 수행해야할 내용&lt;/li&gt;
+  &lt;li&gt;재귀가 진행중이면 가지치기(백트래킹)할 내용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;여기에 재귀함수를 편하게 돌리고 싶다면 재귀에 필요하지만 변하지 않는 변수들과 재귀에서 사용하는 배열들을 전역변수로 선언하면&lt;br /&gt;
+재귀함수의 매개변수가 깔끔해져서 편하다.&lt;br /&gt;
+  &lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;코드로 확인해보자. &lt;a href=&quot;https://www.acmicpc.net/problem/15649&quot;&gt;백준 N과 M(1) 문제&lt;/a&gt;를 확인하면&lt;br /&gt;
+1 ~ N 까지의 숫자 중에서 M개를 중복없이 오름차순으로 출력하는 것이 문제이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;코드는 C언어로 쓰였지만, 코드만의 특징없이 작성되었다.&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;// 목표 : 1 ~ N 까지의 숫자에서 M개르 선택하고 중복없이 오름차순으로 출력하기
+
+#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdbool.h&amp;gt;
+
+int arr[10] = {0, };                              // 1부터 N까지이니, 마음편하게 10개의 배열을 선언하였다.
+bool isusedArr[10] = {false,};                    // 해당 숫자의 중복 여부를 위해 사용했는지 안했는지를 파악할 같은 크기의 배열을 하나 더 선언했다.
+int N;                                            // 재귀에서 사용하지만 그 숫자가 변하지는 않는 변수를 전역변수로 선언하였다.
+int M;                                            // 재귀에서 사용하지만 그 숫자가 변하지는 않는 변수를 전역변수로 선언하였다.
+
+void Solve(int k){                                // 재귀함수가 사용되는 동안 사용될 depth 를 여기선 k로 표현하고 있다. 
+    if(k == M){                                   // 해당 재귀함수는 k가 계속 증가하며, k == M 일때 멈추는 구조를 가지고 있다.
+        for (int i = 0; i &amp;lt; M; i++){              // 종료될 때, 수행해야할 내용은 &quot;출력&quot;이므로, 출력을 하고 있다.
+            printf(&quot;%d &quot;, arr[i]);
+        }
+        printf(&quot;\n&quot;);                             // 엔터를 출력하고 있다.
+	return;                                   // 마지막에 수행해야할 내용들을 다 수행했으면 return 으로 함수를 종료한다.
+    }
+    
+    for (int i = 1; i &amp;lt;= N; i++){                 // 재귀함수가 종료시점이 아니라면 for 문을 통해 재귀를 진행한다.
+        if(!isusedArr[i]){                        // 가지치기할 내용을 찾고있다. 이번 같은 경우는 중복을 없애기 위해 다음과 같이 적용하고 있다.
+            arr[k] = i;                           // arr[k] 에 i를 사용하고 있다.
+            isusedArr[i] = true;                  // 사용하니까, 사용했음을 표시하고 있다.
+            Solve(k+1);                           // 여기에서 재귀가 계속 반복되고 있다. k는 자릿수로 계속 증가하다가, k == M일 때 종료돨 것이다.
+            isusedArr[i] = false;                 // 다음 DFS 를 위해 다시 사용하지 않았으로 바꿔주고 있다.
+        }
+    }
+}
+
+int main(){
+    scanf(&quot;%d %d&quot;, &amp;amp;N, &amp;amp;M);                       // 함수의 시작이다. N과 M을 입력받고 있다.
+    Solve(0);                                     // 재귀함수의 시작이다. 0부터 시작하고 있다.
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;코드를 크게크게 확인해보자&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Solve 함수는 DFS 함수로 k를 기준으로 진행되고 있다.&lt;/li&gt;
+  &lt;li&gt;Solve 의 맨 위에선 재귀가 종료될 시점에 출력을 하고 변경없이 return 으로 함수를 종료하고 있다.&lt;/li&gt;
+  &lt;li&gt;Solve 의 밑 에서는 for 문을 통해 가지치기할 내용을 확인하고 있다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;if(!isusedArr[i])&lt;/code&gt; 를 통해 isusedArr이 0, 즉 사용하지 않은 숫자라면 재귀를 진행하고 있다.&lt;br /&gt;
+세부적으론, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;arr[k]&lt;/code&gt; 에 i를 넣고있고, 해당 i를 사용처리 한 후 다음 재귀로 넘어가고 난 후 비사용으로 바꿔주고 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;백트래킹은 위의 구조를 기본 골조로 하며, 조건의 추가 &amp;amp; 삭제, 혹은 해당 depth 의 사용, 미사용 등의 조합으로 사용된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+  &lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;아-그래서-그게-뭔데-ㄹㅇㅋㅋ&quot;&gt;아 그래서 그게 뭔데 ㄹㅇㅋㅋ&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/80164141/138657237-2fb8bf1f-2cd5-4a6e-9d84-3bd303c251d5.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;만약 당신이 위의 글만 보고서 &lt;strong&gt;아 ! 백트래킹이란 저런거구나 ㅎㅎ 이해했어&lt;/strong&gt; 라면 이제 뒤로가기를 눌러도 좋다.&lt;br /&gt;
+이제부터 이 글은 철저하게 아무것도 모르는 문과생의, 문과생에 의한, 문과생을 위한 언어로 설명된다.&lt;/p&gt;
+
+&lt;p&gt;우선 우리는 ① &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;재귀함수&lt;/code&gt;가 무엇인지 정확하게 알 필요가 있다.&lt;br /&gt;
+그 다음으로 ② &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DFS 함수&lt;/code&gt;에 대해서 알아야 하며,&lt;br /&gt;
+최종적으로 DFS 를 진행할 때 ③ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;가지치기(백트래킹)&lt;/code&gt;을 어떻게 하는 지 알아볼 것이다.&lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;-재귀함수가-뭔데&quot;&gt;① 재귀함수가 뭔데&lt;/h3&gt;
+&lt;h4 id=&quot;가-재귀함수란&quot;&gt;가. 재귀함수란?&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;https://media.giphy.com/media/3ov9jQX2Ow4bM5xxuM/giphy.gif&quot; /&gt;
+&lt;img width=&quot;600&quot; alt=&quot;스크린샷 2021-10-25 오후 5 47 22&quot; src=&quot;https://user-images.githubusercontent.com/80164141/138665281-c20aae33-e2ed-46ed-bd0b-59d95e4f289d.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;재귀함수란 코드 내에서 자기 자신을 호출하는 함수를 의미한다.&lt;br /&gt;
+내가 나를 부르고, 다시 내가 나를 부르고, 틱X 이나 유튜브숏X에서 자주 보던 그것들이 맞다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;프로그래밍으로 재귀함수는 다음처럼 쓰인다.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;
+fun DFS(N: Int){
+    print(&quot;$N &quot;)
+    return DFS(N + 1);
+}
+
+fun main(){
+    DFS(0)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;위의 코틀린 함수를 확인해보자.&lt;/p&gt;
+
+&lt;p&gt;main 함수에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DFS라는 함수&lt;/code&gt;를, 0을 넣어서 호출하고 있다. &lt;strong&gt;&lt;em&gt;함수 이름에는 우선 신경쓰지 말자&lt;/em&gt;&lt;/strong&gt; &lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DFS 라는 함수&lt;/code&gt;가 뭐하는 녀석인지 확인해보면, 우선 이녀석은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;N을 매개변수&lt;/code&gt;로 받고 있다.&lt;br /&gt;
+이후 print(“$N “) 을 통해서 N과 스페이스바를 출력하고, 종료할 때 자기 자신에 (N+1)을 넣은 것, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DFS(N + 1)&lt;/code&gt; 을 호출하고 있다.&lt;/p&gt;
+
+&lt;p&gt;그렇다면 이 재귀함수는 어떻게 작동할까?&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;DFS(0) 호출 - DFS(0)의 내용 수행 - DFS(0 + 1) 호출&lt;/li&gt;
+  &lt;li&gt;DFS(1) 호출 - DFS(1)의 내용 수행 - DFS(1 + 1) 호출&lt;/li&gt;
+  &lt;li&gt;DFS(2) 호출 - DFS(2)의 내용 수행 - DFS(2 + 1) 호출&lt;/li&gt;
+  &lt;li&gt;무한반복
+…&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;와 같이 반복하게 된다.&lt;br /&gt;
+언제 끝날까? 영원히 끝나지 않는다. 왜냐하면 위의 함수는 자기자신을 호출하곤 있지만, 종료 조건이 없기 때문이다.&lt;br /&gt;
+따라서 위의 컴퓨터의 메모리가 허락할 때 까지 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0 1 2 3 4 5 ... 백만스물하나 ... 백만스물둘... &lt;/code&gt;&lt;br /&gt;
+을 출력하고 있을 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/80164141/138710611-7689c33a-2358-419b-afb1-af23b3521219.gif&quot; alt=&quot;재귀함수&quot; /&gt;&lt;br /&gt;
+이 터미널 창을 DFS 함수라고 비유한다면, 다음과 같이 1을 받고 1 출력 종료 -&amp;gt; 2를 받고 2 출력 종료 … 를 무한반복 중인 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;위의 재귀함수를 다음과 같이 바꿔보자.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;
+fun DFS(N: Int){
+    if(N == 11)
+      return;
+    
+    printf(&quot;$N &quot;)
+    return DFS(N + 1)
+}
+
+fun main(){
+    DFS(0)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;위의 코드와 차이점은 N이 11일 때, 아무것도 하지 않고 그냥 종료가 된다는 것이다.&lt;br /&gt;
+그럼 이 함수는 다음과 같이 작동한다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;DFS(0) 호출 - N이 11인지 확인 - 11이 아님 - DFS(0)의 내용 수행 - DFS(0 + 1) 호출&lt;/li&gt;
+  &lt;li&gt;DFS(1) 호출 - N이 11인지 확인 - 11이 아님 - DFS(1)의 내용 수행 - DFS(1 + 1) 호출&lt;/li&gt;
+  &lt;li&gt;DFS(2) 호출 - N이 11인지 확인 - 11이 아님 - DFS(2)의 내용 수행 - DFS(2 + 1) 호출
+…&lt;/li&gt;
+  &lt;li&gt;DFS(11) 호출 - N이 11인지 확인 - N이 11임 - 그냥 종료&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;if 문에서 N이 11일 때 종료하라는 내용을 통해서, 해당 재귀함수는 무한반복하지 않고 N이 11일 때 바로 종료하게 된다.&lt;br /&gt;
+따라서 위의 코드는 다음과 같이 출력하고 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0 1 2 3 4 5 6 7 8 9 10&lt;/code&gt;&lt;br /&gt;
+이후 함수가 종료된다.&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;if 문을 통해서 재귀함수가 종료될 조건을 단 것, 이것을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Base Condition&lt;/code&gt; 이라고 부른다.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;재귀함수는 매개변수를 통해서 Base Condition 에 점차 다가가도록 설계하는 것이 원칙이다.&lt;/strong&gt;&lt;br /&gt;
+그래야 재귀함수를 안전하게 종료시킬 수 있기 때문이다.&lt;/p&gt;
+
+&lt;p&gt;매개변수는 Base Condition 에 다가갈수만 있다면 증가해도, 감소해도 상관없지만 일반적으로 감소하도록 설계한다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/80164141/138710611-7689c33a-2358-419b-afb1-af23b3521219.gif&quot; alt=&quot;재귀함수&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이 짤방을 다시 한번 살펴보자, 모든 함수는 return을 기준으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;종료&lt;/code&gt;하게 되어있다. 그렇다면 기존에 불려진 함수들은 언제 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;종료&lt;/code&gt;가 될까?&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;정답은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;호출된 순서의 역순으로 닫힌다&lt;/code&gt; 이다. 짤방으로 표현하자면 이렇게 된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/80164141/138711835-9b36994d-4091-41b8-a654-e2efa78fea95.gif&quot; alt=&quot;재귀함수_완전&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;
+그래서 코드를 이렇게 짜면, 역순으로 정렬할 수도 있다. &lt;br /&gt;
+&lt;br /&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;fun DFS(N: Int){
+    if(N == 11){
+      return;
+    }
+    
+    DFS(N + 1)
+    print(&quot;$N &quot;)
+    return;
+}
+
+fun main(){
+   DFS(0)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;위의 코드는 DFS 를 호출한 다음에 N을 print 하고 있다.&lt;br /&gt;
+따라서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;N&lt;/code&gt; 이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;11&lt;/code&gt;까지 이른 다음에야 순차대로 종료되며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;N이 10일 때&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;N이 9일 때&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8&lt;/code&gt;..&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;7&lt;/code&gt;..&lt;br /&gt;
+순서대로 출력되고 가장 마지막 == 가장 처음에 호출한 함수가 종료된다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;출력은 요렇게 나온다. -&amp;gt; 10 9 8 7 6 5 4 3 2 1 0&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;이 의미가 이해되었다면 재귀함수란? 에 가장 먼저 나왔던 2개의 짤 중 밑의 짤방이 전부 이해될 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;이러한 방식을 자료구조 중 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Stack&lt;/code&gt; 이 적용된 것 이라고 한다.&lt;br /&gt;
+&lt;img src=&quot;https://prmoreira23.github.io/assets/stack-data-structure.gif&quot; alt=&quot;스택&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;설명에서 push 는 자료 삽입을, pop은 자료를 빼는 것을 의미하며&lt;br /&gt;
+스택 구조가 적용되면 데이터는 언제나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;마지막에 넣은 것&lt;/code&gt;부터 빼내게 되고, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;처음에 넣은 것&lt;/code&gt; 이 가장 마지막에 나오게 된다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;재귀, DFS, 백트래킹이 전부 Stack 이 적용되지만 본 글에서는 이 이상의 Stack 개념은 사용하지 않는다.&lt;br /&gt;
+궁금하거나 필요하다면 Stack 을 찾아보는 것을 추천한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;어 음 그런데 말이죠 ..?&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://c.tenor.com/kZjYjiDPTQEAAAAd/한심좌-khaby00.gif&quot; width=&quot;20%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;사실 위의 출력문들은 굳이 재귀로 하지 않고, for 문으로도 쉽게 만들 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;for(i in 0..10){
+   print(&quot;$i &quot;)
+}
+
+// 역순이면 이렇게
+
+for(i in 10 downTo 0){
+   print(&quot;$i &quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;게다가 하나의 함수를 호출하는 것은 단순한 중복문보다 많은 메모리를 요구하며 속도 역시 &lt;em&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;압도적인 힘ㅇ..&lt;/code&gt;&lt;/em&gt; 느리다.&lt;br /&gt;
+이러한 이유에도 불구하고 재귀함수를 쓰는 이유를 알아보자.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;나-메모리도-많이-잡아먹고-헷갈리는-재귀함수-왜-씀-feat-선언형-프로그래밍&quot;&gt;나. 메모리도 많이 잡아먹고 헷갈리는 재귀함수 왜 씀? (Feat. 선언형 프로그래밍)&lt;/h4&gt;
+&lt;p&gt;코드란 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;컴퓨팅 효율적으로만 설계하는 것이 아니라&lt;/code&gt;&lt;br /&gt;
+이후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;타인에 의한&lt;/code&gt; 유지 보수를 고려하여 적어야 한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;즉 누가 보더라도 코드는 쉽게 읽히며, 코드가 수행하는 내용이 직관적이여서 개발자의 작업시간을 줄이는 것&lt;/code&gt;&lt;br /&gt;
+또한 좋은 코드의 조건 중 하나이다.&lt;/p&gt;
+
+&lt;p&gt;이러한 관점에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;재귀함수&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;for 문&lt;/code&gt;으로 작성했을 때 보다 월등히 가독성이 높아서, 개발자의 시간을 줄여줄 수 있을 때 사용한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+  &lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;재귀함수가 직관적이라니, 이게 무슨소리일까?&lt;/p&gt;
+
+&lt;p&gt;피보나치의 수열을 예시로 들어보자.&lt;br /&gt;
+수학에서, 피보나치 수(영어: Fibonacci numbers)는 첫째 및 둘째 항이 1이며 그 뒤의 모든 항은 바로 앞 두 항의 합인 수열이다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1 1 2 3 5 8 13 21 34 55 ...&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;이걸 For 문과 재귀함수로 구현하면 다음과 같다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;// for 문으로 작성한 피보나치
+fun Fibonacci(N: Int): Int{
+   var one = 1
+   var two = 1
+   var result = 0
+   
+   if(N &amp;lt;= 2){
+      print(&quot;$one &quot;)
+      return;
+   }
+   
+   for (i in 3..N){
+      result = one + two
+      one = two
+      two = result
+   }
+   return result
+}
+
+// 재귀로 작성한 피보나치
+fun Fibonacci(N: Int): Int{
+    if(N == 0)
+       return 0
+    if(N == 1)
+       return 1
+       
+    return Fibonacci(N - 1) + Fibonacci(N - 2)
+}
+
+fun main(){
+    print(Fibonacci(10))
+}
+// 출력은 같은 10이다.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;잠시 저 두 함수가 피보나치를 출력한다는 것을 모른채로 비교해보자.&lt;/p&gt;
+
+&lt;p&gt;For 문으로 적힌 함수를 이해하려면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;one&lt;/code&gt; 이 어떤 변수인지, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;two&lt;/code&gt; 가 어떤 변수인지, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;result&lt;/code&gt; 는 어떤 변수인지&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;N&lt;/code&gt; 이 왜 2일땐 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;one&lt;/code&gt;만 출력하고 리턴하는지, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;for문은 왜 3부터 시작하고 그때마다 result 는 one + two 를 받는지&lt;/code&gt; 이해하고나야 비로서&lt;br /&gt;
+이 함수가 피보나치 함수임을 이해할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;그에 반면 재귀로 작성된 함수는 간단하다.&lt;br /&gt;
+계산이 어떻게 되는진 모르겠지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;함수(N)&lt;/code&gt; 은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;함수(N-1)&lt;/code&gt; + &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;함수(N-2)&lt;/code&gt; 이고,&lt;br /&gt;
+이걸 계속해서 반복하다보면 N 이 0일 땐 0을, N이 1일 땐 1을 리턴하여서 이를 반복한다고 적혀있다.&lt;/p&gt;
+
+&lt;p&gt;더 간단하게는, 내부가 어떻게 돌아가는진 모르겠지만 우린 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;함수(N) = 함수(N-1) + 함수(N-2)&lt;/code&gt; 임을 알 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;이것이 재귀함수를 사용했을 때 가독성이 늘어나는 대표적인 사례이다.&lt;br /&gt;
+피보나치 수열은 그나마 2개의 항이 만드는 상황만 이해하면 되었지만, 이보다 더 복잡한 사례가 나온다면 For 문으로 작성된 함수는 더더욱 힘들 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;바로 그런 사례가 있다.&lt;br /&gt;
+재귀함수를 구글링했다면 바로 접해봤을 문제, &lt;strong&gt;&lt;em&gt;하노이의 탑&lt;/em&gt;&lt;/strong&gt; 문제이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;하노이의 탑&lt;/strong&gt; 문제는 &lt;a href=&quot;https://ko.khanacademy.org/computing/computer-science/algorithms/towers-of-hanoi/a/towers-of-hanoi&quot;&gt;다음&lt;/a&gt;과 같다. &lt;a href=&quot;https://vidkidz.tistory.com/649&quot;&gt;게임&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/0/07/Tower_of_Hanoi.jpeg&quot; alt=&quot;하노이의 탑&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;간략히 요약하면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3개의 대&lt;/code&gt;가 있고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;크기가 오름차순인 원반들&lt;/code&gt;이 있고, 이걸 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;한번에 하나씩 옮겨서&lt;/code&gt; 다른 대로 옮기되,&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;큰 원반은 작은 원반 위에 갈 수 없다&lt;/code&gt; 는 조건 속에서 수행하라는 것이다.&lt;br /&gt;
+알고리즘 문제로 치환하자면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;원반이 움직일 때 마다 어디서 어디로 옮겼는지 출력하고, 최종적으로 몇번 움직였는지 출력하라&lt;/code&gt; 정도로 바꿀 수 있겠다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;For 문으로 도전.. .
+도전은 언제나 아름답지만, 이번엔 추천하진 않는다.&lt;br /&gt;
+For 문으로 만들고 싶다면 우선 원반의 갯수만큼 For 문을 만들어야할 것이며, 한번 옮겨질 때 마다 이전의 For 문들은 어떻게 해야하는지,&lt;br /&gt;
+횟수는 어디에서 세야할 지도 막막한데, 원반의 갯수가 N으로 입력받아야 한다면 ..&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ac2.namu.la/b3/b3c5dd481cf53631a0e21df5aca56340605fab02b1b0f0177fc74b6c9d05a530.gif&quot; alt=&quot;난 죽음을 택하겠다&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;여기서 우리는 재귀함수의 진정한 사용이유를 알 수 있다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;재귀함수의 가장 큰 장점&lt;/code&gt;은 For 문과 같은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;명령형 프로그래밍&lt;/code&gt;이 아니라, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;선언형 프로그래밍&lt;/code&gt;이라는 점에 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;무슨 의미일까?&lt;br /&gt;
+잠시 하노이의 문제는 접어두고, N 팩토리얼을 한번 출력해보자.&lt;br /&gt;
+알다시피, 방법은 For 문과 재귀함수 2개가 있다.&lt;/p&gt;
+
+&lt;p&gt;팩토리얼이란 N을 기준으로 n부터 1까지의 모든 수를 곱한 값이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(표기는 n!)&lt;/code&gt;&lt;br /&gt;
+이때 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;명령형 프로그래밍의 관점&lt;/code&gt;에서 10!을 구하려면 다음과 같이 바라보게 된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-kotlin highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;py&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;----------------&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;value 에 대하여 사용자는 모든 i 항들에 대하여 절차적으로 구하고 나서야 팩토리얼 n을 알게되는 것으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;인식&lt;/code&gt;한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;이를 다시 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;선언형 프로그래밍 관점&lt;/code&gt;에서 바라본다면 다음과 같아진다.&lt;/p&gt;
+
+&lt;div class=&quot;language-kotlin highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Factorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;    
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Factorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt;  
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;----------------&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;  &lt;span class=&quot;nc&quot;&gt;Factorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;   &lt;span class=&quot;nc&quot;&gt;Factorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;   &lt;span class=&quot;nc&quot;&gt;Factorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;   &lt;span class=&quot;nc&quot;&gt;Factorial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;재귀함수 Factorial 은 return 값이 재귀함수와 어떤 관계가 있는지 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;선언&lt;/code&gt;만 하였다.&lt;/li&gt;
+  &lt;li&gt;그 이후 절차에 관련한 것은 return 을 수행하는 컴퓨터에게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;맡겨버리고&lt;/code&gt; 사용자는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;선언&lt;/code&gt;에 해당하는 결과값을 갖는 것으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;인식&lt;/code&gt;한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;같은 결과값이지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;명령형 프로그래밍의 관점은 사용자가 모든 절차를 인지하고 있음을 전제&lt;/code&gt;하는 반면&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;선언형 프로그래밍의 관점은 사용자가 결과와 그 나머지의 관계를 선언만&lt;/code&gt; 한다는 점에서 차이가 나타난다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;즉, 재귀함수의 장점 중 하나는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;계산에 대한 내용을 컴퓨터에게 맡겨버린다&lt;/code&gt;에 있다.&lt;br /&gt;
+이를 하노이에 적용시켜보자.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;문제를 한정시켜서, N개의 원판과 대 A, B, C 가 있을 때 원판들은 최초에 A에 있고, N개의 원판을 C로 옮기는 것을 목표로 한다.&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;하노이의 탑 문제의 답을 거꾸로 추적해보면 다음과 같은 특성을 지닌다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;가장 마지막의 원판을 제외하고, N - 1 개의 원판들을 B에 옮겨놓는다.&lt;/li&gt;
+  &lt;li&gt;마지막 원판을 C에 갔다 놓는다.&lt;/li&gt;
+  &lt;li&gt;B에 옮겨놨던 원판들을 C에 통째로 옮긴다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이걸 역순으로 반복하면 우리가 &lt;a href=&quot;https://vidkidz.tistory.com/649&quot;&gt;게임&lt;/a&gt; 에서 진행했던 순서가 된다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;// C로 작성되었다.
+// 대의 이름은 각각 A, B, C 이며 N개의 원판이 있는 상황이다. 
+
+#include &amp;lt;stdio.h&amp;gt;
+
+int N;
+int count;
+
+void Hanoi(int N, int A, int B, int C){
+                                                                     // N 이 0 일때가 Base condition 이지만 이번 경우엔 수행해야할 내용이 없으므로, 적지 않았다.
+	if(N &amp;gt; 0){                                                   // N 이 0이 아닌동안, 즉 Base Condition 에 도달하지 않는 동안 수행할 내용이다.
+		Hanoi(N-1,A,C,B);                                    // A에 있는 N - 1개 원판들을 C를 이용해서 B로 옮긴다.
+		printf(&quot;%d 에서 %d 로 가장 맨 위의 원판 이동\n&quot;, A,C);      // A에 있는 남아있는 원판, 가장 큰 원판을 C로 옮긴다.
+		Hanoi(N-1,B,A,C);                                    // B에 있는 N - 1개 원판들을 A를 이용해서 C로 옮긴다.
+	}
+}
+
+int main(){
+	scanf(&quot;%d&quot;, &amp;amp;N);
+	Hanoi(N,1,2,3);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;이 함수에서 개발자는 절차마다 그 값이 무엇인지에 대해서 작성한 코드는 단 1개도 없다.&lt;/p&gt;
+
+&lt;p&gt;개발자는 그저 N - 1 일 때 어떻게 해야하는지 논리적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;선언&lt;/code&gt;만 하였고, 컴퓨터가 대신 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;계산&lt;/code&gt;한 것이다.&lt;br /&gt;
+이것이 재귀함수를 이용하는 이유이다.&lt;/p&gt;
+
+&lt;p&gt;위의 내용이 이해가 안간다면 다음의 영상을 참고하면 좋을 것 같다.&lt;a href=&quot;https://www.youtube.com/watch?v=q6RicK1FCUs&amp;amp;t=1s&quot;&gt;Tower of Hanoi Problem - Made Easy&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;위의 하노이와 관련된 내용은 참고에 연결된 유튜브 영상의 내용을 요약하여 옮긴 것이다.&lt;br /&gt;
+컴퓨터에 맡겨버린다 라는 의미가 궁금하다면 다음 블로그를 참고해보자. &lt;a href=&quot;https://geniusnohkang.tistory.com/28&quot;&gt;반복과 재귀 : DFS 문제를 재귀로 구현하면 편리한 이유&lt;/a&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;재귀함수편-요약&quot;&gt;재귀함수편 요약&lt;/h5&gt;
+&lt;ol&gt;
+  &lt;li&gt;재귀함수란 자기 자신을 호출하는 함수이다.&lt;/li&gt;
+  &lt;li&gt;재귀함수는 매개변수를 통해 Base Condition 에 도달하도록 설계한다.&lt;/li&gt;
+  &lt;li&gt;모든 재귀함수는 이론적으로 For문이나 While 문으로 구현이 가능하나, 사용자의 편의(가독성)를 위해서 사용된다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;재귀함수는 다이나믹 프로그래밍에서 다시 한번 쓰이게 된다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;-dfs-함수&quot;&gt;② DFS 함수&lt;/h3&gt;
+&lt;p&gt;이제 본론이다. 백트래킹은 뭐길래 DFS와 함께 쓰이는 걸까?&lt;br /&gt;
+한줄 요약하자면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DFS 를 하는 와중에 더 이상 탐색할 필요가 없는걸 쳐내는 행위를 백트래킹&lt;/code&gt;이라고 한다.&lt;/p&gt;
+
+&lt;p&gt;DFS(Depth - First - Search) 는 깊이 우선 탐색을 의미한다.&lt;br /&gt;
+어떠한 내용을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;완전 탐색(브루트 포스)&lt;/code&gt;해야 할 때, 깊이 먼저 탐색하는 것을 의미한다.&lt;br /&gt;
+그리고 우린 이 DFS 를 여태 실컷 살펴보았던 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;재귀&lt;/code&gt;를 통해 구현할 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/7/7f/Depth-First-Search.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;DFS는 그래프나 트리와 연계되어 사용되지만, 본 글에서는 그래프나 트리의 내용 없이 DFS 그 자체에 대해서만 알아본다.&lt;br /&gt;
+완전 탐색(브루트 포스)라는 개념이 생소하다면 본 글에서는 모든 걸 다 탐색한다 정도로 인지하면 된다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;DFS는 완전탐색 중 하나이니, 모든걸 탐색해야하는 상황을 가정해보자.&lt;/p&gt;
+
+&lt;p&gt;1부터 6까지의 숫자 중에서 3개를 뽑는 모든 경우의 수를 출력해보고자 한다.&lt;br /&gt;
+여러가지 방법이 있겠지만 우린 다음과 같은 방법을 써보고자 한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/80164141/138796603-9199937a-948c-41c7-9bc3-9a34ac784fa8.gif&quot; alt=&quot;DFS&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;목표 출력 예제는 다음과 같다.&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  1 1 1                            |    수행 로직
+  1 1 2                            |    ① 3개의 빈칸을 만든다.
+  1 1 3                            |    ② 첫번째 자리에 1을 넣어본다.
+  1 1 4                            |    ③ 두번째 자리에 1를 넣어본다.
+  1 1 5                            |    ④ 세번째 자리에 1을 넣어본다
+  1 1 6                            |    ⑤ 세번째 자리에 1을 빼고, 2를 넣어본다.
+  1 2 1                            |    ⑥ 6까지 반복하고 나면, 두번째 자리를 2으로 바꾼다.
+  1 2 2                            |    ⑦ 세번째 자리를 1부터 채워넣는다.
+  ...                              |    ⑧ 6 6 6 가 될때까지 반복한다.  
+  6 6 4                            |
+  6 6 5                            |
+  6 6 6                            |
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;
+  &lt;br /&gt;&lt;br /&gt;
+  재귀함수로 구성할 것이며, 미리 코드를 보기 전에 고민해보는 것도 좋다.&lt;br /&gt;
+  코드는 다음과 같다.&lt;br /&gt;
+  &lt;br /&gt;
+  &lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+
+int arr[3];                                    // 빈칸을 전역변수로 선언하여 함수가 호출할 때 마다 넣어주는 번거로움을 줄였다.
+int N, M;                                      // 문제에선 6개 중 3개이지만, 언제든 입력값에 따라 바꿀 수 있게 N과 M으로 설정했다.
+                                               // 여기서는 각각 6과 3으로 직접 하드코딩하지만 밑의 예제는 N과 M으로 넣는다.
+
+void DFS(int depth){                           // 이 재귀함수는 depth 를 기준으로 움직인다. 따라서 Base Condition 도 depth 를 기준으로 작성된다.
+     if(depth == 3){                           // depth == 3일 때가 Base Condition 이다.
+        for(int i = 0; i &amp;lt; 3; i++){            // 배열에 쌓인 내용을 출력하고 있다.
+	    printf(&quot;%d &quot;, arr[i]);
+	}
+	printf(&quot;\n&quot;);
+	return;
+     }
+     
+     for(int i = 1; i &amp;lt;= 6; i++){              // Base Condition 이 아닐때 for문을 돌며 후보군(1 ~ 6)을 찾고 있다.
+	    arr[depth] = i;                    // 후보군을 찾으면 배열의 빈 칸에 넣고 있다.
+	    DFS(depth + 1);                    // 다음 깊이로 넘어가고 있다.
+     }
+}
+
+int main(){
+    scanf(&quot;%d %d&quot;, &amp;amp;N, &amp;amp;M);                    // N과 M을 받고 있다.
+    DFS(0);                                    // DFS를 0의 깊이부터 선언하고 있다.
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;DFS 재귀함수는 0부터 시작하고 있으며,&lt;br /&gt;
+배열의 인덱스 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0 1 2&lt;/code&gt; 를 하나의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;깊이&lt;/code&gt;로 인지하고, 0 -&amp;gt; 1 -&amp;gt; 2의 형태를 취하고 있다.&lt;/p&gt;
+
+&lt;p&gt;따라서 DFS 가 전달받는 depth 는 배열의 왼쪽부터 순서대로 탐색하게 된다.&lt;br /&gt;
+그렇게 DFS 는 1부터 6까지 3개의 숫자를 넣는 방법을 중복을 포함해서 전부 넣고있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://c.tenor.com/Q1utpA4Y2PYAAAAC/idea-eureka.gif&quot; alt=&quot;유레카&quot; /&gt;&lt;br /&gt;
+이것이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DFS&lt;/code&gt; 다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;깊이&lt;/code&gt;를 설정하고, 해당 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;깊이&lt;/code&gt;에 A가 있음을 상정하고, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;다음 깊이&lt;/code&gt;로 가서 해당 깊이에 있을 수 있는 것을 다시 넣고 !!&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;하지만 출력문을 보니 좀 불편하다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;모든걸 깊이대로 탐색&lt;/code&gt;하는건 좋은데 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;중복도 없애고 싶고&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;오름차순으로 정렬&lt;/code&gt;하고 싶은 마음이 들 수도 있다.&lt;br /&gt;
+그걸 수행하는 것이 바로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;백트래킹&lt;/code&gt;이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;-백트래킹&quot;&gt;③ 백트래킹&lt;/h3&gt;
+&lt;p&gt;위의 문제를 다시 한번 바꿔보자.&lt;br /&gt;
+이번에는 1부터 6까지의 숫자 중에서 3개를 뽑되,&lt;br /&gt;
+중복은 허용하지 않으며 오름차순으로 정렬할 것이다.&lt;br /&gt;
+그림으로 표현하자면 다음과 같아진다.&lt;br /&gt;
+&lt;img src=&quot;https://user-images.githubusercontent.com/80164141/138740819-c6b2e0f1-1eb8-458a-8909-68af4d8ceac9.gif&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;목표 출력 예제는 다음과 같다.&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  1 2 3          |      수행로직
+  1 2 4          |      3개의 빈칸을 만든다.
+  1 2 5          |      첫번째 자리에 1을 넣어본다.
+  1 2 6          |      두번째 자리에 2를 넣어본다.
+  1 3 4          |      세번째 자리에 3을 넣어본다.
+  1 3 5          |      세번째 자리에 3을 빼고, 4를 넣어본다.
+  ...            |      6까지 반복하고 나면, 두번째 자리를 3으로 바꾼다.
+  3 4 6          |      세번째 자리를 3을 제외한 2~6까지 넣어본다.
+  3 5 6          |      4 5 6 가 될때까지 반복한다. 
+  4 5 6          |      
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;재귀파트에서 살펴보았던 것과 마찬가지로, 이걸 반복문을 통해서 만들수도 있겠지만 제법 많은 고생을 해야한다.&lt;br /&gt;
+우리는 계산에 관한건 컴퓨터에 맡기고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;선언&lt;/code&gt;으로 구현하고자 한다.&lt;br /&gt;
+또한 조건에 부합하지 않는 것을 이제부터 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;유망하지 않다&lt;/code&gt;라고 표현한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+
+int arr[M];                                    // 빈칸을 전역변수로 선언하여 함수가 호출할 때 마다 넣어주는 번거로움을 줄였다.
+int visit[7] = {0, };                          // 마찬가지 이유이다. visit 배열의 용도는 사용한 숫자인지 아닌지를 체크한다. 0 = 미방문, 1 = 방문
+int N, M;                                      // 문제에선 6개 중 3개이지만, 언제든 입력값에 따라 바꿀 수 있게 N과 M으로 설정했다.
+
+void DFS(int depth){                           // 이 재귀함수는 depth 를 기준으로 움직인다. 따라서 Base Condition 도 depth 를 기준으로 작성된다.
+     if(depth == M){                           // depth == 3일 때가 Base Condition 이다.
+        for(int i = 0; i &amp;lt; 3; i++){            // 배열에 쌓인 내용을 출력하고 있다.
+	    printf(&quot;%d &quot;, arr[i]);
+	}
+	printf(&quot;\n&quot;);
+	return;
+     }
+     
+     for(int i = 1; i &amp;lt;= N; i++){              // Base Condition 이 아닐때 for문을 돌며 후보군을 찾고 있다.
+         if(!visit[i]){                        // 가지치기를 하고 있다, 방문한 곳은 가지 않고 있다.
+	    arr[depth] = i;                    // 조건에 부합하면 빈 칸에 넣고 있다.
+	    visit[i] = 1;                      // 가지치기를 위해 조건을 설정하고 있다, 방문한 곳을 방문했다라고 표현하고 있다.
+	    DFS(depth + 1);                    // 다음 깊이로 넘어가고 있다.
+	    visit[i] = 0;                      // 다음 단계를 위해 초기화해주고 있다.
+	 }
+     }
+}
+
+int main(){
+    scanf(&quot;%d %d&quot;, &amp;amp;N, &amp;amp;M);
+    DFS(0);
+}
+
+//P.s. C언어에서 배열은 변수를 넣어 선언할 수 없어서, stdlib.h 의 동적할당 int* arr = (int*)malloc(sizeof(int) * M)) 을 사용해야하나
+//       이해의 편의를 위해서 arr[M]을 넣었다.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;가장 상단에서 재귀함수에 필요하되, depth 가 아닌 것들을 전부 전역변수로 선언하였다.&lt;/p&gt;
+
+&lt;p&gt;DFS 재귀함수는 depth 라는 매개변수를 가지고서, Base Condition 에 도달하도록 조정되고 있다.&lt;br /&gt;
+여기서는 depth 가 0부터 1씩 증가하며, Base Condition 이 3일 때 배열에 담긴 내용을 출력하고 종료되도록 설계되었다.&lt;/p&gt;
+
+&lt;p&gt;DFS 재귀함수에서 for문은 Baes Condition 에 도달하지 못했을 때 for 문에 들어가게 된다.&lt;br /&gt;
+for 문에서는 후보군을 찾는 것과 동시에, 후보군을 찾더라도 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;방문하지 않은 곳&lt;/code&gt; 이라는 조건에 부합하지 않으면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;유망하지 않으니&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;가지치기&lt;/code&gt;하고 있다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;유망하면&lt;/code&gt; 배열에 넣고, 방문처리를 한 후에, 다음 depth + 1 을 한 DFS를 호출함으로써 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;다음 깊이&lt;/code&gt;로 넘어가고 있다.&lt;/p&gt;
+
+&lt;p&gt;하나의 재귀함수가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Base Condition (depth == 3)&lt;/code&gt;에 도달하더라도&lt;br /&gt;
+for 문에서 불려졌던 재귀함수들은 아직 종료되지 않았다.&lt;br /&gt;
+DFS를 호출한 그곳으로 다시 돌아가서 방문처리 한 내용을 다시 미방문처리하고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(== 해당 깊이의 끝을 보아서 거슬러 올라가기)&lt;/code&gt;,&lt;br /&gt;
+for 문에서 다음 후보군을 찾고 다시 가지치기를 진행하고, 배열에 넣고, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;유망&lt;/code&gt;한지 확인하고, 다음 깊이로 넘어가는 작업을 반복하고 있다.&lt;br /&gt;
+또한 for 문은 계속해서 증가하게 되므로, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;오름차순&lt;/code&gt;으로 자연스럽게 정렬이 된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;이것이 깊이 우선 탐색에서 사용되는 백트래킹이다.  &lt;br /&gt;
+그래프와 트리의 개념없이 설명되었지만 사실 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;다음 깊이&lt;/code&gt;로 상정한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;배열&lt;/code&gt; 을, 다음 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;노드&lt;/code&gt;로 바꾼다면 같은 맥락이 된다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;결론&quot;&gt;결론&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://c.tenor.com/k0HlwNZW9ZsAAAAC/kindergarden-congratulations.gif&quot; alt=&quot;Congratulation&quot; /&gt;&lt;br /&gt;
+&lt;img src=&quot;https://media3.giphy.com/media/95P1vO6r7rsk0/giphy.gif&quot; alt=&quot;Thank you&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;여기까지 따라와주셔서 감사합니다 :)&lt;/p&gt;
+
+&lt;p&gt;이제 다시 한번 맨 위의 글을 보면 무슨 내용을 말했는지 완벽하게 이해가 갈 것이다.&lt;br /&gt;
+여기까지 읽었다면 백트래킹을 좀 더 체화하기 위해서 &lt;a href=&quot;https://www.acmicpc.net/workbook/view/2052&quot;&gt;백준의 N과 M 시리즈&lt;/a&gt;를 전부 풀어보는 것을 추천한다.&lt;br /&gt;
+설령 내용이 완벽하게 이해가 안 가더라도, 문제를 풀면서 자연스럽게 체화될 것이다.&lt;/p&gt;
+
+&lt;p&gt;그리고 N과 M을 전부 풀었다면, 당신은 그 악명높은 &lt;a href=&quot;https://www.acmicpc.net/problem/9663&quot;&gt;N-Queen&lt;/a&gt; 문제도 풀 수 있는 실력이 된 것이다.&lt;br /&gt;
+화이팅 !&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+  &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;안뇽 ~ :)&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/80164141/138802009-f777c0cc-d1d1-4cde-8702-9c5e52329e74.gif&quot; alt=&quot;북극여우가 눈으로 점프하는 짤&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;참고&quot;&gt;참고&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://burning-camp.tistory.com/66&quot;&gt;[자료구조] 스택(Stack)이란?&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://ko.wikipedia.org/wiki/피보나치_수&quot;&gt;피보나치 수열&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.youtube.com/watch?v=WPSeyjX1-4s&amp;amp;t=1502s&quot;&gt;6. Recursion and Dictionaries&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://www.youtube.com/watch?v=q6RicK1FCUs&amp;amp;t=1s&quot;&gt;Tower of Hanoi Problem - Made Easy&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;https://geniusnohkang.tistory.com/28&quot;&gt;반복과 재귀 : DFS 문제를 재귀로 구현하면 편리한 이유&lt;/a&gt;&lt;/p&gt;</content><author><name>Newon</name></author><category term="Algorithm" /><category term="문과생_시리즈" /><category term="Recursive" /><category term="DFS" /><category term="Backtracking" /><summary type="html">문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인) 들어가기에 앞서서, 해당 글은 기본적인 문법 (for, while, print, 입력받기, 배열)에 대해서 알고 있음을 전제로 합니다. 만약 기본적인 문법을 모르는 상태라면 반복문과 출력, 배열, 입력받기에 대해서 먼저 이해한 후 다시 찾아와주세요. :) 이 글은 백트래킹만 언급하는 것이 아니라 재귀함수부터 백트래킹까지 모든 내용을 차례대로 다룹니다. 그 과정에서 약간의 자료구조(Stack), 명령형 프로그래밍과 선언형 프로그래밍의 차이, DFS 를 재귀로 구현하는 이유 등에 대해서 언급합니다. 예제에서 C언어와 Kotlin 을 섞어서 사용하고 있지만, 최대한 언어적 특징없이 기본적인 문법만 사용합니다. 글은 작성자가 이해한 흐름에 따라 작성되었으며, 의식의 흐름에 따라 작성되어 존대없이 편한 말로 작성되었습니다. 오류 및 오타 지적 감사합니다. :) 작성자 : 뉴원(Newon)</summary></entry><entry><title type="html">문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)</title><link href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html" rel="alternate" type="text/html" title="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)" /><published>2021-11-25T00:00:00+00:00</published><updated>2021-11-25T00:00:00+00:00</updated><id>/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD%20%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98)</id><content type="html" xml:base="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html">&lt;h1 id=&quot;문과생이-적어보는-유클리드-호제법-aka-gcd-알고리즘&quot;&gt;문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)&lt;/h1&gt;
+&lt;h3 id=&quot;유클리드-호제법--나눗셈-알고리즘으로-최대-공약수-구하기&quot;&gt;유클리드 호제법 == 나눗셈 알고리즘으로 최대 공약수 구하기&lt;/h3&gt;
+&lt;p&gt;작성자 : 뉴원 (Newon)&lt;br /&gt;&lt;br /&gt;
+유클리드 호제법이란 &lt;br /&gt;
+두 정수 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a, b&lt;/code&gt;ﾠﾠ|ﾠﾠ   a 와 b 의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;최대공약수 𝒹&lt;/code&gt;  ﾠﾠ|ﾠﾠ  a / b 했을 때 나오는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;나머지 𝛾&lt;/code&gt;  ﾠﾠ|ﾠﾠ  이 있을 때  &lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹 = gcd(a, b) = gcd(b, 𝛾)&lt;/code&gt; 가 성립함을 의미한다. &lt;br /&gt;
+&lt;em&gt;이때 gcd(a, b) 는 a 와 b 사이의 최대공약수를 뜻한다.&lt;/em&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;이때 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹 = gcd(a, b) = gcd(b, 𝛾)&lt;/code&gt; 를 확장해서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´&lt;/code&gt;이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b를 𝛾로 나누었을때의 나머지&lt;/code&gt;라고 한다면 &lt;br /&gt; 
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹 = gcd(a, b) = gcd(b, 𝛾) = gcd(𝛾, 𝛾´) ... &lt;/code&gt; 이 성립하게 된다. &lt;br /&gt;
+이 성질을 이용해서 알고리즘에서 최대공약수를 구할 때 gcd 를 구하는 함수를 만들고, 이를 for 문이나 재귀함수로 반복해서 푸는 방법이 성립하게 된다.&amp;lt;/br&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;이를 간단하게 코드로 작성하면 다음과 같이 나타난다. &lt;br /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;
+fun Gcd(a:Int, b:Int):Int {
+    var r = a % b
+    if (r == 0)
+       return b
+    else
+       return Gcd(b, r)
+}
+
+fun main() {
+    val br = System.`in`.bufferedReader()
+    val (a,b) = br.readLine().split(' ').map {it.toInt()}
+    
+    var gcd = Gcd(a,b)
+    println(gcd)                                               // a 와 b 의 최대공약수
+    println(a*b/gcd)                                           // a 와 b 의 최소공배수
+    
+/* 
+*    백준 2609, 최대공약수와 최소공배수 문제이다.
+*    코틀린으로 작성되었다.
+*/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;이게-왜-됨&quot;&gt;이게 왜 됨?&lt;/h3&gt;
+&lt;p&gt;글의 본문이다. 왜 될까? &lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;center&gt;
+&lt;img src=&quot;https://mblogthumb-phinf.pstatic.net/MjAxODEwMTFfMTYw/MDAxNTM5MjI1OTcxODc5.WnNZInoiz0MY7txOJLbGB_IJ-OGoJfKqDOGxfV_DSi8g.IMZ0kIqROr2lmavgFniMfueg4htsBZj33S5oaaLwUKsg.GIF.pola0216/source.gif?type=w800&quot; /&gt;
+&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;a, b, 𝛾(= a와 b의 나머지) 에는 무슨 관계가 있길래 gcd(a,b) 와 gcd(b,𝛾) 과 같고, 𝛾가 𝛾의 나머지(𝛾´) 의 최대공약수, gcd(𝛾, 𝛾´)와 같고 &lt;br /&gt;이걸 { … } 반복해도 성립하게 되는걸까?&lt;br /&gt;
+&lt;br /&gt;
+이게 왜 되는지 이해해보는 것이 이 글의 목표이다.&lt;/em&gt;&lt;/strong&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;두 정수 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a, b&lt;/code&gt;가 있고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a &amp;gt; b&lt;/code&gt; 이면서, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹(최대공약수)&lt;/code&gt; 를 지니고 있는 수를 통해 알아보자. ﾠﾠﾠﾠﾠ ﾠﾠﾠﾠﾠ ﾠﾠﾠﾠﾠﾠ&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;대전제 = a 와 b 의 최대공약수 𝒹&lt;/code&gt;&lt;br /&gt;
+우선 우리는 a 와 b 의 최대공약수 𝒹를 알고 있으니, a 와 b 를 다음과 같이 바꿔본다.&lt;br /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a = 𝒹 * ⍺&lt;/code&gt;&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b = 𝒹 * β&lt;/code&gt;&lt;br /&gt;
+⍺와 β는 𝒹를 곱했을 때 각각 a 와 b 가 나오는 정수
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;그럼 우린 다음과 같이 쓸 수 있다.&lt;br /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a = q * b + 𝛾&lt;/code&gt;ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠq 는 a / b 의 목,ﾠ 𝛾 은 나머지이다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹 * ⍺ = q * 𝒹 * β + 𝛾&lt;/code&gt;ﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠa  를 𝒹 * ⍺로,ﾠ b 를  𝒹 * β 로 치환했다.ﾠﾠﾠﾠ ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ⍺와 β는 조건을 만족하는 임의의 수&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾 = 𝒹 (⍺ - q * β)&lt;/code&gt;ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠ위의  식을  𝛾  과  나머지로  정리하였다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾 = 𝒹    *   (⍺ - q * β)&lt;/code&gt;ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠ?!ﾠﾠ 𝛾 ﾠ로 정리하였더니,ﾠ  𝒹  *  (⍺ - q * β) 의 형태이므로,ﾠ 𝛾 의 약수에도 𝒹 가 들어감을 알 수 있다 !! 
+&lt;br /&gt;
+올, 위와 같이 정리하였더니 우리는 𝛾 의 약수에 a 와 b 의 최대공약수인 𝒹가 있음을 알 수 있었다!! &lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;그렇다면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹는 b 와 𝛾 의 최대공약수&lt;/code&gt;이기도 할까?&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;그렇다, 이것이 이 글의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심 주제 ①&lt;/code&gt;이다.&lt;/em&gt;&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹는 a 와 b 와 𝛾의 최대공약수&lt;/code&gt;가 참인지 거짓인지 확인하는 것이 오늘 주제의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심 주제&lt;/code&gt; 중 하나이다.&lt;br /&gt;
+&lt;br /&gt;
+&lt;em&gt;미리 스포하자면 핵심 주제는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심 주제 ② (crazy_𝛾은 언젠가는 0이 될 수 밖에 없다)&lt;/code&gt; 까지 있다.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;우리는 현재 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a&lt;/code&gt; 와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b&lt;/code&gt; 의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;최대공약수가 𝒹&lt;/code&gt; 라는 것을 알고 있으며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾 에도 𝒹라는 공약수&lt;/code&gt;가 들어간다는 것을 안다. &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;이때 &lt;strong&gt;𝛾 에게 있어서도 𝒹가 최대공약수가 된다면&lt;/strong&gt; &lt;br /&gt;
+우리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a 와 b 와 𝛾 의 최대공약수가 𝒹 로 같다&lt;/code&gt;는 것을 알 수 있게 된다 !!&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;𝛾-의-최대공약수가-a와-b의-최대공약수인-𝒹-와-같다는-동화--가능-&quot;&gt;𝛾 의 최대공약수가 a와 b의 최대공약수인 𝒹 와 같다는 동화 .. 가능 ?&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;https://thumbs.gfycat.com/ElectricMadIvorybackedwoodswallow-size_restricted.gif&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;인생은 호락호락하지 않다, 그리고 우리는 𝒹가 𝛾의 최대공약수라고 확신할 수 없다. &lt;br /&gt;
+확신할 수 없으니 &lt;strong&gt;&lt;em&gt;𝒹 가 𝛾의 최대공약수가 아님&lt;/em&gt;&lt;/strong&gt; 이라고 가정해보자.ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ ﾠ&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;대 가정 = 𝒹 가 𝛾의 최대공약수가 아님&lt;/code&gt;&lt;br /&gt;
+&lt;br /&gt;
+𝛾의 최대공약수가 𝒹 가 아니라면, 𝛾 의 최대공약수는 그 어떤 임의의 수 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹´&lt;/code&gt; 일 것이다.&lt;br /&gt;
+잠시 정리해서&lt;br /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;𝒹 = gcd(a,b) 이고 𝒹´ = gcd(b, 𝛾) 이라면&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;𝒹´ 는 언제나 𝒹 보다 작아야한다.ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;조건 ① = (𝒹 &amp;lt; 𝒹´)&lt;/code&gt;&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;왜? &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;대 가정&lt;/code&gt;에 의해서 𝒹 는 𝛾 의 최대공약수가 아니고, 𝒹´ 가 𝛾 의 최대공약수이어야 하기 때문이다.&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;현재 우리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;대 가정&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;조건 ①&lt;/code&gt;를 갖고 있다. &lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;그럼, 𝒹´의 관점에서 b 와 𝛾를 다시 써보자.&lt;br /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;b = 𝒹´ * b´ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠb´은  b = 𝒹´ * b´ 를 만족하는 수&lt;br /&gt;
+𝛾 = 𝒹´ * r´ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠr´은 𝛾 = 𝒹´ * r´를 만족하는 수&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;이걸 위에서 사용했던 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a = q * b + 𝛾&lt;/code&gt;ﾠﾠﾠ에 대입해보자. &lt;br /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;a = q * 𝒹´ * b´ﾠ+ 𝒹´ * r´ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ// b 와 r 에 𝒹´에서 본 b 와 r 를 넣었다.&lt;br /&gt;
+a = 𝒹´ * (q * b´ + r´)ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ// 넣어본 김에 깔끔하게 𝒹´로 정리해보았다.&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;어 ? a 의 공약수에도 𝒹´가 들어간다.&lt;br /&gt;
+하지만 알다시피, 대전제로 우리는 a 와 b 의 최대공약수 𝒹 라고 하였으며, &lt;br /&gt;
+또 따라서 𝒹´는 𝒹 보다 작을 수 밖에 없다 !!ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;조건 ② = (𝒹´ &amp;lt; 𝒹)&lt;/code&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+? &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;조건 ① = (𝒹 &amp;lt; 𝒹´)&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;조건 ② = (𝒹´ &amp;lt; 𝒹)&lt;/code&gt; 이 모순된다. &lt;br /&gt;
+문과인 나도 안다. &lt;strong&gt;어떠한 정수 𝒹가 𝒹´ 보다 작으면서 클 수는 없다&lt;/strong&gt; &lt;br /&gt;
+&lt;br /&gt;
+그렇다면 잘못된 건 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;대 가정 = 𝒹 가 𝛾의 최대공약수가 아님&lt;/code&gt; !! &lt;br /&gt;
+해당 가정의 결론이 거짓이니, 그 가정의 반대는 참 ! 즉 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹 는 𝛾의 최대공약수임&lt;/code&gt;&lt;br /&gt;
+&lt;br /&gt;
+무슨소리냐고? &lt;br /&gt;
+다음 gif를 참고해보자.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;따라서 우리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.&lt;/code&gt; 는 이야기가 동화인 줄 알았지만 &lt;br /&gt;
+사실 팩트기반 실제 사례 기반 수필로써 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심주제 ① : a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.&lt;/code&gt; 가 True임을 알 수 있었다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;ㅇㅋ-근데-왜-a-와-b-와-𝛾-의-최대공약수가-같다고-그걸-저렇게-반복해도-성립하는거임&quot;&gt;ㅇㅋ, 근데 왜 a 와 b 와 𝛾 의 최대공약수가 같다고 그걸 저렇게 반복해도 성립하는거임?&lt;/h3&gt;
+&lt;p&gt;그렇다, 우리가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심 주제 ① : a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.&lt;/code&gt; 라는 팩트를 갖고 있어도 &lt;br /&gt;
+우리는 코틀린 예제로 쓰인 저 코드가 잘 작동하게 되는 이유를 아직 찾지 못했다.&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://postfiles.pstatic.net/MjAyMDA2MjZfMTg2/MDAxNTkzMTYzMTAxNzEz.2ZOU95zPr-Yf7OWs9Iy_qCnvEhVKm2dXLkhaBXATNtUg.8ZPKSf1bE8wpKfN1uR3aXVzZv9YIfl6q2aB3cKgeh84g.GIF.c_blub/48C5FAA5-5FDB-421A-95EA-331A34587FA5.gif?type=w966&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;코드를 다시 한번 살펴보자&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;
+fun Gcd(a:Int, b:Int):Int {
+    var r = a % b
+    if (r == 0)
+       return b
+    else
+       return Gcd(b, r)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Gcd() 는 나머지 𝛾 이 0이 될 때 모든 연산을 끝내게 된다.&lt;br /&gt;
+다시 말하면 𝛾 은 유한한 횟수 안에 언젠가 0 된다는 것이다.&lt;br /&gt; 
+언젠가는 나머지가 0이 된다라는걸 확신하는 듯한 저 표정이 거만하기 짝이 없다. 저게 블러핑인지 아닌지 한번 확인해보자. &lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a / b 의 나머지가 𝛾&lt;/code&gt; 이듯, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b / 𝛾 의 나머지가 𝛾´&lt;/code&gt; 라고 말해보자.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심 주제 ① = 𝒹 는 a와 b 와 𝛾의 최대공약수임&lt;/code&gt; 에 따라서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gcd(a, b) = gcd(b, 𝛾)&lt;/code&gt; 이듯 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gcd(b, 𝛾) 은 gcd(𝛾, 𝛾´)&lt;/code&gt; 이다.&lt;br /&gt;
+&lt;br /&gt;
+..어 왜?
+&lt;br /&gt;
+&lt;br /&gt;
+두 정수 a 와 b 를 다시 한번 살펴보자. (a &amp;gt; b), a 와 b 의 최대공약수를 𝒹 라고 할 때 &lt;br /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;a = q * b + 𝛾&lt;br /&gt;
+gcd(a, b) = gcd(b, 𝛾) &lt;br /&gt;
+a 와 b 의 최대공약수 == b 와 𝛾 의 최대공약수&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;마찬가지로 이번엔 위의 내용과 상관없이 순수하게 두 정수 b 와 r 을 살펴보자. (b &amp;gt; 𝛾) &lt;br /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;b = q * 𝛾 + 𝛾´&lt;br /&gt;
+gcd(b, 𝛾) = gcd (𝛾, 𝛾´) &lt;br /&gt;
+b 와 𝛾 의 최대공약수 == 𝛾 와 𝛾´의 최대공약수&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심 주제 ① = a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.&lt;/code&gt;에 따라서 &lt;br /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;gcd(a,b) == gcd(b,𝛾) 인데&lt;/li&gt;
+  &lt;li&gt;gcd(b,𝛾) == gcd(𝛾, 𝛾´) 이니&lt;/li&gt;
+  &lt;li&gt;gcd(a,b) == gcd(𝛾, 𝛾´) 이다.
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;오, 그렇다면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´ 과 𝛾´´&lt;/code&gt; 사이에도 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;최대공약수는 𝒹&lt;/code&gt; 이고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´´ 과 𝛾´´´&lt;/code&gt; 에도 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;최대공약수는 𝒹&lt;/code&gt; 이고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´´´ 과 𝛾´´´´&lt;/code&gt; 에도 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹&lt;/code&gt; 이고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;{ ... }&lt;/code&gt; 에도 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝒹&lt;/code&gt;  &lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+무한한 나머지와 그 나머지의 최대공약수는 언제나 a 와 b 의 최대공약수와 같다는 건 알겠지만, 혹시 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´´´´´´{...}&lt;/code&gt;가 0이 안되면 어떻게 될까?? &lt;br /&gt;
+&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´´´´´´{...}&lt;/code&gt; 를 이제부터 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾&lt;/code&gt;이라고 불러보자.&lt;br /&gt;
+나머지를 계속하다보면 언젠가는 우린 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾&lt;/code&gt;를 만나게 될텐데, 그때의 식은 다음과 같을 것이다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;b &amp;gt; 𝛾 &amp;gt; 𝛾’ &amp;gt; 𝛾’’ &amp;gt; 𝛾’’’ … crazy_r != 0 &lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;우리는 기억해내야 한다, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b&lt;/code&gt; 와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾&lt;/code&gt; 도, 그 어떠한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾&lt;/code&gt; 들도 모두 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;정수&lt;/code&gt; 라는 것을.&lt;br /&gt;
+즉, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾&lt;/code&gt; 이 정수고, 0이 아니라면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;less_crazy_𝛾&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾&lt;/code&gt;로 나눠서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;more_crazy_𝛾´&lt;/code&gt;라는 정수를 만들 수 있으니&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;b &amp;gt; 𝛾 &amp;gt; 𝛾’ &amp;gt; 𝛾’’ &amp;gt; 𝛾’’’ … &amp;gt; less_crazy_𝛾 &amp;gt; crazy_𝛾 &amp;gt; more_crazy_𝛾 &amp;gt; more_crazy_𝛾2 { … } &lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;가 성립함을 알 수 있고, 여기서 항상 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾 &amp;gt; more_crazy_𝛾&lt;/code&gt;를 성립하게 된다. &lt;br /&gt;
+왜냐하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;more_crazy_𝛾&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾&lt;/code&gt;의 나머지이니까.&lt;br /&gt;
+&lt;br /&gt;
+정수가 언제나 앞의 숫자보다 작아진다면, 언젠가는 0에 도달하게 된다. 왜냐고? 그것이 정수이니까 (끄덕) &lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;a &amp;gt; b 일 때, a 와 b 가 정수라면 a 와 b 차이의 최솟값은 1&lt;br /&gt;
+a &amp;gt; b &amp;gt; b’ 는 최소한 1씩 줄어드는 정수이며, 이게 계속해서 반복된다면 언젠가는 0에 도달하게 된다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;따라서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심주제 ② = crazy_𝛾은 언젠가는 0이 될 수 밖에 없다&lt;/code&gt; !!&lt;br /&gt;
+&lt;br /&gt;
+&lt;img src=&quot;https://blog.kakaocdn.net/dn/b7Rey8/btqExZC771a/cZofK59sF1KN00Exlz3sWK/img.gif&quot; /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+마지막으로 코드를 다시 한번 살펴보면&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;
+fun Gcd(a:Int, b:Int):Int {
+    var r = a % b
+    if (r == 0)
+       return b
+    else
+       return Gcd(b, r)
+}
+{ ... }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;var r&lt;/code&gt; 은 재귀함수로 돌아가며 계속해서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´´&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾´´´&lt;/code&gt; {…} &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crazy_𝛾&lt;/code&gt; 이 된다 하더라도 &lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심주제 ② = crazy_𝛾은 언젠가는 0이 될 수 밖에 없다&lt;/code&gt;에 의해서 언젠가는 0이 된다는 걸 할 수 있다.&lt;br /&gt;
+그렇기 때문에, 위의 코드가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;무한히 돌지 않고 유한한 횟수 내에서&lt;/code&gt; 나머지가 0인 순간을 찾을 수 있는 것이다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;결론&quot;&gt;결론&lt;/h3&gt;
+&lt;p&gt;유클리드 호제법을 통해 우리는 다음과 같이&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심주제 ① : a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;핵심주제 ② : crazy_𝛾은 언젠가는 0이 될 수 밖에 없다&lt;/code&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;가 성립함을 알 수 있었고, 이에 따라 Gcd(최대공약수)를 구하는, 소위 나머지 알고리즘라는 것이 성립함을 알 수 있었다. &lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;즉 정수 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾&lt;/code&gt; 이 있을 때&lt;br /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Kotlin&quot;&gt;fun Gcd(a:Int, b:Int):Int {
+    var r = a % b
+    if (r == 0)
+       return b
+    else
+       return Gcd(b, r)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;와 같이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a&lt;/code&gt; 와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b&lt;/code&gt; 를 나눈 나머지 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;𝛾&lt;/code&gt;가 0이 될 때 까지&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a = b&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b = r&lt;/code&gt; &lt;br /&gt;
+을 반복하다보면 언젠가 최대공약수가 나온다는 것을 알게되었다.&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Gcd 문제 푸는데 이걸 다 알아야 하냐고?&lt;/em&gt; &lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://postfiles.pstatic.net/MjAyMDA2MjZfMTg2/MDAxNTkzMTYzMTAxNzEz.2ZOU95zPr-Yf7OWs9Iy_qCnvEhVKm2dXLkhaBXATNtUg.8ZPKSf1bE8wpKfN1uR3aXVzZv9YIfl6q2aB3cKgeh84g.GIF.c_blub/48C5FAA5-5FDB-421A-95EA-331A34587FA5.gif?type=w966&quot; width=&quot;200&quot; height=&quot;200&quot; /&gt;
+&lt;img src=&quot;https://storage.googleapis.com/jjalbot-jjals/2018/12/rylg064feE/20171212_5a2ea716c5d24.gif&quot; width=&quot;200&quot; height=&quot;200&quot; /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;출처 &lt;br /&gt;
+brain from 감자 4호 &lt;br /&gt;
+// 알고리즘 공부하면서 알아본 내용입니다, 오류 • 오타 등 알려주시면 정말 감사하겠습니다 :)&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>Newon</name></author><category term="Algorithm" /><category term="문과생_시리즈" /><category term="Math" /><category term="GCD" /><summary type="html">문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘) 유클리드 호제법 == 나눗셈 알고리즘으로 최대 공약수 구하기 작성자 : 뉴원 (Newon) 유클리드 호제법이란 두 정수 a, bﾠﾠ|ﾠﾠ a 와 b 의 최대공약수 𝒹 ﾠﾠ|ﾠﾠ a / b 했을 때 나오는 나머지 𝛾 ﾠﾠ|ﾠﾠ 이 있을 때 𝒹 = gcd(a, b) = gcd(b, 𝛾) 가 성립함을 의미한다. 이때 gcd(a, b) 는 a 와 b 사이의 최대공약수를 뜻한다.</summary></entry><entry><title type="html">포트와 인바운드, 아웃바운드 규칙</title><link href="/server/2021/11/25/%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%9D%B8%EB%B0%94%EC%9A%B4%EB%93%9C,-%EC%95%84%EC%9B%83%EB%B0%94%EC%9A%B4%EB%93%9C-%EA%B7%9C%EC%B9%99.html" rel="alternate" type="text/html" title="포트와 인바운드, 아웃바운드 규칙" /><published>2021-11-25T00:00:00+00:00</published><updated>2021-11-25T00:00:00+00:00</updated><id>/server/2021/11/25/%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%9D%B8%EB%B0%94%EC%9A%B4%EB%93%9C,-%EC%95%84%EC%9B%83%EB%B0%94%EC%9A%B4%EB%93%9C-%EA%B7%9C%EC%B9%99</id><content type="html" xml:base="/server/2021/11/25/%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%9D%B8%EB%B0%94%EC%9A%B4%EB%93%9C,-%EC%95%84%EC%9B%83%EB%B0%94%EC%9A%B4%EB%93%9C-%EA%B7%9C%EC%B9%99.html">&lt;h2 id=&quot;포트port-란&quot;&gt;포트(port) 란?&lt;/h2&gt;
+
+&lt;p&gt;네트워크에서 사용되는 port 는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;불어 porte = 문(door)/관문(gateway)&lt;/code&gt; 에서 유래된 것으로 알려져있다.&lt;br /&gt;
+port 는 의미 그대로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;문(door)&lt;/code&gt;이자, 논리적인 단위로서 IP를 통해 접속한 컴퓨터에서 어떤 곳으로 연결할지 구분시키는 역할을 한다.&lt;br /&gt;
+&lt;br /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;다음은 클라이언트가 IP만 가지고 접속했을 때 모습으로, 컴퓨터는 클라이언트가 자신에게 접속했다는 것은 인지하지만 어떤 응답을 해줘야 하는지 모르는 상태이다.
+&lt;img width=&quot;720&quot; alt=&quot;클라이언트가 IP만 가지고 컴퓨터로 가면 컴퓨터는 무엇을 요구하는지 모른다.&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124705387-91a70b00-df30-11eb-96e2-1396f432eb4b.png&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;다음은 클라이언트가 IP와 포트를 함께 사용해서 접속했을 때 모습으로, 컴퓨터는 클라이언트가 언급한 포트를 listen 해서 80번 포트에 해당하는 서버를 원한다는 것을 인지하고, 해당 서버를 제공한다.
+&lt;img width=&quot;720&quot; alt=&quot;IP:port 로 접속해서, 컴퓨터가 해당 포트에 해당하는 서버를 응답해준다.&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124705399-9370ce80-df30-11eb-8eec-e9cdabf56fd9.png&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이렇듯 클라이언트는 IP를 통해서 컴퓨터에 접속할 때, 어떤 것을 원하는지 정확하게 설명을 해줘야하고 이를 위해서 사용하는 논리적인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;약속&lt;/code&gt;이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;port&lt;/code&gt;이다.&lt;/p&gt;
+
+&lt;p&gt;port는 0번부터 65535 사용할 수 있으나&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0 ~ 1023&lt;/code&gt; : Well-known port
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1024 ~ 49151&lt;/code&gt; : Registered port
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;49151 ~ 65535&lt;/code&gt; : Dynamic port 
+로 구분해서 사용되고 있다. 포트의 규칙을 따르지 않고, 원하는 포트를 임의대로 설정해줘도 작동은 하지만 다른 서버와 연결될 때 오류가 날 수 있기에 관습적으로 위의 포트들을 따라서 사용하고 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Well-known port&lt;/code&gt;는 의미 그대로 정말 잘 알려진 포트들을 의미한다. 80번의 http, 22 번의 ssh와 같이 자주 사용되는 포트들에 해당한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Registered port&lt;/code&gt;는 특정 용도로 사용하기 위해서 쓰이는 포트들로, 3306 포트의 mySQL, 80번 port 를 대체하기 위한 8080 포트 (웹서버가 2개 이상인 경우) 등이 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dynamic port&lt;/code&gt;는 특별히 지정되지 않은 포트들로 자유롭게 사용해도 무방하다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;인바운드-규칙과-아웃바운드-규칙&quot;&gt;인바운드 규칙과 아웃바운드 규칙&lt;/h2&gt;
+
+&lt;p&gt;포트가 서버를 통하는 문의 역할을 하는 만큼, 악성 코드나 바이러스 역시 포트를 통해서 유포된다. 그렇기 때문에 IP를 통해 접속한 클라이언트에게 언제나 모든 포트를 개방하는 것은 위험한 요소가 된다. 이를 막기 위한 규칙이 인바운드 규칙과 아웃바운드 규칙이다.&lt;/p&gt;
+
+&lt;h3 id=&quot;인바운드규칙&quot;&gt;인바운드규칙&lt;/h3&gt;
+&lt;p&gt;인바운드 규칙은 클라이언트가 자신의 서버 데이터에 들어올 수 있는 규칙을 의미한다. 서버에 접속하고, 해당 데이터들을 읽을 수 있으며 권한 여부에 따라서 생성, 수정, 삭제도 허용하는 규칙이다. 클라이언트가 서버의 데이터에 접속하는 권한이므로, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;기본적으로 인바운드 규칙은 모든 포트를 닫는 것&lt;/code&gt;을 전재로 한다. 즉, 인바운드 규칙에서 설정하지 않은 포트들은 사용할 수 없는 포트이며, 해당 포트를 사용하더라도 접속 자체를 막게된다.&lt;/p&gt;
+
+&lt;p&gt;동그라미 클라이언트와 마름모 클라이언트의 상황을 통해서 살펴보자.
+&lt;img width=&quot;720&quot; alt=&quot;인바운드 규칙에서 설정한 포트만 접속할 수 있다.&quot; src=&quot;https://user-images.githubusercontent.com/80164141/124709917-07ae7080-df37-11eb-8d43-3fa62ad77654.png&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;동그라미 클라이언트는 인바운드 규칙에서 설정되어 있는 80번 포트를 요청했고, 서버는 인바운드 규칙에서 설정한 포트, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;데이터에 접속할 수 있는 권한이 허용된 포트&lt;/code&gt;이므로 클라이언트에게 80번 포트에 해당하는 HTTP 서버를 흔쾌히 주고 있는 모습이다.&lt;/li&gt;
+  &lt;li&gt;마름모 클라이언트는 인바운드 규칙에 없는 22번 포트를 요청했고, 서버는 인바운드 규칙에 없는 포트라는 것을 인지했다. 따라서 서버는 22번에 해당하는 SSH 포트가 있다는 것을 알고 있지만, 존재 유무를 떠나서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;인바운드 규칙에서 허용하지 않은 포트&lt;/code&gt;이므로 접속 자체를 거부했다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;아웃바운드-규칙&quot;&gt;아웃바운드 규칙&lt;/h3&gt;
+&lt;p&gt;아웃바운드 규칙은 서버에서 나갈 수 있는 (반출할 수 있는) 데이터에 대한 규칙을 의미한다. 인바운드 규칙에서 허용된 포트로 들어왔다고 한들, 아웃바운드 규칙에서 데이터 반출이 허용되지 않은 포트라면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;클라이언트는 &quot;다운로드&quot;를 할 수 없게 된다.&lt;/code&gt; 보통 아웃바운드 규칙은 기본 옵션으로 모든 포트에게 허용되어 있는 편이다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;출처
+컴퓨터의 도로, 포트(port)란 무엇일까? &lt;a href=&quot;https://blog.alyac.co.kr/1218&quot;&gt;출처&lt;/a&gt;&lt;br /&gt;
+[Windows] 윈도우 포트 열기 - 인바운드 규칙/아웃바운드 규칙 &lt;a href=&quot;https://timeboxstory.tistory.com/11&quot;&gt;출처&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>Newon</name></author><category term="Server" /><category term="Port" /><summary type="html">포트(port) 란?</summary></entry></feed>

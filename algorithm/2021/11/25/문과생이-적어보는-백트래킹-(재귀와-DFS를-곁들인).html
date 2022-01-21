@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c"></meta><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인) | Newon’s blog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)" />
+<meta name="author" content="Newon" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인) 들어가기에 앞서서, 해당 글은 기본적인 문법 (for, while, print, 입력받기, 배열)에 대해서 알고 있음을 전제로 합니다. 만약 기본적인 문법을 모르는 상태라면 반복문과 출력, 배열, 입력받기에 대해서 먼저 이해한 후 다시 찾아와주세요. :) 이 글은 백트래킹만 언급하는 것이 아니라 재귀함수부터 백트래킹까지 모든 내용을 차례대로 다룹니다. 그 과정에서 약간의 자료구조(Stack), 명령형 프로그래밍과 선언형 프로그래밍의 차이, DFS 를 재귀로 구현하는 이유 등에 대해서 언급합니다. 예제에서 C언어와 Kotlin 을 섞어서 사용하고 있지만, 최대한 언어적 특징없이 기본적인 문법만 사용합니다. 글은 작성자가 이해한 흐름에 따라 작성되었으며, 의식의 흐름에 따라 작성되어 존대없이 편한 말로 작성되었습니다. 오류 및 오타 지적 감사합니다. :) 작성자 : 뉴원(Newon)" />
+<meta property="og:description" content="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인) 들어가기에 앞서서, 해당 글은 기본적인 문법 (for, while, print, 입력받기, 배열)에 대해서 알고 있음을 전제로 합니다. 만약 기본적인 문법을 모르는 상태라면 반복문과 출력, 배열, 입력받기에 대해서 먼저 이해한 후 다시 찾아와주세요. :) 이 글은 백트래킹만 언급하는 것이 아니라 재귀함수부터 백트래킹까지 모든 내용을 차례대로 다룹니다. 그 과정에서 약간의 자료구조(Stack), 명령형 프로그래밍과 선언형 프로그래밍의 차이, DFS 를 재귀로 구현하는 이유 등에 대해서 언급합니다. 예제에서 C언어와 Kotlin 을 섞어서 사용하고 있지만, 최대한 언어적 특징없이 기본적인 문법만 사용합니다. 글은 작성자가 이해한 흐름에 따라 작성되었으며, 의식의 흐름에 따라 작성되어 존대없이 편한 말로 작성되었습니다. 오류 및 오타 지적 감사합니다. :) 작성자 : 뉴원(Newon)" />
+<link rel="canonical" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html" />
+<meta property="og:url" content="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html" />
+<meta property="og:site_name" content="Newon’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-11-25T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Newon"},"description":"문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인) 들어가기에 앞서서, 해당 글은 기본적인 문법 (for, while, print, 입력받기, 배열)에 대해서 알고 있음을 전제로 합니다. 만약 기본적인 문법을 모르는 상태라면 반복문과 출력, 배열, 입력받기에 대해서 먼저 이해한 후 다시 찾아와주세요. :) 이 글은 백트래킹만 언급하는 것이 아니라 재귀함수부터 백트래킹까지 모든 내용을 차례대로 다룹니다. 그 과정에서 약간의 자료구조(Stack), 명령형 프로그래밍과 선언형 프로그래밍의 차이, DFS 를 재귀로 구현하는 이유 등에 대해서 언급합니다. 예제에서 C언어와 Kotlin 을 섞어서 사용하고 있지만, 최대한 언어적 특징없이 기본적인 문법만 사용합니다. 글은 작성자가 이해한 흐름에 따라 작성되었으며, 의식의 흐름에 따라 작성되어 존대없이 편한 말로 작성되었습니다. 오류 및 오타 지적 감사합니다. :) 작성자 : 뉴원(Newon)","@type":"BlogPosting","headline":"문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)","dateModified":"2021-11-25T00:00:00+00:00","datePublished":"2021-11-25T00:00:00+00:00","url":"/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Newon's blog" /><script>
+  function initGoogleAnalytics() {
+    var doNotTrack = (window.doNotTrack === "1" || navigator.doNotTrack === "1" ||
+      navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1");
+    var enableDNT = "true" == "true";
+
+    if (!enableDNT || !doNotTrack) {
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'G-PDLQ0VP9LZ', 'auto');
+      ga('send', 'pageview');
+    }
+  }
+  window.addEventListener("load", initGoogleAnalytics);
+</script>
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8"
+        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner"><span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Newon&#39;s blog" src="" onerror="this.style.display='none'">
+  Newon&#39;s blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger"><a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span></div>
+        </nav></div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2021-11-25T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Nov 25, 2021
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 25 mins</span>
+  </p><div class="post-tags"><a class="post-tag" href="/tags.html#문과생_시리즈">#문과생_시리즈</a><a class="post-tag" href="/tags.html#Recursive">#Recursive</a><a class="post-tag" href="/tags.html#DFS">#DFS</a><a class="post-tag" href="/tags.html#Backtracking">#Backtracking</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h1 id="문과생이-적어보는-백트래킹재귀와-dfs-를-곁들인">문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)</h1>
+<blockquote>
+  <p>들어가기에 앞서서, 해당 글은 기본적인 문법 (for, while, print, 입력받기, 배열)에 대해서 알고 있음을 전제로 합니다.<br />
+만약 기본적인 문법을 모르는 상태라면 반복문과 출력, 배열, 입력받기에 대해서 먼저 이해한 후 다시 찾아와주세요. :)</p>
+</blockquote>
+
+<blockquote>
+  <p>이 글은 백트래킹만 언급하는 것이 아니라 재귀함수부터 백트래킹까지 모든 내용을 차례대로 다룹니다.<br />
+그 과정에서 약간의 자료구조(Stack), 명령형 프로그래밍과 선언형 프로그래밍의 차이, DFS 를 재귀로 구현하는 이유 등에 대해서 언급합니다.<br />
+예제에서 C언어와 Kotlin 을 섞어서 사용하고 있지만, 최대한 언어적 특징없이 기본적인 문법만 사용합니다.</p>
+</blockquote>
+
+<blockquote>
+  <p>글은 작성자가 이해한 흐름에 따라 작성되었으며, 의식의 흐름에 따라 작성되어 존대없이 편한 말로 작성되었습니다.<br />
+오류 및 오타 지적 감사합니다. :)<br />
+작성자 : 뉴원(Newon)
+<br /></p>
+</blockquote>
+
+<h3 id="백트래킹-dfs-탐색-중-가지치기-하는-것">백트래킹, DFS 탐색 중 가지치기 하는 것.</h3>
+
+<p><code class="language-plaintext highlighter-rouge">백트래킹</code>은 완전 탐색 방법 중 하나인 <code class="language-plaintext highlighter-rouge">깊이 우선 탐색(DFS)</code>을 진행하면서 조건을 확인,<br />
+<code class="language-plaintext highlighter-rouge">해당 노드가 유망하지 않으면</code> 더 이상 탐색하지 않는 것을 의마한다.</p>
+
+<p><br /></p>
+
+<p>백트래킹은 일반적으로 재귀의 형태로 작성되며, 크게 다음의 3개 내용을 작성해야한다.</p>
+<ul>
+  <li>재귀를 진행하는 동안 사용될 깊이(depth)를 매개변수로 넣기</li>
+  <li>재귀가 종료되는 시점에서 수행해야할 내용</li>
+  <li>재귀가 진행중이면 가지치기(백트래킹)할 내용</li>
+</ul>
+
+<p><br /></p>
+
+<p>여기에 재귀함수를 편하게 돌리고 싶다면 재귀에 필요하지만 변하지 않는 변수들과 재귀에서 사용하는 배열들을 전역변수로 선언하면<br />
+재귀함수의 매개변수가 깔끔해져서 편하다.<br />
+  <br />
+  <br /></p>
+
+<p>코드로 확인해보자. <a href="https://www.acmicpc.net/problem/15649">백준 N과 M(1) 문제</a>를 확인하면<br />
+1 ~ N 까지의 숫자 중에서 M개를 중복없이 오름차순으로 출력하는 것이 문제이다.</p>
+
+<p><em>코드는 C언어로 쓰였지만, 코드만의 특징없이 작성되었다.</em></p>
+
+<pre><code class="language-C">// 목표 : 1 ~ N 까지의 숫자에서 M개르 선택하고 중복없이 오름차순으로 출력하기
+
+#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+int arr[10] = {0, };                              // 1부터 N까지이니, 마음편하게 10개의 배열을 선언하였다.
+bool isusedArr[10] = {false,};                    // 해당 숫자의 중복 여부를 위해 사용했는지 안했는지를 파악할 같은 크기의 배열을 하나 더 선언했다.
+int N;                                            // 재귀에서 사용하지만 그 숫자가 변하지는 않는 변수를 전역변수로 선언하였다.
+int M;                                            // 재귀에서 사용하지만 그 숫자가 변하지는 않는 변수를 전역변수로 선언하였다.
+
+void Solve(int k){                                // 재귀함수가 사용되는 동안 사용될 depth 를 여기선 k로 표현하고 있다. 
+    if(k == M){                                   // 해당 재귀함수는 k가 계속 증가하며, k == M 일때 멈추는 구조를 가지고 있다.
+        for (int i = 0; i &lt; M; i++){              // 종료될 때, 수행해야할 내용은 "출력"이므로, 출력을 하고 있다.
+            printf("%d ", arr[i]);
+        }
+        printf("\n");                             // 엔터를 출력하고 있다.
+	return;                                   // 마지막에 수행해야할 내용들을 다 수행했으면 return 으로 함수를 종료한다.
+    }
+    
+    for (int i = 1; i &lt;= N; i++){                 // 재귀함수가 종료시점이 아니라면 for 문을 통해 재귀를 진행한다.
+        if(!isusedArr[i]){                        // 가지치기할 내용을 찾고있다. 이번 같은 경우는 중복을 없애기 위해 다음과 같이 적용하고 있다.
+            arr[k] = i;                           // arr[k] 에 i를 사용하고 있다.
+            isusedArr[i] = true;                  // 사용하니까, 사용했음을 표시하고 있다.
+            Solve(k+1);                           // 여기에서 재귀가 계속 반복되고 있다. k는 자릿수로 계속 증가하다가, k == M일 때 종료돨 것이다.
+            isusedArr[i] = false;                 // 다음 DFS 를 위해 다시 사용하지 않았으로 바꿔주고 있다.
+        }
+    }
+}
+
+int main(){
+    scanf("%d %d", &amp;N, &amp;M);                       // 함수의 시작이다. N과 M을 입력받고 있다.
+    Solve(0);                                     // 재귀함수의 시작이다. 0부터 시작하고 있다.
+}
+</code></pre>
+
+<p>코드를 크게크게 확인해보자</p>
+<ul>
+  <li>Solve 함수는 DFS 함수로 k를 기준으로 진행되고 있다.</li>
+  <li>Solve 의 맨 위에선 재귀가 종료될 시점에 출력을 하고 변경없이 return 으로 함수를 종료하고 있다.</li>
+  <li>Solve 의 밑 에서는 for 문을 통해 가지치기할 내용을 확인하고 있다.<br />
+<code class="language-plaintext highlighter-rouge">if(!isusedArr[i])</code> 를 통해 isusedArr이 0, 즉 사용하지 않은 숫자라면 재귀를 진행하고 있다.<br />
+세부적으론, <code class="language-plaintext highlighter-rouge">arr[k]</code> 에 i를 넣고있고, 해당 i를 사용처리 한 후 다음 재귀로 넘어가고 난 후 비사용으로 바꿔주고 있다.</li>
+</ul>
+
+<p>백트래킹은 위의 구조를 기본 골조로 하며, 조건의 추가 &amp; 삭제, 혹은 해당 depth 의 사용, 미사용 등의 조합으로 사용된다.</p>
+
+<p><br />
+  <br />
+  <br /></p>
+
+<h2 id="아-그래서-그게-뭔데-ㄹㅇㅋㅋ">아 그래서 그게 뭔데 ㄹㅇㅋㅋ</h2>
+<p><img src="https://user-images.githubusercontent.com/80164141/138657237-2fb8bf1f-2cd5-4a6e-9d84-3bd303c251d5.jpg" /></p>
+
+<p>만약 당신이 위의 글만 보고서 <strong>아 ! 백트래킹이란 저런거구나 ㅎㅎ 이해했어</strong> 라면 이제 뒤로가기를 눌러도 좋다.<br />
+이제부터 이 글은 철저하게 아무것도 모르는 문과생의, 문과생에 의한, 문과생을 위한 언어로 설명된다.</p>
+
+<p>우선 우리는 ① <code class="language-plaintext highlighter-rouge">재귀함수</code>가 무엇인지 정확하게 알 필요가 있다.<br />
+그 다음으로 ② <code class="language-plaintext highlighter-rouge">DFS 함수</code>에 대해서 알아야 하며,<br />
+최종적으로 DFS 를 진행할 때 ③ <code class="language-plaintext highlighter-rouge">가지치기(백트래킹)</code>을 어떻게 하는 지 알아볼 것이다.<br />
+  <br /></p>
+
+<hr />
+
+<h3 id="-재귀함수가-뭔데">① 재귀함수가 뭔데</h3>
+<h4 id="가-재귀함수란">가. 재귀함수란?</h4>
+<p><img src="https://media.giphy.com/media/3ov9jQX2Ow4bM5xxuM/giphy.gif" />
+<img width="600" alt="스크린샷 2021-10-25 오후 5 47 22" src="https://user-images.githubusercontent.com/80164141/138665281-c20aae33-e2ed-46ed-bd0b-59d95e4f289d.png" /></p>
+
+<p>재귀함수란 코드 내에서 자기 자신을 호출하는 함수를 의미한다.<br />
+내가 나를 부르고, 다시 내가 나를 부르고, 틱X 이나 유튜브숏X에서 자주 보던 그것들이 맞다.</p>
+
+<p><br /></p>
+
+<p>프로그래밍으로 재귀함수는 다음처럼 쓰인다.</p>
+<pre><code class="language-Kotlin">
+fun DFS(N: Int){
+    print("$N ")
+    return DFS(N + 1);
+}
+
+fun main(){
+    DFS(0)
+}
+</code></pre>
+<p>위의 코틀린 함수를 확인해보자.</p>
+
+<p>main 함수에서 <code class="language-plaintext highlighter-rouge">DFS라는 함수</code>를, 0을 넣어서 호출하고 있다. <strong><em>함수 이름에는 우선 신경쓰지 말자</em></strong> <br />
+<code class="language-plaintext highlighter-rouge">DFS 라는 함수</code>가 뭐하는 녀석인지 확인해보면, 우선 이녀석은 <code class="language-plaintext highlighter-rouge">N을 매개변수</code>로 받고 있다.<br />
+이후 print(“$N “) 을 통해서 N과 스페이스바를 출력하고, 종료할 때 자기 자신에 (N+1)을 넣은 것, <code class="language-plaintext highlighter-rouge">DFS(N + 1)</code> 을 호출하고 있다.</p>
+
+<p>그렇다면 이 재귀함수는 어떻게 작동할까?</p>
+<ul>
+  <li>DFS(0) 호출 - DFS(0)의 내용 수행 - DFS(0 + 1) 호출</li>
+  <li>DFS(1) 호출 - DFS(1)의 내용 수행 - DFS(1 + 1) 호출</li>
+  <li>DFS(2) 호출 - DFS(2)의 내용 수행 - DFS(2 + 1) 호출</li>
+  <li>무한반복
+…</li>
+</ul>
+
+<p>와 같이 반복하게 된다.<br />
+언제 끝날까? 영원히 끝나지 않는다. 왜냐하면 위의 함수는 자기자신을 호출하곤 있지만, 종료 조건이 없기 때문이다.<br />
+따라서 위의 컴퓨터의 메모리가 허락할 때 까지 
+<code class="language-plaintext highlighter-rouge">0 1 2 3 4 5 ... 백만스물하나 ... 백만스물둘... </code><br />
+을 출력하고 있을 것이다.</p>
+
+<p><br /></p>
+
+<p><img src="https://user-images.githubusercontent.com/80164141/138710611-7689c33a-2358-419b-afb1-af23b3521219.gif" alt="재귀함수" /><br />
+이 터미널 창을 DFS 함수라고 비유한다면, 다음과 같이 1을 받고 1 출력 종료 -&gt; 2를 받고 2 출력 종료 … 를 무한반복 중인 것이다.</p>
+
+<p><br /></p>
+
+<p>위의 재귀함수를 다음과 같이 바꿔보자.</p>
+<pre><code class="language-Kotlin">
+fun DFS(N: Int){
+    if(N == 11)
+      return;
+    
+    printf("$N ")
+    return DFS(N + 1)
+}
+
+fun main(){
+    DFS(0)
+}
+</code></pre>
+
+<p>위의 코드와 차이점은 N이 11일 때, 아무것도 하지 않고 그냥 종료가 된다는 것이다.<br />
+그럼 이 함수는 다음과 같이 작동한다.</p>
+<ul>
+  <li>DFS(0) 호출 - N이 11인지 확인 - 11이 아님 - DFS(0)의 내용 수행 - DFS(0 + 1) 호출</li>
+  <li>DFS(1) 호출 - N이 11인지 확인 - 11이 아님 - DFS(1)의 내용 수행 - DFS(1 + 1) 호출</li>
+  <li>DFS(2) 호출 - N이 11인지 확인 - 11이 아님 - DFS(2)의 내용 수행 - DFS(2 + 1) 호출
+…</li>
+  <li>DFS(11) 호출 - N이 11인지 확인 - N이 11임 - 그냥 종료</li>
+</ul>
+
+<p>if 문에서 N이 11일 때 종료하라는 내용을 통해서, 해당 재귀함수는 무한반복하지 않고 N이 11일 때 바로 종료하게 된다.<br />
+따라서 위의 코드는 다음과 같이 출력하고 
+<code class="language-plaintext highlighter-rouge">0 1 2 3 4 5 6 7 8 9 10</code><br />
+이후 함수가 종료된다.<br />
+<br /></p>
+
+<p>if 문을 통해서 재귀함수가 종료될 조건을 단 것, 이것을 <code class="language-plaintext highlighter-rouge">Base Condition</code> 이라고 부른다.</p>
+
+<p><strong>재귀함수는 매개변수를 통해서 Base Condition 에 점차 다가가도록 설계하는 것이 원칙이다.</strong><br />
+그래야 재귀함수를 안전하게 종료시킬 수 있기 때문이다.</p>
+
+<p>매개변수는 Base Condition 에 다가갈수만 있다면 증가해도, 감소해도 상관없지만 일반적으로 감소하도록 설계한다.</p>
+
+<hr />
+<p><br /></p>
+
+<p><img src="https://user-images.githubusercontent.com/80164141/138710611-7689c33a-2358-419b-afb1-af23b3521219.gif" alt="재귀함수" /></p>
+
+<p>이 짤방을 다시 한번 살펴보자, 모든 함수는 return을 기준으로 <code class="language-plaintext highlighter-rouge">종료</code>하게 되어있다. 그렇다면 기존에 불려진 함수들은 언제 <code class="language-plaintext highlighter-rouge">종료</code>가 될까?</p>
+
+<p><br />
+<br /></p>
+
+<p>정답은 <code class="language-plaintext highlighter-rouge">호출된 순서의 역순으로 닫힌다</code> 이다. 짤방으로 표현하자면 이렇게 된다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/80164141/138711835-9b36994d-4091-41b8-a654-e2efa78fea95.gif" alt="재귀함수_완전" /></p>
+
+<p><br /><br />
+그래서 코드를 이렇게 짜면, 역순으로 정렬할 수도 있다. <br />
+<br /><br />
+<br /></p>
+
+<pre><code class="language-Kotlin">fun DFS(N: Int){
+    if(N == 11){
+      return;
+    }
+    
+    DFS(N + 1)
+    print("$N ")
+    return;
+}
+
+fun main(){
+   DFS(0)
+}
+</code></pre>
+
+<p>위의 코드는 DFS 를 호출한 다음에 N을 print 하고 있다.<br />
+따라서 <code class="language-plaintext highlighter-rouge">N</code> 이 <code class="language-plaintext highlighter-rouge">11</code>까지 이른 다음에야 순차대로 종료되며 <code class="language-plaintext highlighter-rouge">N이 10일 때</code>, <code class="language-plaintext highlighter-rouge">N이 9일 때</code>, <code class="language-plaintext highlighter-rouge">8</code>..<code class="language-plaintext highlighter-rouge">7</code>..<br />
+순서대로 출력되고 가장 마지막 == 가장 처음에 호출한 함수가 종료된다.<br />
+<code class="language-plaintext highlighter-rouge">출력은 요렇게 나온다. -&gt; 10 9 8 7 6 5 4 3 2 1 0</code></p>
+
+<p>이 의미가 이해되었다면 재귀함수란? 에 가장 먼저 나왔던 2개의 짤 중 밑의 짤방이 전부 이해될 것이다.</p>
+
+<p><br /><br />
+<br /></p>
+
+<p>이러한 방식을 자료구조 중 <code class="language-plaintext highlighter-rouge">Stack</code> 이 적용된 것 이라고 한다.<br />
+<img src="https://prmoreira23.github.io/assets/stack-data-structure.gif" alt="스택" /></p>
+
+<p>설명에서 push 는 자료 삽입을, pop은 자료를 빼는 것을 의미하며<br />
+스택 구조가 적용되면 데이터는 언제나 <code class="language-plaintext highlighter-rouge">마지막에 넣은 것</code>부터 빼내게 되고, <code class="language-plaintext highlighter-rouge">처음에 넣은 것</code> 이 가장 마지막에 나오게 된다.</p>
+
+<blockquote>
+  <p>재귀, DFS, 백트래킹이 전부 Stack 이 적용되지만 본 글에서는 이 이상의 Stack 개념은 사용하지 않는다.<br />
+궁금하거나 필요하다면 Stack 을 찾아보는 것을 추천한다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<hr />
+
+<p><strong><em>어 음 그런데 말이죠 ..?</em></strong></p>
+
+<p><img src="https://c.tenor.com/kZjYjiDPTQEAAAAd/한심좌-khaby00.gif" width="20%" /></p>
+
+<p>사실 위의 출력문들은 굳이 재귀로 하지 않고, for 문으로도 쉽게 만들 수 있다.</p>
+
+<p><br /></p>
+
+<pre><code class="language-Kotlin">for(i in 0..10){
+   print("$i ")
+}
+
+// 역순이면 이렇게
+
+for(i in 10 downTo 0){
+   print("$i ")
+}
+</code></pre>
+
+<p>게다가 하나의 함수를 호출하는 것은 단순한 중복문보다 많은 메모리를 요구하며 속도 역시 <em><code class="language-plaintext highlighter-rouge">압도적인 힘ㅇ..</code></em> 느리다.<br />
+이러한 이유에도 불구하고 재귀함수를 쓰는 이유를 알아보자.</p>
+
+<hr />
+
+<p><br /></p>
+
+<h4 id="나-메모리도-많이-잡아먹고-헷갈리는-재귀함수-왜-씀-feat-선언형-프로그래밍">나. 메모리도 많이 잡아먹고 헷갈리는 재귀함수 왜 씀? (Feat. 선언형 프로그래밍)</h4>
+<p>코드란 <code class="language-plaintext highlighter-rouge">컴퓨팅 효율적으로만 설계하는 것이 아니라</code><br />
+이후 <code class="language-plaintext highlighter-rouge">타인에 의한</code> 유지 보수를 고려하여 적어야 한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">즉 누가 보더라도 코드는 쉽게 읽히며, 코드가 수행하는 내용이 직관적이여서 개발자의 작업시간을 줄이는 것</code><br />
+또한 좋은 코드의 조건 중 하나이다.</p>
+
+<p>이러한 관점에서 <code class="language-plaintext highlighter-rouge">재귀함수</code>는 <code class="language-plaintext highlighter-rouge">for 문</code>으로 작성했을 때 보다 월등히 가독성이 높아서, 개발자의 시간을 줄여줄 수 있을 때 사용한다.</p>
+
+<p><br />
+  <br />
+  <br /></p>
+
+<p>재귀함수가 직관적이라니, 이게 무슨소리일까?</p>
+
+<p>피보나치의 수열을 예시로 들어보자.<br />
+수학에서, 피보나치 수(영어: Fibonacci numbers)는 첫째 및 둘째 항이 1이며 그 뒤의 모든 항은 바로 앞 두 항의 합인 수열이다.<br />
+<code class="language-plaintext highlighter-rouge">1 1 2 3 5 8 13 21 34 55 ...</code></p>
+
+<p>이걸 For 문과 재귀함수로 구현하면 다음과 같다.</p>
+
+<pre><code class="language-Kotlin">// for 문으로 작성한 피보나치
+fun Fibonacci(N: Int): Int{
+   var one = 1
+   var two = 1
+   var result = 0
+   
+   if(N &lt;= 2){
+      print("$one ")
+      return;
+   }
+   
+   for (i in 3..N){
+      result = one + two
+      one = two
+      two = result
+   }
+   return result
+}
+
+// 재귀로 작성한 피보나치
+fun Fibonacci(N: Int): Int{
+    if(N == 0)
+       return 0
+    if(N == 1)
+       return 1
+       
+    return Fibonacci(N - 1) + Fibonacci(N - 2)
+}
+
+fun main(){
+    print(Fibonacci(10))
+}
+// 출력은 같은 10이다.
+</code></pre>
+
+<p>잠시 저 두 함수가 피보나치를 출력한다는 것을 모른채로 비교해보자.</p>
+
+<p>For 문으로 적힌 함수를 이해하려면 <code class="language-plaintext highlighter-rouge">one</code> 이 어떤 변수인지, <code class="language-plaintext highlighter-rouge">two</code> 가 어떤 변수인지, <code class="language-plaintext highlighter-rouge">result</code> 는 어떤 변수인지<br />
+<code class="language-plaintext highlighter-rouge">N</code> 이 왜 2일땐 <code class="language-plaintext highlighter-rouge">one</code>만 출력하고 리턴하는지, <code class="language-plaintext highlighter-rouge">for문은 왜 3부터 시작하고 그때마다 result 는 one + two 를 받는지</code> 이해하고나야 비로서<br />
+이 함수가 피보나치 함수임을 이해할 수 있다.</p>
+
+<p><br /></p>
+
+<p>그에 반면 재귀로 작성된 함수는 간단하다.<br />
+계산이 어떻게 되는진 모르겠지만 <code class="language-plaintext highlighter-rouge">함수(N)</code> 은 <code class="language-plaintext highlighter-rouge">함수(N-1)</code> + <code class="language-plaintext highlighter-rouge">함수(N-2)</code> 이고,<br />
+이걸 계속해서 반복하다보면 N 이 0일 땐 0을, N이 1일 땐 1을 리턴하여서 이를 반복한다고 적혀있다.</p>
+
+<p>더 간단하게는, 내부가 어떻게 돌아가는진 모르겠지만 우린 <code class="language-plaintext highlighter-rouge">함수(N) = 함수(N-1) + 함수(N-2)</code> 임을 알 수 있다.</p>
+
+<p><br /></p>
+
+<p>이것이 재귀함수를 사용했을 때 가독성이 늘어나는 대표적인 사례이다.<br />
+피보나치 수열은 그나마 2개의 항이 만드는 상황만 이해하면 되었지만, 이보다 더 복잡한 사례가 나온다면 For 문으로 작성된 함수는 더더욱 힘들 것이다.</p>
+
+<p><br /></p>
+
+<hr />
+
+<p>바로 그런 사례가 있다.<br />
+재귀함수를 구글링했다면 바로 접해봤을 문제, <strong><em>하노이의 탑</em></strong> 문제이다.</p>
+
+<p><br /></p>
+
+<p><strong>하노이의 탑</strong> 문제는 <a href="https://ko.khanacademy.org/computing/computer-science/algorithms/towers-of-hanoi/a/towers-of-hanoi">다음</a>과 같다. <a href="https://vidkidz.tistory.com/649">게임</a></p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/0/07/Tower_of_Hanoi.jpeg" alt="하노이의 탑" /></p>
+
+<p><br /></p>
+
+<p>간략히 요약하면, <code class="language-plaintext highlighter-rouge">3개의 대</code>가 있고 <code class="language-plaintext highlighter-rouge">크기가 오름차순인 원반들</code>이 있고, 이걸 <code class="language-plaintext highlighter-rouge">한번에 하나씩 옮겨서</code> 다른 대로 옮기되,<br />
+<code class="language-plaintext highlighter-rouge">큰 원반은 작은 원반 위에 갈 수 없다</code> 는 조건 속에서 수행하라는 것이다.<br />
+알고리즘 문제로 치환하자면 <code class="language-plaintext highlighter-rouge">원반이 움직일 때 마다 어디서 어디로 옮겼는지 출력하고, 최종적으로 몇번 움직였는지 출력하라</code> 정도로 바꿀 수 있겠다.</p>
+
+<p><br /></p>
+
+<p>For 문으로 도전.. .
+도전은 언제나 아름답지만, 이번엔 추천하진 않는다.<br />
+For 문으로 만들고 싶다면 우선 원반의 갯수만큼 For 문을 만들어야할 것이며, 한번 옮겨질 때 마다 이전의 For 문들은 어떻게 해야하는지,<br />
+횟수는 어디에서 세야할 지도 막막한데, 원반의 갯수가 N으로 입력받아야 한다면 ..</p>
+
+<p><img src="https://ac2.namu.la/b3/b3c5dd481cf53631a0e21df5aca56340605fab02b1b0f0177fc74b6c9d05a530.gif" alt="난 죽음을 택하겠다" /></p>
+
+<p><br /></p>
+
+<p>여기서 우리는 재귀함수의 진정한 사용이유를 알 수 있다.<br />
+<code class="language-plaintext highlighter-rouge">재귀함수의 가장 큰 장점</code>은 For 문과 같은 <code class="language-plaintext highlighter-rouge">명령형 프로그래밍</code>이 아니라, <code class="language-plaintext highlighter-rouge">선언형 프로그래밍</code>이라는 점에 있다.</p>
+
+<p><br /></p>
+
+<p>무슨 의미일까?<br />
+잠시 하노이의 문제는 접어두고, N 팩토리얼을 한번 출력해보자.<br />
+알다시피, 방법은 For 문과 재귀함수 2개가 있다.</p>
+
+<p>팩토리얼이란 N을 기준으로 n부터 1까지의 모든 수를 곱한 값이다. <code class="language-plaintext highlighter-rouge">(표기는 n!)</code><br />
+이때 <code class="language-plaintext highlighter-rouge">명령형 프로그래밍의 관점</code>에서 10!을 구하려면 다음과 같이 바라보게 된다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="py">value</span> <span class="p">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">){</span>
+    <span class="n">value</span> <span class="p">*=</span> <span class="n">i</span>
+<span class="p">}</span>
+
+<span class="p">----------------</span>
+<span class="n">value</span> <span class="p">=</span> <span class="mi">1</span> <span class="p">*</span> <span class="mi">2</span>
+<span class="n">value</span> <span class="p">=</span> <span class="p">(</span><span class="mi">1</span> <span class="p">*</span> <span class="mi">2</span><span class="p">)</span> <span class="p">*</span> <span class="mi">3</span>
+<span class="n">value</span> <span class="p">=</span> <span class="p">(</span><span class="mi">1</span> <span class="p">*</span> <span class="mi">2</span> <span class="p">*</span> <span class="mi">3</span><span class="p">)</span> <span class="p">*</span> <span class="mi">4</span>
+<span class="o">..</span><span class="p">.</span>
+<span class="n">value</span> <span class="p">=</span> <span class="p">(</span><span class="mi">1</span> <span class="p">*</span> <span class="mi">2</span> <span class="p">*</span> <span class="mi">3</span> <span class="p">*</span> <span class="mi">4</span> <span class="p">*</span> <span class="mi">5</span> <span class="p">*</span> <span class="mi">6</span> <span class="p">*</span> <span class="mi">7</span> <span class="p">*</span> <span class="mi">8</span> <span class="p">*</span> <span class="mi">9</span><span class="p">)</span> <span class="p">*</span> <span class="mi">10</span>
+</code></pre></div></div>
+<ul>
+  <li>value 에 대하여 사용자는 모든 i 항들에 대하여 절차적으로 구하고 나서야 팩토리얼 n을 알게되는 것으로 <code class="language-plaintext highlighter-rouge">인식</code>한다.</li>
+</ul>
+
+<p><br /></p>
+
+<p>이를 다시 <code class="language-plaintext highlighter-rouge">선언형 프로그래밍 관점</code>에서 바라본다면 다음과 같아진다.</p>
+
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">fun</span> <span class="nf">Factorial</span><span class="p">(</span><span class="nc">N</span><span class="p">:</span> <span class="nc">Int</span><span class="p">):</span> <span class="nc">Int</span><span class="p">{</span>    
+    <span class="k">if</span><span class="p">(</span><span class="nc">N</span> <span class="p">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nc">Factorial</span><span class="p">(</span><span class="nc">N</span> <span class="p">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">*</span> <span class="nc">N</span>  
+<span class="p">}</span>
+
+<span class="p">----------------</span>
+<span class="nc">N</span> <span class="p">==</span> <span class="mi">10</span>  <span class="nc">Factorial</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="p">*</span> <span class="mi">10</span>
+<span class="nc">N</span> <span class="p">==</span> <span class="mi">9</span>   <span class="nc">Factorial</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="p">*</span> <span class="mi">9</span>
+<span class="nc">N</span> <span class="p">==</span> <span class="mi">8</span>   <span class="nc">Factorial</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="p">*</span> <span class="mi">8</span>
+<span class="o">..</span><span class="p">.</span>
+<span class="nc">N</span> <span class="p">==</span> <span class="mi">2</span>   <span class="nc">Factorial</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">*</span> <span class="mi">2</span>
+<span class="nc">N</span> <span class="p">==</span> <span class="mi">1</span>   <span class="mi">1</span>
+</code></pre></div></div>
+
+<ul>
+  <li>재귀함수 Factorial 은 return 값이 재귀함수와 어떤 관계가 있는지 <code class="language-plaintext highlighter-rouge">선언</code>만 하였다.</li>
+  <li>그 이후 절차에 관련한 것은 return 을 수행하는 컴퓨터에게 <code class="language-plaintext highlighter-rouge">맡겨버리고</code> 사용자는 <code class="language-plaintext highlighter-rouge">선언</code>에 해당하는 결과값을 갖는 것으로 <code class="language-plaintext highlighter-rouge">인식</code>한다.</li>
+</ul>
+
+<p>같은 결과값이지만 <code class="language-plaintext highlighter-rouge">명령형 프로그래밍의 관점은 사용자가 모든 절차를 인지하고 있음을 전제</code>하는 반면<br />
+<code class="language-plaintext highlighter-rouge">선언형 프로그래밍의 관점은 사용자가 결과와 그 나머지의 관계를 선언만</code> 한다는 점에서 차이가 나타난다.</p>
+
+<p><br /></p>
+
+<p>즉, 재귀함수의 장점 중 하나는 <code class="language-plaintext highlighter-rouge">계산에 대한 내용을 컴퓨터에게 맡겨버린다</code>에 있다.<br />
+이를 하노이에 적용시켜보자.<br />
+<code class="language-plaintext highlighter-rouge">문제를 한정시켜서, N개의 원판과 대 A, B, C 가 있을 때 원판들은 최초에 A에 있고, N개의 원판을 C로 옮기는 것을 목표로 한다.</code></p>
+
+<p><br /></p>
+
+<p>하노이의 탑 문제의 답을 거꾸로 추적해보면 다음과 같은 특성을 지닌다.</p>
+<ul>
+  <li>가장 마지막의 원판을 제외하고, N - 1 개의 원판들을 B에 옮겨놓는다.</li>
+  <li>마지막 원판을 C에 갔다 놓는다.</li>
+  <li>B에 옮겨놨던 원판들을 C에 통째로 옮긴다.</li>
+</ul>
+
+<p>이걸 역순으로 반복하면 우리가 <a href="https://vidkidz.tistory.com/649">게임</a> 에서 진행했던 순서가 된다.</p>
+
+<pre><code class="language-C">// C로 작성되었다.
+// 대의 이름은 각각 A, B, C 이며 N개의 원판이 있는 상황이다. 
+
+#include &lt;stdio.h&gt;
+
+int N;
+int count;
+
+void Hanoi(int N, int A, int B, int C){
+                                                                     // N 이 0 일때가 Base condition 이지만 이번 경우엔 수행해야할 내용이 없으므로, 적지 않았다.
+	if(N &gt; 0){                                                   // N 이 0이 아닌동안, 즉 Base Condition 에 도달하지 않는 동안 수행할 내용이다.
+		Hanoi(N-1,A,C,B);                                    // A에 있는 N - 1개 원판들을 C를 이용해서 B로 옮긴다.
+		printf("%d 에서 %d 로 가장 맨 위의 원판 이동\n", A,C);      // A에 있는 남아있는 원판, 가장 큰 원판을 C로 옮긴다.
+		Hanoi(N-1,B,A,C);                                    // B에 있는 N - 1개 원판들을 A를 이용해서 C로 옮긴다.
+	}
+}
+
+int main(){
+	scanf("%d", &amp;N);
+	Hanoi(N,1,2,3);
+}
+</code></pre>
+
+<p>이 함수에서 개발자는 절차마다 그 값이 무엇인지에 대해서 작성한 코드는 단 1개도 없다.</p>
+
+<p>개발자는 그저 N - 1 일 때 어떻게 해야하는지 논리적으로 <code class="language-plaintext highlighter-rouge">선언</code>만 하였고, 컴퓨터가 대신 <code class="language-plaintext highlighter-rouge">계산</code>한 것이다.<br />
+이것이 재귀함수를 이용하는 이유이다.</p>
+
+<p>위의 내용이 이해가 안간다면 다음의 영상을 참고하면 좋을 것 같다.<a href="https://www.youtube.com/watch?v=q6RicK1FCUs&amp;t=1s">Tower of Hanoi Problem - Made Easy</a></p>
+<blockquote>
+  <p>위의 하노이와 관련된 내용은 참고에 연결된 유튜브 영상의 내용을 요약하여 옮긴 것이다.<br />
+컴퓨터에 맡겨버린다 라는 의미가 궁금하다면 다음 블로그를 참고해보자. <a href="https://geniusnohkang.tistory.com/28">반복과 재귀 : DFS 문제를 재귀로 구현하면 편리한 이유</a>
+<br /></p>
+</blockquote>
+
+<h5 id="재귀함수편-요약">재귀함수편 요약</h5>
+<ol>
+  <li>재귀함수란 자기 자신을 호출하는 함수이다.</li>
+  <li>재귀함수는 매개변수를 통해 Base Condition 에 도달하도록 설계한다.</li>
+  <li>모든 재귀함수는 이론적으로 For문이나 While 문으로 구현이 가능하나, 사용자의 편의(가독성)를 위해서 사용된다.</li>
+</ol>
+
+<blockquote>
+  <p>재귀함수는 다이나믹 프로그래밍에서 다시 한번 쓰이게 된다.</p>
+</blockquote>
+
+<hr />
+
+<h3 id="-dfs-함수">② DFS 함수</h3>
+<p>이제 본론이다. 백트래킹은 뭐길래 DFS와 함께 쓰이는 걸까?<br />
+한줄 요약하자면 <code class="language-plaintext highlighter-rouge">DFS 를 하는 와중에 더 이상 탐색할 필요가 없는걸 쳐내는 행위를 백트래킹</code>이라고 한다.</p>
+
+<p>DFS(Depth - First - Search) 는 깊이 우선 탐색을 의미한다.<br />
+어떠한 내용을 <code class="language-plaintext highlighter-rouge">완전 탐색(브루트 포스)</code>해야 할 때, 깊이 먼저 탐색하는 것을 의미한다.<br />
+그리고 우린 이 DFS 를 여태 실컷 살펴보았던 <code class="language-plaintext highlighter-rouge">재귀</code>를 통해 구현할 것이다.</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/Depth-First-Search.gif" /></p>
+
+<blockquote>
+  <p>DFS는 그래프나 트리와 연계되어 사용되지만, 본 글에서는 그래프나 트리의 내용 없이 DFS 그 자체에 대해서만 알아본다.<br />
+완전 탐색(브루트 포스)라는 개념이 생소하다면 본 글에서는 모든 걸 다 탐색한다 정도로 인지하면 된다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<p>DFS는 완전탐색 중 하나이니, 모든걸 탐색해야하는 상황을 가정해보자.</p>
+
+<p>1부터 6까지의 숫자 중에서 3개를 뽑는 모든 경우의 수를 출력해보고자 한다.<br />
+여러가지 방법이 있겠지만 우린 다음과 같은 방법을 써보고자 한다.</p>
+
+<p><img src="https://user-images.githubusercontent.com/80164141/138796603-9199937a-948c-41c7-9bc3-9a34ac784fa8.gif" alt="DFS" /></p>
+
+<p><em>목표 출력 예제는 다음과 같다.</em></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  1 1 1                            |    수행 로직
+  1 1 2                            |    ① 3개의 빈칸을 만든다.
+  1 1 3                            |    ② 첫번째 자리에 1을 넣어본다.
+  1 1 4                            |    ③ 두번째 자리에 1를 넣어본다.
+  1 1 5                            |    ④ 세번째 자리에 1을 넣어본다
+  1 1 6                            |    ⑤ 세번째 자리에 1을 빼고, 2를 넣어본다.
+  1 2 1                            |    ⑥ 6까지 반복하고 나면, 두번째 자리를 2으로 바꾼다.
+  1 2 2                            |    ⑦ 세번째 자리를 1부터 채워넣는다.
+  ...                              |    ⑧ 6 6 6 가 될때까지 반복한다.  
+  6 6 4                            |
+  6 6 5                            |
+  6 6 6                            |
+</code></pre></div></div>
+
+<p><br /><br />
+  <br /><br />
+  재귀함수로 구성할 것이며, 미리 코드를 보기 전에 고민해보는 것도 좋다.<br />
+  코드는 다음과 같다.<br />
+  <br />
+  <br />
+  <br /></p>
+
+<pre><code class="language-C">#include &lt;stdio.h&gt;
+
+int arr[3];                                    // 빈칸을 전역변수로 선언하여 함수가 호출할 때 마다 넣어주는 번거로움을 줄였다.
+int N, M;                                      // 문제에선 6개 중 3개이지만, 언제든 입력값에 따라 바꿀 수 있게 N과 M으로 설정했다.
+                                               // 여기서는 각각 6과 3으로 직접 하드코딩하지만 밑의 예제는 N과 M으로 넣는다.
+
+void DFS(int depth){                           // 이 재귀함수는 depth 를 기준으로 움직인다. 따라서 Base Condition 도 depth 를 기준으로 작성된다.
+     if(depth == 3){                           // depth == 3일 때가 Base Condition 이다.
+        for(int i = 0; i &lt; 3; i++){            // 배열에 쌓인 내용을 출력하고 있다.
+	    printf("%d ", arr[i]);
+	}
+	printf("\n");
+	return;
+     }
+     
+     for(int i = 1; i &lt;= 6; i++){              // Base Condition 이 아닐때 for문을 돌며 후보군(1 ~ 6)을 찾고 있다.
+	    arr[depth] = i;                    // 후보군을 찾으면 배열의 빈 칸에 넣고 있다.
+	    DFS(depth + 1);                    // 다음 깊이로 넘어가고 있다.
+     }
+}
+
+int main(){
+    scanf("%d %d", &amp;N, &amp;M);                    // N과 M을 받고 있다.
+    DFS(0);                                    // DFS를 0의 깊이부터 선언하고 있다.
+}
+</code></pre>
+
+<p>DFS 재귀함수는 0부터 시작하고 있으며,<br />
+배열의 인덱스 <code class="language-plaintext highlighter-rouge">0 1 2</code> 를 하나의 <code class="language-plaintext highlighter-rouge">깊이</code>로 인지하고, 0 -&gt; 1 -&gt; 2의 형태를 취하고 있다.</p>
+
+<p>따라서 DFS 가 전달받는 depth 는 배열의 왼쪽부터 순서대로 탐색하게 된다.<br />
+그렇게 DFS 는 1부터 6까지 3개의 숫자를 넣는 방법을 중복을 포함해서 전부 넣고있다.</p>
+
+<p><br /></p>
+
+<p><img src="https://c.tenor.com/Q1utpA4Y2PYAAAAC/idea-eureka.gif" alt="유레카" /><br />
+이것이 <code class="language-plaintext highlighter-rouge">DFS</code> 다.<br />
+<code class="language-plaintext highlighter-rouge">깊이</code>를 설정하고, 해당 <code class="language-plaintext highlighter-rouge">깊이</code>에 A가 있음을 상정하고, <code class="language-plaintext highlighter-rouge">다음 깊이</code>로 가서 해당 깊이에 있을 수 있는 것을 다시 넣고 !!</p>
+
+<p><br /></p>
+
+<p>하지만 출력문을 보니 좀 불편하다.<br />
+<code class="language-plaintext highlighter-rouge">모든걸 깊이대로 탐색</code>하는건 좋은데 <code class="language-plaintext highlighter-rouge">중복도 없애고 싶고</code>, <code class="language-plaintext highlighter-rouge">오름차순으로 정렬</code>하고 싶은 마음이 들 수도 있다.<br />
+그걸 수행하는 것이 바로 <code class="language-plaintext highlighter-rouge">백트래킹</code>이다.</p>
+
+<p><br />
+  <br /></p>
+
+<hr />
+
+<h3 id="-백트래킹">③ 백트래킹</h3>
+<p>위의 문제를 다시 한번 바꿔보자.<br />
+이번에는 1부터 6까지의 숫자 중에서 3개를 뽑되,<br />
+중복은 허용하지 않으며 오름차순으로 정렬할 것이다.<br />
+그림으로 표현하자면 다음과 같아진다.<br />
+<img src="https://user-images.githubusercontent.com/80164141/138740819-c6b2e0f1-1eb8-458a-8909-68af4d8ceac9.gif" width="50%" /></p>
+
+<p><em>목표 출력 예제는 다음과 같다.</em></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  1 2 3          |      수행로직
+  1 2 4          |      3개의 빈칸을 만든다.
+  1 2 5          |      첫번째 자리에 1을 넣어본다.
+  1 2 6          |      두번째 자리에 2를 넣어본다.
+  1 3 4          |      세번째 자리에 3을 넣어본다.
+  1 3 5          |      세번째 자리에 3을 빼고, 4를 넣어본다.
+  ...            |      6까지 반복하고 나면, 두번째 자리를 3으로 바꾼다.
+  3 4 6          |      세번째 자리를 3을 제외한 2~6까지 넣어본다.
+  3 5 6          |      4 5 6 가 될때까지 반복한다. 
+  4 5 6          |      
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>재귀파트에서 살펴보았던 것과 마찬가지로, 이걸 반복문을 통해서 만들수도 있겠지만 제법 많은 고생을 해야한다.<br />
+우리는 계산에 관한건 컴퓨터에 맡기고 <code class="language-plaintext highlighter-rouge">선언</code>으로 구현하고자 한다.<br />
+또한 조건에 부합하지 않는 것을 이제부터 <code class="language-plaintext highlighter-rouge">유망하지 않다</code>라고 표현한다.</p>
+
+<p><br />
+  <br /></p>
+
+<pre><code class="language-C">#include &lt;stdio.h&gt;
+
+int arr[M];                                    // 빈칸을 전역변수로 선언하여 함수가 호출할 때 마다 넣어주는 번거로움을 줄였다.
+int visit[7] = {0, };                          // 마찬가지 이유이다. visit 배열의 용도는 사용한 숫자인지 아닌지를 체크한다. 0 = 미방문, 1 = 방문
+int N, M;                                      // 문제에선 6개 중 3개이지만, 언제든 입력값에 따라 바꿀 수 있게 N과 M으로 설정했다.
+
+void DFS(int depth){                           // 이 재귀함수는 depth 를 기준으로 움직인다. 따라서 Base Condition 도 depth 를 기준으로 작성된다.
+     if(depth == M){                           // depth == 3일 때가 Base Condition 이다.
+        for(int i = 0; i &lt; 3; i++){            // 배열에 쌓인 내용을 출력하고 있다.
+	    printf("%d ", arr[i]);
+	}
+	printf("\n");
+	return;
+     }
+     
+     for(int i = 1; i &lt;= N; i++){              // Base Condition 이 아닐때 for문을 돌며 후보군을 찾고 있다.
+         if(!visit[i]){                        // 가지치기를 하고 있다, 방문한 곳은 가지 않고 있다.
+	    arr[depth] = i;                    // 조건에 부합하면 빈 칸에 넣고 있다.
+	    visit[i] = 1;                      // 가지치기를 위해 조건을 설정하고 있다, 방문한 곳을 방문했다라고 표현하고 있다.
+	    DFS(depth + 1);                    // 다음 깊이로 넘어가고 있다.
+	    visit[i] = 0;                      // 다음 단계를 위해 초기화해주고 있다.
+	 }
+     }
+}
+
+int main(){
+    scanf("%d %d", &amp;N, &amp;M);
+    DFS(0);
+}
+
+//P.s. C언어에서 배열은 변수를 넣어 선언할 수 없어서, stdlib.h 의 동적할당 int* arr = (int*)malloc(sizeof(int) * M)) 을 사용해야하나
+//       이해의 편의를 위해서 arr[M]을 넣었다.
+</code></pre>
+
+<p>가장 상단에서 재귀함수에 필요하되, depth 가 아닌 것들을 전부 전역변수로 선언하였다.</p>
+
+<p>DFS 재귀함수는 depth 라는 매개변수를 가지고서, Base Condition 에 도달하도록 조정되고 있다.<br />
+여기서는 depth 가 0부터 1씩 증가하며, Base Condition 이 3일 때 배열에 담긴 내용을 출력하고 종료되도록 설계되었다.</p>
+
+<p>DFS 재귀함수에서 for문은 Baes Condition 에 도달하지 못했을 때 for 문에 들어가게 된다.<br />
+for 문에서는 후보군을 찾는 것과 동시에, 후보군을 찾더라도 <code class="language-plaintext highlighter-rouge">방문하지 않은 곳</code> 이라는 조건에 부합하지 않으면 <code class="language-plaintext highlighter-rouge">유망하지 않으니</code> <code class="language-plaintext highlighter-rouge">가지치기</code>하고 있다.<br />
+<code class="language-plaintext highlighter-rouge">유망하면</code> 배열에 넣고, 방문처리를 한 후에, 다음 depth + 1 을 한 DFS를 호출함으로써 <code class="language-plaintext highlighter-rouge">다음 깊이</code>로 넘어가고 있다.</p>
+
+<p>하나의 재귀함수가 <code class="language-plaintext highlighter-rouge">Base Condition (depth == 3)</code>에 도달하더라도<br />
+for 문에서 불려졌던 재귀함수들은 아직 종료되지 않았다.<br />
+DFS를 호출한 그곳으로 다시 돌아가서 방문처리 한 내용을 다시 미방문처리하고 <code class="language-plaintext highlighter-rouge">(== 해당 깊이의 끝을 보아서 거슬러 올라가기)</code>,<br />
+for 문에서 다음 후보군을 찾고 다시 가지치기를 진행하고, 배열에 넣고, <code class="language-plaintext highlighter-rouge">유망</code>한지 확인하고, 다음 깊이로 넘어가는 작업을 반복하고 있다.<br />
+또한 for 문은 계속해서 증가하게 되므로, <code class="language-plaintext highlighter-rouge">오름차순</code>으로 자연스럽게 정렬이 된다.</p>
+
+<p><br /></p>
+
+<p>이것이 깊이 우선 탐색에서 사용되는 백트래킹이다.  <br />
+그래프와 트리의 개념없이 설명되었지만 사실 <code class="language-plaintext highlighter-rouge">다음 깊이</code>로 상정한 <code class="language-plaintext highlighter-rouge">배열</code> 을, 다음 <code class="language-plaintext highlighter-rouge">노드</code>로 바꾼다면 같은 맥락이 된다.</p>
+
+<hr />
+<h3 id="결론">결론</h3>
+<p><img src="https://c.tenor.com/k0HlwNZW9ZsAAAAC/kindergarden-congratulations.gif" alt="Congratulation" /><br />
+<img src="https://media3.giphy.com/media/95P1vO6r7rsk0/giphy.gif" alt="Thank you" /></p>
+
+<p><br /></p>
+
+<p>여기까지 따라와주셔서 감사합니다 :)</p>
+
+<p>이제 다시 한번 맨 위의 글을 보면 무슨 내용을 말했는지 완벽하게 이해가 갈 것이다.<br />
+여기까지 읽었다면 백트래킹을 좀 더 체화하기 위해서 <a href="https://www.acmicpc.net/workbook/view/2052">백준의 N과 M 시리즈</a>를 전부 풀어보는 것을 추천한다.<br />
+설령 내용이 완벽하게 이해가 안 가더라도, 문제를 풀면서 자연스럽게 체화될 것이다.</p>
+
+<p>그리고 N과 M을 전부 풀었다면, 당신은 그 악명높은 <a href="https://www.acmicpc.net/problem/9663">N-Queen</a> 문제도 풀 수 있는 실력이 된 것이다.<br />
+화이팅 !</p>
+
+<p><br />
+  <br /></p>
+
+<p>안뇽 ~ :)<br />
+<br /></p>
+
+<p><img src="https://user-images.githubusercontent.com/80164141/138802009-f777c0cc-d1d1-4cde-8702-9c5e52329e74.gif" alt="북극여우가 눈으로 점프하는 짤" /></p>
+
+<h2 id="참고">참고</h2>
+<p><a href="https://burning-camp.tistory.com/66">[자료구조] 스택(Stack)이란?</a><br />
+<a href="https://ko.wikipedia.org/wiki/피보나치_수">피보나치 수열</a><br />
+<a href="https://www.youtube.com/watch?v=WPSeyjX1-4s&amp;t=1502s">6. Recursion and Dictionaries</a><br />
+<a href="https://www.youtube.com/watch?v=q6RicK1FCUs&amp;t=1s">Tower of Hanoi Problem - Made Easy</a><br />
+<a href="https://geniusnohkang.tistory.com/28">반복과 재귀 : DFS 문제를 재귀로 구현하면 편리한 이유</a></p>
+
+
+    </div>
+
+</article>
+<div class="post-nav"><a class="previous" href="/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html" title="Certbot을 활용한 HTTPS 적용과 리다이렉트">Certbot을 활용한 HTTPS 적용과 리다이렉트</a><a class="next" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html" title="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)">문과생이 적어보는 유클리드 호제법 (a.k.a GCD...</a></div><div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/kotlin/2022/01/21/Kotlin-%EA%B3%BC-OOP(%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D).html" title="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)">객체 지향 프로그래밍(Object Oriented Programming)</a></li><li><a class="post-link" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html" title="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)">문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)</a></li><li><a class="post-link" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html" title="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)">문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)</a></li><li><a class="post-link" href="/server/2021/11/25/%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%9D%B8%EB%B0%94%EC%9A%B4%EB%93%9C,-%EC%95%84%EC%9B%83%EB%B0%94%EC%9A%B4%EB%93%9C-%EA%B7%9C%EC%B9%99.html" title="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)">포트와 인바운드, 아웃바운드 규칙</a></li></ul>
+    </div><div class="post-comments"><div id="gitment_thread">
+  <div id="light-mode">
+    <script src="https://utteranc.es/client.js"
+            repo="Newon-universe/newon-universe.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
+</div></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --></section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner"><div>Unpublished Work <span class="copyleft">&copy;</span> 2017-2022 Newon</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="http://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a></div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

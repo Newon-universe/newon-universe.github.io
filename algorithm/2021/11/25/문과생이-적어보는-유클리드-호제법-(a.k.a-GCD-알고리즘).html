@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c"></meta><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘) | Newon’s blog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)" />
+<meta name="author" content="Newon" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘) 유클리드 호제법 == 나눗셈 알고리즘으로 최대 공약수 구하기 작성자 : 뉴원 (Newon) 유클리드 호제법이란 두 정수 a, bﾠﾠ|ﾠﾠ a 와 b 의 최대공약수 𝒹 ﾠﾠ|ﾠﾠ a / b 했을 때 나오는 나머지 𝛾 ﾠﾠ|ﾠﾠ 이 있을 때 𝒹 = gcd(a, b) = gcd(b, 𝛾) 가 성립함을 의미한다. 이때 gcd(a, b) 는 a 와 b 사이의 최대공약수를 뜻한다." />
+<meta property="og:description" content="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘) 유클리드 호제법 == 나눗셈 알고리즘으로 최대 공약수 구하기 작성자 : 뉴원 (Newon) 유클리드 호제법이란 두 정수 a, bﾠﾠ|ﾠﾠ a 와 b 의 최대공약수 𝒹 ﾠﾠ|ﾠﾠ a / b 했을 때 나오는 나머지 𝛾 ﾠﾠ|ﾠﾠ 이 있을 때 𝒹 = gcd(a, b) = gcd(b, 𝛾) 가 성립함을 의미한다. 이때 gcd(a, b) 는 a 와 b 사이의 최대공약수를 뜻한다." />
+<link rel="canonical" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html" />
+<meta property="og:url" content="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html" />
+<meta property="og:site_name" content="Newon’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-11-25T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Newon"},"description":"문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘) 유클리드 호제법 == 나눗셈 알고리즘으로 최대 공약수 구하기 작성자 : 뉴원 (Newon) 유클리드 호제법이란 두 정수 a, bﾠﾠ|ﾠﾠ a 와 b 의 최대공약수 𝒹 ﾠﾠ|ﾠﾠ a / b 했을 때 나오는 나머지 𝛾 ﾠﾠ|ﾠﾠ 이 있을 때 𝒹 = gcd(a, b) = gcd(b, 𝛾) 가 성립함을 의미한다. 이때 gcd(a, b) 는 a 와 b 사이의 최대공약수를 뜻한다.","@type":"BlogPosting","headline":"문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)","dateModified":"2021-11-25T00:00:00+00:00","datePublished":"2021-11-25T00:00:00+00:00","url":"/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html","mainEntityOfPage":{"@type":"WebPage","@id":"/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Newon's blog" /><script>
+  function initGoogleAnalytics() {
+    var doNotTrack = (window.doNotTrack === "1" || navigator.doNotTrack === "1" ||
+      navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1");
+    var enableDNT = "true" == "true";
+
+    if (!enableDNT || !doNotTrack) {
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'G-PDLQ0VP9LZ', 'auto');
+      ga('send', 'pageview');
+    }
+  }
+  window.addEventListener("load", initGoogleAnalytics);
+</script>
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8"
+        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner"><span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Newon&#39;s blog" src="" onerror="this.style.display='none'">
+  Newon&#39;s blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger"><a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span></div>
+        </nav></div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2021-11-25T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Nov 25, 2021
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 12 mins</span>
+  </p><div class="post-tags"><a class="post-tag" href="/tags.html#문과생_시리즈">#문과생_시리즈</a><a class="post-tag" href="/tags.html#Math">#Math</a><a class="post-tag" href="/tags.html#GCD">#GCD</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h1 id="문과생이-적어보는-유클리드-호제법-aka-gcd-알고리즘">문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)</h1>
+<h3 id="유클리드-호제법--나눗셈-알고리즘으로-최대-공약수-구하기">유클리드 호제법 == 나눗셈 알고리즘으로 최대 공약수 구하기</h3>
+<p>작성자 : 뉴원 (Newon)<br /><br />
+유클리드 호제법이란 <br />
+두 정수 <code class="language-plaintext highlighter-rouge">a, b</code>ﾠﾠ|ﾠﾠ   a 와 b 의 <code class="language-plaintext highlighter-rouge">최대공약수 𝒹</code>  ﾠﾠ|ﾠﾠ  a / b 했을 때 나오는 <code class="language-plaintext highlighter-rouge">나머지 𝛾</code>  ﾠﾠ|ﾠﾠ  이 있을 때  <br />
+<br /></p>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">𝒹 = gcd(a, b) = gcd(b, 𝛾)</code> 가 성립함을 의미한다. <br />
+<em>이때 gcd(a, b) 는 a 와 b 사이의 최대공약수를 뜻한다.</em>
+<br /></p>
+</blockquote>
+
+<p>이때 <code class="language-plaintext highlighter-rouge">𝒹 = gcd(a, b) = gcd(b, 𝛾)</code> 를 확장해서 <code class="language-plaintext highlighter-rouge">𝛾´</code>이 <code class="language-plaintext highlighter-rouge">b를 𝛾로 나누었을때의 나머지</code>라고 한다면 <br /> 
+<code class="language-plaintext highlighter-rouge">𝒹 = gcd(a, b) = gcd(b, 𝛾) = gcd(𝛾, 𝛾´) ... </code> 이 성립하게 된다. <br />
+이 성질을 이용해서 알고리즘에서 최대공약수를 구할 때 gcd 를 구하는 함수를 만들고, 이를 for 문이나 재귀함수로 반복해서 푸는 방법이 성립하게 된다.&lt;/br&gt;</p>
+
+<p><br /></p>
+
+<p>이를 간단하게 코드로 작성하면 다음과 같이 나타난다. <br /></p>
+
+<pre><code class="language-Kotlin">
+fun Gcd(a:Int, b:Int):Int {
+    var r = a % b
+    if (r == 0)
+       return b
+    else
+       return Gcd(b, r)
+}
+
+fun main() {
+    val br = System.`in`.bufferedReader()
+    val (a,b) = br.readLine().split(' ').map {it.toInt()}
+    
+    var gcd = Gcd(a,b)
+    println(gcd)                                               // a 와 b 의 최대공약수
+    println(a*b/gcd)                                           // a 와 b 의 최소공배수
+    
+/* 
+*    백준 2609, 최대공약수와 최소공배수 문제이다.
+*    코틀린으로 작성되었다.
+*/
+</code></pre>
+<p><br />
+<br /></p>
+
+<h3 id="이게-왜-됨">이게 왜 됨?</h3>
+<p>글의 본문이다. 왜 될까? <br />
+<br /></p>
+<center>
+<img src="https://mblogthumb-phinf.pstatic.net/MjAxODEwMTFfMTYw/MDAxNTM5MjI1OTcxODc5.WnNZInoiz0MY7txOJLbGB_IJ-OGoJfKqDOGxfV_DSi8g.IMZ0kIqROr2lmavgFniMfueg4htsBZj33S5oaaLwUKsg.GIF.pola0216/source.gif?type=w800" />
+</center>
+<p><br /></p>
+
+<p><strong><em>a, b, 𝛾(= a와 b의 나머지) 에는 무슨 관계가 있길래 gcd(a,b) 와 gcd(b,𝛾) 과 같고, 𝛾가 𝛾의 나머지(𝛾´) 의 최대공약수, gcd(𝛾, 𝛾´)와 같고 <br />이걸 { … } 반복해도 성립하게 되는걸까?<br />
+<br />
+이게 왜 되는지 이해해보는 것이 이 글의 목표이다.</em></strong><br />
+<br /></p>
+
+<p>두 정수 <code class="language-plaintext highlighter-rouge">a, b</code>가 있고 <code class="language-plaintext highlighter-rouge">a &gt; b</code> 이면서, <code class="language-plaintext highlighter-rouge">𝒹(최대공약수)</code> 를 지니고 있는 수를 통해 알아보자. ﾠﾠﾠﾠﾠ ﾠﾠﾠﾠﾠ ﾠﾠﾠﾠﾠﾠ<code class="language-plaintext highlighter-rouge">대전제 = a 와 b 의 최대공약수 𝒹</code><br />
+우선 우리는 a 와 b 의 최대공약수 𝒹를 알고 있으니, a 와 b 를 다음과 같이 바꿔본다.<br /></p>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">a = 𝒹 * ⍺</code><br />
+<code class="language-plaintext highlighter-rouge">b = 𝒹 * β</code><br />
+⍺와 β는 𝒹를 곱했을 때 각각 a 와 b 가 나오는 정수
+<br /></p>
+</blockquote>
+
+<p>그럼 우린 다음과 같이 쓸 수 있다.<br /></p>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">a = q * b + 𝛾</code>ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠq 는 a / b 의 목,ﾠ 𝛾 은 나머지이다.<br />
+<code class="language-plaintext highlighter-rouge">𝒹 * ⍺ = q * 𝒹 * β + 𝛾</code>ﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠa  를 𝒹 * ⍺로,ﾠ b 를  𝒹 * β 로 치환했다.ﾠﾠﾠﾠ ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ⍺와 β는 조건을 만족하는 임의의 수<br />
+<code class="language-plaintext highlighter-rouge">𝛾 = 𝒹 (⍺ - q * β)</code>ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠ위의  식을  𝛾  과  나머지로  정리하였다.<br />
+<code class="language-plaintext highlighter-rouge">𝛾 = 𝒹    *   (⍺ - q * β)</code>ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠ?!ﾠﾠ 𝛾 ﾠ로 정리하였더니,ﾠ  𝒹  *  (⍺ - q * β) 의 형태이므로,ﾠ 𝛾 의 약수에도 𝒹 가 들어감을 알 수 있다 !! 
+<br />
+올, 위와 같이 정리하였더니 우리는 𝛾 의 약수에 a 와 b 의 최대공약수인 𝒹가 있음을 알 수 있었다!! <br /></p>
+</blockquote>
+
+<p>그렇다면, <code class="language-plaintext highlighter-rouge">𝒹는 b 와 𝛾 의 최대공약수</code>이기도 할까?<br />
+<br /></p>
+
+<p><em>그렇다, 이것이 이 글의 <code class="language-plaintext highlighter-rouge">핵심 주제 ①</code>이다.</em><br />
+<code class="language-plaintext highlighter-rouge">𝒹는 a 와 b 와 𝛾의 최대공약수</code>가 참인지 거짓인지 확인하는 것이 오늘 주제의 <code class="language-plaintext highlighter-rouge">핵심 주제</code> 중 하나이다.<br />
+<br />
+<em>미리 스포하자면 핵심 주제는 <code class="language-plaintext highlighter-rouge">핵심 주제 ② (crazy_𝛾은 언젠가는 0이 될 수 밖에 없다)</code> 까지 있다.</em></p>
+
+<p><br /></p>
+
+<p>우리는 현재 <code class="language-plaintext highlighter-rouge">a</code> 와 <code class="language-plaintext highlighter-rouge">b</code> 의 <code class="language-plaintext highlighter-rouge">최대공약수가 𝒹</code> 라는 것을 알고 있으며 <code class="language-plaintext highlighter-rouge">𝛾 에도 𝒹라는 공약수</code>가 들어간다는 것을 안다. <br /></p>
+
+<p>이때 <strong>𝛾 에게 있어서도 𝒹가 최대공약수가 된다면</strong> <br />
+우리는 <code class="language-plaintext highlighter-rouge">a 와 b 와 𝛾 의 최대공약수가 𝒹 로 같다</code>는 것을 알 수 있게 된다 !!<br />
+<br /></p>
+
+<hr />
+<h3 id="𝛾-의-최대공약수가-a와-b의-최대공약수인-𝒹-와-같다는-동화--가능-">𝛾 의 최대공약수가 a와 b의 최대공약수인 𝒹 와 같다는 동화 .. 가능 ?</h3>
+<p><img src="https://thumbs.gfycat.com/ElectricMadIvorybackedwoodswallow-size_restricted.gif" /><br /></p>
+
+<p>인생은 호락호락하지 않다, 그리고 우리는 𝒹가 𝛾의 최대공약수라고 확신할 수 없다. <br />
+확신할 수 없으니 <strong><em>𝒹 가 𝛾의 최대공약수가 아님</em></strong> 이라고 가정해보자.ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ ﾠ<code class="language-plaintext highlighter-rouge">대 가정 = 𝒹 가 𝛾의 최대공약수가 아님</code><br />
+<br />
+𝛾의 최대공약수가 𝒹 가 아니라면, 𝛾 의 최대공약수는 그 어떤 임의의 수 <code class="language-plaintext highlighter-rouge">𝒹´</code> 일 것이다.<br />
+잠시 정리해서<br /></p>
+<ul>
+  <li>𝒹 = gcd(a,b) 이고 𝒹´ = gcd(b, 𝛾) 이라면<br /></li>
+  <li>𝒹´ 는 언제나 𝒹 보다 작아야한다.ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ<code class="language-plaintext highlighter-rouge">조건 ① = (𝒹 &lt; 𝒹´)</code><br /></li>
+  <li>왜? <code class="language-plaintext highlighter-rouge">대 가정</code>에 의해서 𝒹 는 𝛾 의 최대공약수가 아니고, 𝒹´ 가 𝛾 의 최대공약수이어야 하기 때문이다.<br /></li>
+</ul>
+
+<p>현재 우리는 <code class="language-plaintext highlighter-rouge">대 가정</code>과 <code class="language-plaintext highlighter-rouge">조건 ①</code>를 갖고 있다. <br />
+<br /></p>
+
+<p>그럼, 𝒹´의 관점에서 b 와 𝛾를 다시 써보자.<br /></p>
+<blockquote>
+  <p>b = 𝒹´ * b´ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠb´은  b = 𝒹´ * b´ 를 만족하는 수<br />
+𝛾 = 𝒹´ * r´ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ//ﾠﾠr´은 𝛾 = 𝒹´ * r´를 만족하는 수<br />
+<br /></p>
+</blockquote>
+
+<p>이걸 위에서 사용했던 <code class="language-plaintext highlighter-rouge">a = q * b + 𝛾</code>ﾠﾠﾠ에 대입해보자. <br /></p>
+<blockquote>
+  <p>a = q * 𝒹´ * b´ﾠ+ 𝒹´ * r´ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ// b 와 r 에 𝒹´에서 본 b 와 r 를 넣었다.<br />
+a = 𝒹´ * (q * b´ + r´)ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ// 넣어본 김에 깔끔하게 𝒹´로 정리해보았다.<br />
+<br /></p>
+</blockquote>
+
+<p>어 ? a 의 공약수에도 𝒹´가 들어간다.<br />
+하지만 알다시피, 대전제로 우리는 a 와 b 의 최대공약수 𝒹 라고 하였으며, <br />
+또 따라서 𝒹´는 𝒹 보다 작을 수 밖에 없다 !!ﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠﾠ<code class="language-plaintext highlighter-rouge">조건 ② = (𝒹´ &lt; 𝒹)</code><br />
+<br />
+<br />
+? <code class="language-plaintext highlighter-rouge">조건 ① = (𝒹 &lt; 𝒹´)</code> 과 <code class="language-plaintext highlighter-rouge">조건 ② = (𝒹´ &lt; 𝒹)</code> 이 모순된다. <br />
+문과인 나도 안다. <strong>어떠한 정수 𝒹가 𝒹´ 보다 작으면서 클 수는 없다</strong> <br />
+<br />
+그렇다면 잘못된 건 <code class="language-plaintext highlighter-rouge">대 가정 = 𝒹 가 𝛾의 최대공약수가 아님</code> !! <br />
+해당 가정의 결론이 거짓이니, 그 가정의 반대는 참 ! 즉 <code class="language-plaintext highlighter-rouge">𝒹 는 𝛾의 최대공약수임</code><br />
+<br />
+무슨소리냐고? <br />
+다음 gif를 참고해보자.</p>
+
+<p><br />
+<br /></p>
+
+<p>따라서 우리는 <code class="language-plaintext highlighter-rouge">a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.</code> 는 이야기가 동화인 줄 알았지만 <br />
+사실 팩트기반 실제 사례 기반 수필로써 <code class="language-plaintext highlighter-rouge">핵심주제 ① : a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.</code> 가 True임을 알 수 있었다.<br /></p>
+
+<hr />
+<h3 id="ㅇㅋ-근데-왜-a-와-b-와-𝛾-의-최대공약수가-같다고-그걸-저렇게-반복해도-성립하는거임">ㅇㅋ, 근데 왜 a 와 b 와 𝛾 의 최대공약수가 같다고 그걸 저렇게 반복해도 성립하는거임?</h3>
+<p>그렇다, 우리가 <code class="language-plaintext highlighter-rouge">핵심 주제 ① : a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.</code> 라는 팩트를 갖고 있어도 <br />
+우리는 코틀린 예제로 쓰인 저 코드가 잘 작동하게 되는 이유를 아직 찾지 못했다.<br />
+<br /></p>
+
+<p><img src="https://postfiles.pstatic.net/MjAyMDA2MjZfMTg2/MDAxNTkzMTYzMTAxNzEz.2ZOU95zPr-Yf7OWs9Iy_qCnvEhVKm2dXLkhaBXATNtUg.8ZPKSf1bE8wpKfN1uR3aXVzZv9YIfl6q2aB3cKgeh84g.GIF.c_blub/48C5FAA5-5FDB-421A-95EA-331A34587FA5.gif?type=w966" /></p>
+
+<p><br />
+<br /></p>
+
+<p>코드를 다시 한번 살펴보자</p>
+
+<pre><code class="language-Kotlin">
+fun Gcd(a:Int, b:Int):Int {
+    var r = a % b
+    if (r == 0)
+       return b
+    else
+       return Gcd(b, r)
+}
+</code></pre>
+
+<p>Gcd() 는 나머지 𝛾 이 0이 될 때 모든 연산을 끝내게 된다.<br />
+다시 말하면 𝛾 은 유한한 횟수 안에 언젠가 0 된다는 것이다.<br /> 
+언젠가는 나머지가 0이 된다라는걸 확신하는 듯한 저 표정이 거만하기 짝이 없다. 저게 블러핑인지 아닌지 한번 확인해보자. <br />
+<br />
+<br />
+<code class="language-plaintext highlighter-rouge">a / b 의 나머지가 𝛾</code> 이듯, <code class="language-plaintext highlighter-rouge">b / 𝛾 의 나머지가 𝛾´</code> 라고 말해보자.<br />
+<code class="language-plaintext highlighter-rouge">핵심 주제 ① = 𝒹 는 a와 b 와 𝛾의 최대공약수임</code> 에 따라서 <code class="language-plaintext highlighter-rouge">gcd(a, b) = gcd(b, 𝛾)</code> 이듯 <code class="language-plaintext highlighter-rouge">gcd(b, 𝛾) 은 gcd(𝛾, 𝛾´)</code> 이다.<br />
+<br />
+..어 왜?
+<br />
+<br />
+두 정수 a 와 b 를 다시 한번 살펴보자. (a &gt; b), a 와 b 의 최대공약수를 𝒹 라고 할 때 <br /></p>
+<blockquote>
+  <p>a = q * b + 𝛾<br />
+gcd(a, b) = gcd(b, 𝛾) <br />
+a 와 b 의 최대공약수 == b 와 𝛾 의 최대공약수<br />
+<br /></p>
+</blockquote>
+
+<p>마찬가지로 이번엔 위의 내용과 상관없이 순수하게 두 정수 b 와 r 을 살펴보자. (b &gt; 𝛾) <br /></p>
+<blockquote>
+  <p>b = q * 𝛾 + 𝛾´<br />
+gcd(b, 𝛾) = gcd (𝛾, 𝛾´) <br />
+b 와 𝛾 의 최대공약수 == 𝛾 와 𝛾´의 최대공약수<br />
+<br /></p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">핵심 주제 ① = a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.</code>에 따라서 <br /></p>
+<ul>
+  <li>gcd(a,b) == gcd(b,𝛾) 인데</li>
+  <li>gcd(b,𝛾) == gcd(𝛾, 𝛾´) 이니</li>
+  <li>gcd(a,b) == gcd(𝛾, 𝛾´) 이다.
+<br /></li>
+</ul>
+
+<p>오, 그렇다면 <code class="language-plaintext highlighter-rouge">𝛾´ 과 𝛾´´</code> 사이에도 <code class="language-plaintext highlighter-rouge">최대공약수는 𝒹</code> 이고 <code class="language-plaintext highlighter-rouge">𝛾´´ 과 𝛾´´´</code> 에도 <code class="language-plaintext highlighter-rouge">최대공약수는 𝒹</code> 이고 <code class="language-plaintext highlighter-rouge">𝛾´´´ 과 𝛾´´´´</code> 에도 <code class="language-plaintext highlighter-rouge">𝒹</code> 이고 <code class="language-plaintext highlighter-rouge">{ ... }</code> 에도 <code class="language-plaintext highlighter-rouge">𝒹</code>  <br />
+<br />
+<br />
+무한한 나머지와 그 나머지의 최대공약수는 언제나 a 와 b 의 최대공약수와 같다는 건 알겠지만, 혹시 <code class="language-plaintext highlighter-rouge">𝛾´´´´´´{...}</code>가 0이 안되면 어떻게 될까?? <br />
+<br />
+<code class="language-plaintext highlighter-rouge">𝛾´´´´´´{...}</code> 를 이제부터 <code class="language-plaintext highlighter-rouge">crazy_𝛾</code>이라고 불러보자.<br />
+나머지를 계속하다보면 언젠가는 우린 <code class="language-plaintext highlighter-rouge">crazy_𝛾</code>를 만나게 될텐데, 그때의 식은 다음과 같을 것이다.<br /></p>
+
+<blockquote>
+  <p>b &gt; 𝛾 &gt; 𝛾’ &gt; 𝛾’’ &gt; 𝛾’’’ … crazy_r != 0 <br />
+<br />
+<br /></p>
+</blockquote>
+
+<p>우리는 기억해내야 한다, <code class="language-plaintext highlighter-rouge">b</code> 와 <code class="language-plaintext highlighter-rouge">𝛾</code> 도, 그 어떠한 <code class="language-plaintext highlighter-rouge">crazy_𝛾</code> 들도 모두 <code class="language-plaintext highlighter-rouge">정수</code> 라는 것을.<br />
+즉, <code class="language-plaintext highlighter-rouge">crazy_𝛾</code> 이 정수고, 0이 아니라면 <code class="language-plaintext highlighter-rouge">less_crazy_𝛾</code>과 <code class="language-plaintext highlighter-rouge">crazy_𝛾</code>로 나눠서 <code class="language-plaintext highlighter-rouge">more_crazy_𝛾´</code>라는 정수를 만들 수 있으니<br />
+<br /></p>
+
+<blockquote>
+  <p>b &gt; 𝛾 &gt; 𝛾’ &gt; 𝛾’’ &gt; 𝛾’’’ … &gt; less_crazy_𝛾 &gt; crazy_𝛾 &gt; more_crazy_𝛾 &gt; more_crazy_𝛾2 { … } <br />
+<br /></p>
+</blockquote>
+
+<p>가 성립함을 알 수 있고, 여기서 항상 <code class="language-plaintext highlighter-rouge">crazy_𝛾</code>은 <code class="language-plaintext highlighter-rouge">crazy_𝛾 &gt; more_crazy_𝛾</code>를 성립하게 된다. <br />
+왜냐하면 <code class="language-plaintext highlighter-rouge">more_crazy_𝛾</code>는 <code class="language-plaintext highlighter-rouge">crazy_𝛾</code>의 나머지이니까.<br />
+<br />
+정수가 언제나 앞의 숫자보다 작아진다면, 언젠가는 0에 도달하게 된다. 왜냐고? 그것이 정수이니까 (끄덕) <br /></p>
+
+<blockquote>
+  <p>a &gt; b 일 때, a 와 b 가 정수라면 a 와 b 차이의 최솟값은 1<br />
+a &gt; b &gt; b’ 는 최소한 1씩 줄어드는 정수이며, 이게 계속해서 반복된다면 언젠가는 0에 도달하게 된다.</p>
+</blockquote>
+
+<p>따라서 <code class="language-plaintext highlighter-rouge">핵심주제 ② = crazy_𝛾은 언젠가는 0이 될 수 밖에 없다</code> !!<br />
+<br />
+<img src="https://blog.kakaocdn.net/dn/b7Rey8/btqExZC771a/cZofK59sF1KN00Exlz3sWK/img.gif" />
+<br />
+<br />
+<br />
+마지막으로 코드를 다시 한번 살펴보면</p>
+<pre><code class="language-Kotlin">
+fun Gcd(a:Int, b:Int):Int {
+    var r = a % b
+    if (r == 0)
+       return b
+    else
+       return Gcd(b, r)
+}
+{ ... }
+</code></pre>
+<p><br /></p>
+
+<p><code class="language-plaintext highlighter-rouge">var r</code> 은 재귀함수로 돌아가며 계속해서 <code class="language-plaintext highlighter-rouge">𝛾</code>, <code class="language-plaintext highlighter-rouge">𝛾´</code>, <code class="language-plaintext highlighter-rouge">𝛾´´</code>, <code class="language-plaintext highlighter-rouge">𝛾´´´</code> {…} <code class="language-plaintext highlighter-rouge">crazy_𝛾</code> 이 된다 하더라도 <br />
+<code class="language-plaintext highlighter-rouge">핵심주제 ② = crazy_𝛾은 언젠가는 0이 될 수 밖에 없다</code>에 의해서 언젠가는 0이 된다는 걸 할 수 있다.<br />
+그렇기 때문에, 위의 코드가 <code class="language-plaintext highlighter-rouge">무한히 돌지 않고 유한한 횟수 내에서</code> 나머지가 0인 순간을 찾을 수 있는 것이다.</p>
+
+<hr />
+
+<h3 id="결론">결론</h3>
+<p>유클리드 호제법을 통해 우리는 다음과 같이</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">핵심주제 ① : a 와 b 와 𝛾 의 최대공약수가 𝒹로 같다.</code></li>
+  <li><code class="language-plaintext highlighter-rouge">핵심주제 ② : crazy_𝛾은 언젠가는 0이 될 수 밖에 없다</code><br /></li>
+</ul>
+
+<p>가 성립함을 알 수 있었고, 이에 따라 Gcd(최대공약수)를 구하는, 소위 나머지 알고리즘라는 것이 성립함을 알 수 있었다. <br />
+<br /></p>
+
+<p>즉 정수 <code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">b</code>, <code class="language-plaintext highlighter-rouge">𝛾</code> 이 있을 때<br /></p>
+
+<pre><code class="language-Kotlin">fun Gcd(a:Int, b:Int):Int {
+    var r = a % b
+    if (r == 0)
+       return b
+    else
+       return Gcd(b, r)
+}
+</code></pre>
+
+<p>와 같이 <code class="language-plaintext highlighter-rouge">a</code> 와 <code class="language-plaintext highlighter-rouge">b</code> 를 나눈 나머지 <code class="language-plaintext highlighter-rouge">𝛾</code>가 0이 될 때 까지</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">a = b</code></li>
+  <li><code class="language-plaintext highlighter-rouge">b = r</code> <br />
+을 반복하다보면 언젠가 최대공약수가 나온다는 것을 알게되었다.<br />
+<br />
+<br /></li>
+</ul>
+
+<p><em>Gcd 문제 푸는데 이걸 다 알아야 하냐고?</em> <br /></p>
+
+<p><img src="https://postfiles.pstatic.net/MjAyMDA2MjZfMTg2/MDAxNTkzMTYzMTAxNzEz.2ZOU95zPr-Yf7OWs9Iy_qCnvEhVKm2dXLkhaBXATNtUg.8ZPKSf1bE8wpKfN1uR3aXVzZv9YIfl6q2aB3cKgeh84g.GIF.c_blub/48C5FAA5-5FDB-421A-95EA-331A34587FA5.gif?type=w966" width="200" height="200" />
+<img src="https://storage.googleapis.com/jjalbot-jjals/2018/12/rylg064feE/20171212_5a2ea716c5d24.gif" width="200" height="200" />
+<br /></p>
+
+<blockquote>
+  <p>출처 <br />
+brain from 감자 4호 <br />
+// 알고리즘 공부하면서 알아본 내용입니다, 오류 • 오타 등 알려주시면 정말 감사하겠습니다 :)</p>
+</blockquote>
+
+
+    </div>
+
+</article>
+<div class="post-nav"><a class="previous" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html" title="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)">문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)...</a><a class="next" href="/server/2021/11/25/%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%9D%B8%EB%B0%94%EC%9A%B4%EB%93%9C,-%EC%95%84%EC%9B%83%EB%B0%94%EC%9A%B4%EB%93%9C-%EA%B7%9C%EC%B9%99.html" title="포트와 인바운드, 아웃바운드 규칙">포트와 인바운드, 아웃바운드 규칙</a></div><div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/kotlin/2022/01/21/Kotlin-%EA%B3%BC-OOP(%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D).html" title="포트와 인바운드, 아웃바운드 규칙">객체 지향 프로그래밍(Object Oriented Programming)</a></li><li><a class="post-link" href="/server/2021/11/25/%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%9D%B8%EB%B0%94%EC%9A%B4%EB%93%9C,-%EC%95%84%EC%9B%83%EB%B0%94%EC%9A%B4%EB%93%9C-%EA%B7%9C%EC%B9%99.html" title="포트와 인바운드, 아웃바운드 규칙">포트와 인바운드, 아웃바운드 규칙</a></li><li><a class="post-link" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C-%ED%98%B8%EC%A0%9C%EB%B2%95-(a.k.a-GCD-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98).html" title="포트와 인바운드, 아웃바운드 규칙">문과생이 적어보는 유클리드 호제법 (a.k.a GCD 알고리즘)</a></li><li><a class="post-link" href="/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html" title="포트와 인바운드, 아웃바운드 규칙">Certbot을 활용한 HTTPS 적용과 리다이렉트</a></li></ul>
+    </div><div class="post-comments"><div id="gitment_thread">
+  <div id="light-mode">
+    <script src="https://utteranc.es/client.js"
+            repo="Newon-universe/newon-universe.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
+</div></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --></section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner"><div>Unpublished Work <span class="copyleft">&copy;</span> 2017-2022 Newon</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="http://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a></div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

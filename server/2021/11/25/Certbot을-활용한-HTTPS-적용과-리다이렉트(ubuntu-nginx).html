@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c"></meta><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Certbot을 활용한 HTTPS 적용과 리다이렉트 | Newon’s blog</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Certbot을 활용한 HTTPS 적용과 리다이렉트" />
+<meta name="author" content="Newon" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="목표 Ubuntu OS 기반 Nginx 웹 서버에 certbot 을 활용하여 https를 적용시킨다. http 접속을 https 로 리다이렉트한다." />
+<meta property="og:description" content="목표 Ubuntu OS 기반 Nginx 웹 서버에 certbot 을 활용하여 https를 적용시킨다. http 접속을 https 로 리다이렉트한다." />
+<link rel="canonical" href="/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html" />
+<meta property="og:url" content="/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html" />
+<meta property="og:site_name" content="Newon’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-11-25T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Certbot을 활용한 HTTPS 적용과 리다이렉트" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Newon"},"description":"목표 Ubuntu OS 기반 Nginx 웹 서버에 certbot 을 활용하여 https를 적용시킨다. http 접속을 https 로 리다이렉트한다.","@type":"BlogPosting","headline":"Certbot을 활용한 HTTPS 적용과 리다이렉트","dateModified":"2021-11-25T00:00:00+00:00","datePublished":"2021-11-25T00:00:00+00:00","url":"/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html","mainEntityOfPage":{"@type":"WebPage","@id":"/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Newon's blog" /><script>
+  function initGoogleAnalytics() {
+    var doNotTrack = (window.doNotTrack === "1" || navigator.doNotTrack === "1" ||
+      navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1");
+    var enableDNT = "true" == "true";
+
+    if (!enableDNT || !doNotTrack) {
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'G-PDLQ0VP9LZ', 'auto');
+      ga('send', 'pageview');
+    }
+  }
+  window.addEventListener("load", initGoogleAnalytics);
+</script>
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8"
+        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner"><span class="site-brand"><a class="site-brand-inner" rel="author" href="/">
+  <img class="site-favicon" title="Newon&#39;s blog" src="" onerror="this.style.display='none'">
+  Newon&#39;s blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewBox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger"><a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span></div>
+        </nav></div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">Certbot을 활용한 HTTPS 적용과 리다이렉트</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2021-11-25T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Nov 25, 2021
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+  </p><div class="post-tags"><a class="post-tag" href="/tags.html#Ubuntu">#Ubuntu</a><a class="post-tag" href="/tags.html#HTTPS">#HTTPS</a><a class="post-tag" href="/tags.html#Certbot">#Certbot</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h2 id="목표">목표</h2>
+<blockquote>
+  <ol>
+    <li>Ubuntu OS 기반 Nginx 웹 서버에 certbot 을 활용하여 https를 적용시킨다.</li>
+    <li>http 접속을 https 로 리다이렉트한다.</li>
+  </ol>
+</blockquote>
+
+<h2 id="certbot을-설치하기-전에">Certbot을 설치하기 전에</h2>
+
+<p>Certbot 을 설치하는 방법은 다양하지만, 현재 Let`s encrypt <sup><a href="#footnote_1">1</a></sup> 의 공식입장은 snap 패키지<sup><a href="#footnote_2">2</a></sup>를 활용해서 설치하는 방법이다. 참고로 Shell 명령어인 certbot-auto 를 활용한 방법은 더 이상 지원하지 않고 있으며, <a href="https://certbot.eff.org/docs/install.html">삭제</a>를 권하고 있다.</p>
+
+<p><em>snap 패키지를 사용하므로 ubuntu 16.04 이상 버전이여야 한다.</em></p>
+
+<p>혹여나 다른 OS와 다른 웹서버에서 설치하고 싶다면 <a href="https://certbot.eff.org/instructions">여기</a>를 통해 원하는 OS와 웹서버를 선택하면 Let`s encrypt 가 권장하는 공식 설치 방법을 알 수 있다. <del>영어 주의</del></p>
+
+<p>Certbot 설치는 공식문서의 방법을 그대로 인용한 것으로, 원본은 여기서 <a href="https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx">확인</a>할 수 있다.</p>
+
+<p>참고로 HTTPS는 도메인을 통해서 적용시키므로 IP로만 접속할 수 있다면 해당 IP에 도메인을 연결해야한다.</p>
+
+<hr />
+
+<h2 id="certbot-설치">Certbot 설치</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo snap install core
+sudo snap refresh core
+sudo snap install --classic certbot
+
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx
+</code></pre></div></div>
+
+<p>sudo certbot –nginx 를 입력하면 다음과 같은 질문들이 나온다.<br />
+<br /></p>
+
+<p><img width="550" alt="certbot --nginx 첫번째 질문, 이메일" src="https://user-images.githubusercontent.com/80164141/124739318-b1e8c100-df54-11eb-94a9-d4f883ba1909.png" />
+디버깅을 위한 로그, 긴급한 사항 혹은 보안 사항 등을 전달할 이메일을 입력해달라는 내용, 이메일을 입력한 후 엔터
+<br />
+<br /></p>
+
+<p><img width="550" alt="certbot --nginx 두번째 질문, 약관 읽어보기" src="https://user-images.githubusercontent.com/80164141/124739581-f5432f80-df54-11eb-8bb6-98be7a8fb589.png" /><br />
+약관을 읽고 SSL 을 사용하기 위한 서버 등록을 승낙해야 한다는 이야기. Y 입력한 후 엔터
+<br />
+<br /></p>
+
+<p><img width="550" alt="certbot --nginx 세번째 질문, 재단에 이메일 공유 여부" src="https://user-images.githubusercontent.com/80164141/124740075-6551b580-df55-11eb-8ebc-e5bb1f4173a4.png" />
+위에서 입력했던 이메일을 재단에도 공유해서 재단의 뉴스, 캠페인, 디지털 자유운동 지원 방법 등을 받을 것인지에 대한 내용. 흔히들 생각하는 NGO단체의 이메일이라 생각하면 될 것 같다.</p>
+
+<p><em>난 오픈소스의 힘을 믿으니까 Y</em>
+<br />
+<br /></p>
+
+<p><img width="550" alt="certbot --nginx 네번째 질문, 어떤 도메인을 HTTPS 적용시킬 것인지 여부" src="https://user-images.githubusercontent.com/80164141/124740976-3ab42c80-df56-11eb-8ec5-7524f6480aac.png" />
+어떤 도메인에 HTTPS를 적용시킬지 물어본다. 그냥 엔터를 누르면 목록에 뜬 모든 도메인에 HTTPS를 적용시켜주고, <code class="language-plaintext highlighter-rouge">1 3</code> 이런식으로 숫자를 띄어서 엔터를 누르면 해당 도메인만 HTTPS를 적용시켜 준다.</p>
+
+<p><em>난 모든 도메인을 HTTPS 적용시키길 원하니 그냥 엔터</em>
+<br />
+<br /></p>
+
+<p><img width="550" alt="certbot --nginx 완료 화면" src="https://user-images.githubusercontent.com/80164141/124741806-11e06700-df57-11eb-8b99-815c48c77080.png" />
+Successfully deployed certificate for 도메인 과 함께, 어떤 도메인들이 HTTPS가 적용됐는지 알려주고 만약 마음에 든다면 기부를 권하는 모습이다.</p>
+
+<p><del><em>역시 NGO계열은 다들 비슷비슷한가보다.</em></del></p>
+
+<p>이 방법을 따라왔다면 기본 옵션을 수정하지 않는 한, certbot 은 만료 전에 자동으로 갱신되며 리다이렉트까지 자동으로 설정되어 있다.
+<br />
+<br />
+리뉴얼이 되는 모습을 확인해보고 싶다면</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo certbot renew --dry-run</code>을 사용하면 되고 다음과 같이 나오게 된다.
+<img width="550" alt="certbot renew --dry-run 완료 화면" src="https://user-images.githubusercontent.com/80164141/124742554-ce3a2d00-df57-11eb-8ca4-9677d6af8a30.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo service nginx restart</code> 로 웹서버를 재시작을 해주고 해당 도메인을 들어가면 https로 연결되는 것을 알 수 있다.</p>
+
+<hr />
+<h2 id="http를-https로-리다이렉트">HTTP를 HTTPS로 리다이렉트</h2>
+<p>물론 위에서 밝혔듯, 친절한 snap 패키지의 certbot 설치는 리다이렉트까지 지원하지만, 그대로 두면 Safari 에서는 리다이렉트를 안하게 되어, 수정할 필요가 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo vi /etc/nginx/sites-available/default</code> 로 nginx 옵션에 들어가자.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>... 코드들 ...
+
+server {
+    if ($host = 도메인) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = 도메인) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = 도메인) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+        server_name 도메인, 도메인, 도메인;
+        return 301 https://도메인; # managed by Certbot 
+        
+        // 403 으로 되어있을 부분을 301 https://도메인 으로 바꿔준다.
+}
+</code></pre></div></div>
+
+<p>default 에서 가장 밑에 있을 해당 server 블록에서, 가장 마지막 return 403 부분을 301 https://도메인 으로 바꿔준다. 이를 통해 서버가 80번(http)을 listen 하면 자동으로 https 로 리다이렉트 시켜준다. 부가적으로 <code class="language-plaintext highlighter-rouge">listen 443 ssl</code> 에 <code class="language-plaintext highlighter-rouge">default_server</code>를 추가시켜주어서 443포트가 이 서버의 기본 포트라는 걸 알려주는 것도 괜찮다.</p>
+
+<p>여기서 301은 HTTP Status Code로, 영구 이동(Permanently moved)을 의미한다. 즉, “네가 요청한 페이지가 영구히 이전되었으므로 이 주소로 다시 접속을 시도해 봐라.”라는 의미이다.<sup><a href="#footnote_3">3</a></sup></p>
+
+<p>여기서 실수하면 리다이렉트 횟수가 너무 많다는 등의 오류를 보게 된다. 혹시 리다이렉트 관련 오류가 생긴다면 return 되는 주소가 A가 A를 부르는 형태라든지 등을 확인하면 된다. <em><del>즉 리다이렉트 관련 오류는 왠만하면 설정자 잘못이다.</del></em></p>
+
+<p><em>만약 리다이렉트 문제나 여타 관련 문제를 겪는다면 다른 브라우저 (Safari라면 크롬, Edge 등)도 사용해보고, <a href="https://www.whatsmydns.net/#CNAME/dev.yeorumlabo.com">이곳</a>에서 자신의 도메인이 제대로 연결은 되었는지 확인해보자. 브라우저의 쿠키 문제로 안될 수도 있으며, 도메인 자체가 제대로 연결되어 있지 않다면 당연히 문제가 생긴다.</em></p>
+
+<hr />
+<p><a href="https://www.ssllabs.com/ssltest/index.html">Qualys.</a> 에서 해당 도메인의 SSL이 얼만큼 강한 보안을 갖고 있는지 확인할 수 있다.</p>
+
+<p>참고로 네이버가 B이다.
+<em><del>어?</del></em></p>
+
+<hr />
+<blockquote>
+  <p><strong>출처</strong><br />
+Certbot instruction <a href="https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx">출처</a><br />
+Nginx에서 자동 Redirection(301 Permanently moved) 설정하기 <a href="https://www.tuwlab.com/ece/26993">출처</a><br />
+Let’s Encrypt 위키백과 <a href="https://ko.wikipedia.org/wiki/Let%27s_Encrypt">출처</a>
+*HTML에서 각주 사용하는 법 <a href="https://lynmp.com/ko/article/nu86c16d8f09c9fbd8">출처</a></p>
+</blockquote>
+
+<hr />
+<p><a name="footnote_1">1</a>: Certbot 를 제공하는 프로젝트 명으로, 공익기관 ISRG(Internet Security Research Group) 가 주도하고 있다. firefox 를 만든 모질라재단, 스탠퍼드 법학대학원, 리눅스 재단이 지원하고 있다. <a href="https://ko.wikipedia.org/wiki/Let%27s_Encrypt">위키 출처</a></p>
+
+<p><a name="footnote_2">2</a>: 우분투 16.04 버전부터 도입한 애플리케이션 패키지 포맷이다. 스냅으로 만들어진 애플리케이션은 내부에 구동을 위한 요소를 포함하고 있어 OS에 덜 의존하게 되며 프로그램에 필요한 모든 라이브러리가 포함되어 빌드되는 형태이다. <del><em>즉 express 를 스냅으로 설치한다면 node js 가 함께 설치..되나? 댓글로 알려줘요..</em></del>  <a href="https://openwiki.kr/tech/snap">출처</a></p>
+
+<p><a name="footnote_2">3</a>: <a href="https://www.tuwlab.com/ece/26993">Nginx에서 자동 Redirection(301 Permanently moved) 설정하기</a></p>
+
+
+    </div>
+
+</article>
+<div class="post-nav"><span></span><a class="next" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html" title="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)">문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)...</a></div><div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/server/2021/11/25/Certbot%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-HTTPS-%EC%A0%81%EC%9A%A9%EA%B3%BC-%EB%A6%AC%EB%8B%A4%EC%9D%B4%EB%A0%89%ED%8A%B8(ubuntu-nginx).html" title="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)">Certbot을 활용한 HTTPS 적용과 리다이렉트</a></li><li><a class="post-link" href="/server/2021/11/25/%ED%8F%AC%ED%8A%B8%EC%99%80-%EC%9D%B8%EB%B0%94%EC%9A%B4%EB%93%9C,-%EC%95%84%EC%9B%83%EB%B0%94%EC%9A%B4%EB%93%9C-%EA%B7%9C%EC%B9%99.html" title="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)">포트와 인바운드, 아웃바운드 규칙</a></li><li><a class="post-link" href="/kotlin/2022/01/21/Kotlin-%EA%B3%BC-OOP(%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D).html" title="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)">객체 지향 프로그래밍(Object Oriented Programming)</a></li><li><a class="post-link" href="/algorithm/2021/11/25/%EB%AC%B8%EA%B3%BC%EC%83%9D%EC%9D%B4-%EC%A0%81%EC%96%B4%EB%B3%B4%EB%8A%94-%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9-(%EC%9E%AC%EA%B7%80%EC%99%80-DFS%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8).html" title="문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)">문과생이 적어보는 백트래킹(재귀와 DFS 를 곁들인)</a></li></ul>
+    </div><div class="post-comments"><div id="gitment_thread">
+  <div id="light-mode">
+    <script src="https://utteranc.es/client.js"
+            repo="Newon-universe/newon-universe.github.io"
+            issue-term="title"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
+</div></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --></section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner"><div>Unpublished Work <span class="copyleft">&copy;</span> 2017-2022 Newon</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="http://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/feed.xml">via RSS</a></div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
