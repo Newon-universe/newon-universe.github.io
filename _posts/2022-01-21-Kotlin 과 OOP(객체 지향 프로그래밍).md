@@ -10,7 +10,8 @@ sidebar: []
 ## 컴파일러와 객체 지향 프로그래밍
 객체(Object) 를 지향(Oriented) 하는 프로그래밍은 코딩을 작성할 때 사용할 수 있는 하나의 패러다임, 더 일반적으로는 하나의 글쓰기 장르라고 볼 수 있다.
 
-잠시 객체 지향 프로그래밍을 접어두고, 코딩이 어떻게 동작하는지부터 생각해보자. 어떤 프로그래밍 언어를 쓰더라도 코드는 컴파일러를 거쳐서 수행된다. 사람이 작성한 코드를 기계어로 번역하는 작업이 필요한 것인데, 이때 코드는 위에서부터 아래로 한 줄씩 코드를 읽고, 번역하고, 내용을 수행한다.
+잠시 객체 지향 프로그래밍을 접어두고, 코딩이 어떻게 동작하는지부터 생각해보자. 어떤 프로그래밍 언어를 쓰더라도 코드는 컴파일러를 거쳐서 수행된다.  
+사람이 작성한 코드를 기계어로 번역하는 작업이 필요한 것인데, 이때 코드는 위에서부터 아래로 한 줄씩 코드를 읽고, 번역하고, 내용을 수행한다.
 
 화가가 그림을 그려서 파는 작업을 위의 문단의 내용만 갖고서 코드로 표현하면 다음과 같다.
 
@@ -32,7 +33,8 @@ if (10000 >= 손님 지갑 && 손님은 그림을 갖고 싶다) {
 }  
 ```
 
-Kotlin 컴파일러는 위에서부터 읽으며 모든 내용을 절차대로 수행할 것이다. 이때, 만약 손님이 1명이 아니라 여러 명이라면 코드는 계속해서 저 코드를 부분적으로 반복하며, 많은 줄을 작성해야할 것이다.
+Kotlin 컴파일러는 위에서부터 읽으며 모든 내용을 절차대로 수행할 것이다.  
+이때, 만약 손님이 1명이 아니라 여러 명이라면 코드는 계속해서 저 코드를 부분적으로 반복하며, 많은 줄을 작성해야할 것이다.
 
 
 ![](https://memegenerator.net/img/instances/58100671/no-way.jpg)
@@ -58,20 +60,21 @@ Kotlin 컴파일러는 위에서부터 읽으며 모든 내용을 절차대로 �
 여기서 말하는 `객체` 란 하나로써 존재할 수 있는 무언가를 의미한다.
 사람, 고양이, 우주, 자동차 등이 될 수 있다.
 
-언급된 객체들의 특징은 자신이 `주체` 가 될 수 있다는 점이다.
-고양이는 고양이로서 존재할 수 있고, 우주는 우주로서 존재할 수 있다.
+언급된 객체들의 특징은 자신이 `주체` 가 될 수 있다는 점이다.  
+고양이는 고양이로서 존재할 수 있고, 우주는 우주로서 존재할 수 있다.  
 고양이를 이루는 것 중에는 털이 있지만, 털이 조금 빠진다고 고양이가 고양이가 되진 않는다.
-털이 빠진 고양이가 될 순 있지만.
+털이 빠진 고양이가 될 순 있지만.  
 
-굉장히 관념적이지만, 여기서 말하는 `객체` 가
-하나로서 존재할 수 있는 어떤 `추상적인 무언가` 로 이해했다면 완벽하다.
+굉장히 관념적이지만, 여기서 말하는 `객체` 가  
+하나로서 존재할 수 있는 어떤 `추상적인 무언가` 로 이해했다면 완벽하다.  
 
 
 객체 지향 프로그래밍은 프로그래밍을 짤 때 `객체` 단위로 코드를 작성하기를 `지향` 한다는 것이다.
 
-![](https://lh3.googleusercontent.com/KbLdT9CPvlk5r5GPFq2h9i5JiEYtjXCJUHhc-g7axTN0SzjIXmi4gstBmJTxFM199NzesOXvM_Yeb6XmCtfGq9SF3JBLohZ-VfP8Cvhv1zFdpixZSfYrZbgnl9MeCzaxxy99xi168EpwHkZl4B9ESlUQLir7rFwYtUUI_fFn0eRbVURPyLGhepiunmQXSB_JiJcfgYa_-q2jvqcqatkj3S3EohEEi_rdSUCDpTi8KWG3f00gJ5NBJRPyed6ZULWsrMKnbB7-2A_T9O6i3M7y9kp6tWEq-c5mB2Zd6kQUlBRVDz8s2kU2Axt4LMWLR5DK7h4mtvzdhx_RM7JmX_7yvhCI_fNhbDDlSntyoMmUd9AqVlrmFSGDBLQchVGofJl_15SkMXpTb9xZ9NhPGUsL27DztjQSMyyowI452GWWDnw3P7cN0Tsu478sPQ_rgraQvlin5DJnWWqP77zdG6v9S_z-LmMK7Jh-4aQ_D4q-XoM36IJpXFWKFgcy7F6N641ZGhpXFHOBtnp7Bb0pJW3fM21mgWHuOcTfHxihfgRoONPDBeEiG93OuERNtoD5Zq6ovn1IV4zUFx3duPmpMmiED2MtMsIKa3uGF3WrKw_dIgZFw2_2SfkNkdVXeD0wl8OUwAxEm7HKFLSqHIgwT4n9MnRTyEAxMTymKhtPC9p30ccVfevn3bY-PAviXNHKyfm8jedERxQrT1U-_V-gWH7T17k=w1132-h1063-no?authuser=0)
+![](https://lh3.googleusercontent.com/OaYdR_8N0Q0jB3trpJ7zugia-hB9YCVNnp-hf7AvFZaTjiu76PKW_PuZO7k8CsIX1hiO9eHwnJs6hs64fsQaJ8vf6TDq1f0uLctRTv8vE-4G9R2VYKL2SfCDXLHbnJIFRyEroQPyvgi6pkTIk9rck-Zix5S2iXIAAga7U7WeXYVWXufOITFEsU8m-ONs1ZRjlBZMmo8dokFvH8wazRPYUPYXQDjjFhKgCYaDFKWd7Pi_9y_p-GQbqJW1N_Xk4SptGKm0U-_LWbQaj4sqmJ3ylfafXLCm6euydvwN31B_HNRA8Sr7Klf_J0SyUh7vo3u-CDFgZ8ufpyZnAtaS7cwu3Y3WLPJTKss4yUlrCkKsWLkYha6TPn6MGlzPgXLY8LIRNlHCsvHCRn53YCNVztBT57SO7SbFnhOJqqk4u_Aq3QCUC160MmmsG7SgWGQpao2trGzLjS87_wsvwGBDO1weDEK9BmLi81jtVmEoKv3eJkqbqT-6V44WqY9OubcopDvE3N_v7jb-3XQTpqLcTuZd4zwYyzoimNOHsS7WCc4h_2fLZ72Uf_go8e2oGKkXohlx0XNFLU0_eqHscepPzlKWF32gH9otbYcrPJoNYm6PflFH0c-U8XIbXOlPDH08FnOV0No5-4_uD-Eo895IxfVbfkD_kyAiwKpHCGn_FJE-GjJY3JBIkuJ5LkuywqAP3rkz2YvaLfQHQWLCzv_6T1s2eEY=w1132-h1063-no?authuser=0)
 
-고양이라는 하나의 객체에는 성격, 근육, 털, 행동 등등 여러가지 것들이 포함될 수 있다. 어떠한 것들은 있을 수도 있고, 없을 수도 있지만 `고양이` 라는 객체는 존재하며,
+고양이라는 하나의 객체에는 성격, 근육, 털, 행동 등등 여러가지 것들이 포함될 수 있다.  
+어떠한 것들은 있을 수도 있고, 없을 수도 있지만 `고양이` 라는 객체는 존재하며,
 
 이 같은 생각을 바탕으로 코드를 작성하겠다는 패러다임이 바로 객체 지향 프로그래밍(Object Oriented Programming) 이다.
 
@@ -240,6 +243,8 @@ Blue, 너무많아!, "도도해!
 Black, 조금있어! 커여워
 Odd, 깍어비리기!!, 나른해
 ```
+
+<br/>
 
 > 참고로 Class 를 직접 부르면 컴파일러는
 >
