@@ -270,6 +270,9 @@ Class 는 하나의 객체를 담는 그릇이다. 실제 치수, 내용 등을 
 ![](https://user-images.githubusercontent.com/80164141/138802009-f777c0cc-d1d1-4cde-8702-9c5e52329e74.gif)
 
 
+<br/>
+<br/>>
+
 > 참고
 > Udemy # [Android Jetpack Compose: The Comprehensive Bootcamp [2022]](https://www.udemy.com/course/kotling-android-jetpack-compose-/)
 >
